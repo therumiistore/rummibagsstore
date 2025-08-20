@@ -6,14 +6,14 @@
 
 const SITE_CONFIG = {
     // Environment Variables
-    siteId: process.env.NEXT_PUBLIC_SITE_ID || '',
+    siteId: 'rumii-store',
     nodeEnv: process.env.NODE_ENV || 'development',
-    dataSource: process.env.NEXT_PUBLIC_DATA_SOURCE || 'local', // 'local' or 'api'
+    dataSource: 'api', // 'local' or 'api'
     storageKey: 'rumiistore-cart',
 
     // API Configuration
     api: {
-        dashboardApiUrl: process.env.NEXT_DASHBOARD_API_URL || '',
+        dashboardApiUrl: 'https://web-portal-backend-production.up.railway.app/api/data/website/68a471fa1a695ab32882411b',
         timeout: 30000
     },
 
@@ -106,7 +106,7 @@ const SITE_CONFIG = {
     payment: {
         supportPhone: '+66960840271',
         supportHours: '9 AM - 6 PM (Mon-Sat)',
-        apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || '',
+        apiBaseUrl: 'https://web-portal-backend-production.up.railway.app/api/orders/submit',
         apiTimeout: 30000,
         codTitle: 'Cash on Delivery',
         codDescription: 'Pay when you receive your order',

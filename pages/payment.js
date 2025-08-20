@@ -170,9 +170,6 @@ export default function PaymentPage() {
         paymentInfo
       };
 
-      console.log("apiBaseUrl", PAYMENT_CONFIG.apiBaseUrl);
-      console.log("siteId", PAYMENT_CONFIG.siteId);
-
       const response = await axios.post(
         `${PAYMENT_CONFIG.apiBaseUrl}/${PAYMENT_CONFIG.siteId}`,
         orderPayload,
