@@ -31,6 +31,7 @@ export default function Home({ products, categories, banners, clientInfo }) {
         <Reviews />
         <Footer />
         {/* Add bottom padding for mobile navigation bar */}
+        {/* Just Typing for repo update */}
         <div className="lg:hidden h-16"></div>
       </div>
     </>
