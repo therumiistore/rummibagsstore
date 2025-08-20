@@ -5,7 +5,7 @@ import { useWishlist } from '@/lib/WishlistContext';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import logo from '@/public/assets/Zoha_Attire_Logo.png';
+import logo from '@/public/assets/rumiistorelogo.jpg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,39 +47,51 @@ const Navbar = () => {
     setIsMobileSweetsOpen(!isMobileSweetsOpen);
   };
 
-  const fashionCategories = [
+  const bagCategories = [
     {
-      name: 'Baby',
-      href: '/category/baby',
-      image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      subcategories: ['Baby Shirts', 'Baby Pants', 'Baby Dresses', 'Rompers']
+      name: 'Ladies Bags',
+      href: '/category/ladies-bags',
+      image: 'https://images.unsplash.com/photo-1559563458-527698bf5295?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bGFkaWVzJTIwYmFnc3xlbnwwfHwwfHx8MA%3D%3D',
+      subcategories: ['Designer Bags', 'Casual Bags', 'Work Bags', 'Evening Bags']
     },
     {
-      name: 'Men',
-      href: '/category/men',
-      image: 'https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      subcategories: ['Shirts', 'T-Shirts', 'Pants', 'Formal Wear']
+      name: 'Hand Bags',
+      href: '/category/hand-bags',
+      image: 'https://images.unsplash.com/photo-1524498250077-390f9e378fc0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGFuZCUyMGJhZ3N8ZW58MHx8MHx8fDA%3D',
+      subcategories: ['Leather Handbags', 'Canvas Handbags', 'Mini Handbags', 'Large Handbags']
     },
     {
-      name: 'Women',
-      href: '/category/women',
-      image: 'https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      subcategories: ['Dresses', 'Tops', 'Pants', 'Traditional Wear']
+      name: 'Shoulder Bags',
+      href: '/category/shoulder-bags',
+      image: 'https://images.pexels.com/photos/4077319/pexels-photo-4077319.jpeg',
+      subcategories: ['Casual Shoulder', 'Office Shoulder', 'Travel Shoulder', 'Chain Shoulder']
     },
     {
-      name: 'Accessories',
-      href: '/category/accessories',
-      image: 'https://images.unsplash.com/photo-1559563458-527698bf5295?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGFjY2Vzc29yaWVzfGVufDB8fDB8fHww',
-      subcategories: ['Bags', 'Jewelry', 'Belts', 'Scarves']
+      name: 'Crossbody Bags',
+      href: '/category/crossbody-bags',
+      image: 'https://images.pexels.com/photos/17550987/pexels-photo-17550987.jpeg',
+      subcategories: ['Mini Crossbody', 'Travel Crossbody', 'Phone Crossbody', 'Camera Crossbody']
+    },
+    {
+      name: 'Tote Bags',
+      href: '/category/tote-bags',
+      image: 'https://images.unsplash.com/photo-1647742313922-fe9597734836?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fFRvdGUlMjBCYWdzfGVufDB8fDB8fHww',
+      subcategories: ['Canvas Tote', 'Leather Tote', 'Shopping Tote', 'Beach Tote']
+    },
+    {
+      name: 'Clutch Bags',
+      href: '/category/clutch-bags',
+      image: 'https://images.pexels.com/photos/31039968/pexels-photo-31039968.jpeg',
+      subcategories: ['Evening Clutch', 'Wedding Clutch', 'Beaded Clutch', 'Chain Clutch']
     }
   ];
 
   const navLinks = [
     { name: 'HOME', href: '/' },
-    { name: 'BABY', href: '/category/baby' },
-    { name: 'MEN', href: '/category/men' },
-    { name: 'WOMEN', href: '/category/women' },
-    { name: 'ALL PRODUCTS', href: '/category/all-products', hasSubmenu: true },
+    { name: 'LADIES BAGS', href: '/category/ladies-bags' },
+    { name: 'HANDBAGS', href: '/category/hand-bags' },
+    { name: 'SHOULDER BAGS', href: '/category/shoulder-bags' },
+    { name: 'ALL BAGS', href: '/category/all-bags', hasSubmenu: true },
     { name: 'CONTACT', href: '/contact' }
   ];
 
@@ -94,7 +106,7 @@ const Navbar = () => {
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
-              <span>Karachi, Sindh</span>
+              <span>Lahore, Pakistan</span>
             </div>
 
             {/* Desktop - Show all contact info */}
@@ -103,20 +115,20 @@ const Navbar = () => {
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                 </svg>
-                <span>0310-3503309</span>
+                <span>+66960840271</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span>info@zohasattire.com</span>
+                <span>therumiistore@gmail.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                 </svg>
-                <span>Karachi, Sindh, Pakistan</span>
+                <span>Lahore, Pakistan</span>
               </div>
             </div>
             <div className="hidden sm:flex items-center space-x-4">
@@ -168,9 +180,9 @@ const Navbar = () => {
                 {/* Logo text - hidden on mobile, visible on larger screens */}
                 <div className="hidden sm:block text-lg sm:text-xl lg:text-2xl font-bold tracking-wide">
                   <span className="text-brand-primary">
-                    ZOHA'S
+                    RUMII
                   </span>
-                  <span className="ml-1 sm:ml-2 font-light text-brand-accent">ATTIRE</span>
+                  <span className="ml-1 sm:ml-2 font-light text-brand-accent">STORE</span>
                 </div>
               </div>
             </Link>
@@ -247,7 +259,7 @@ const Navbar = () => {
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {fashionCategories.map((category) => (
+              {bagCategories.map((category) => (
                 <Link
                   key={category.name}
                   href={category.href}
@@ -291,9 +303,9 @@ const Navbar = () => {
                 </div>
                 <div className="text-xl font-bold">
                   <span className="text-brand-primary">
-                    ZOHA'S
+                    RUMII
                   </span>
-                  <span className="ml-2 text-brand-secondary">ATTIRE</span>
+                  <span className="ml-2 text-brand-secondary">STORE</span>
                 </div>
               </div>
               <button
@@ -328,10 +340,10 @@ const Navbar = () => {
                         </svg>
                       </button>
 
-                      {/* Mobile Submenu for ALL PRODUCTS */}
+                      {/* Mobile Submenu for ALL BAGS */}
                       <div className={`ml-4 mt-2 space-y-1 overflow-hidden transition-all duration-300 ${isMobileSweetsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         }`}>
-                        {fashionCategories.map((category) => (
+                        {bagCategories.map((category) => (
                           <Link
                             key={category.name}
                             href={category.href}

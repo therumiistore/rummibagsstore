@@ -16,7 +16,7 @@ const Hero = ({ banners = [] }) => {
         </svg>
       ),
       title: 'Quality Assured',
-      subtitle: 'Premium Fashion Quality'
+      subtitle: 'Premium Bag Quality'
     },
     {
       icon: (
@@ -34,7 +34,7 @@ const Hero = ({ banners = [] }) => {
         </svg>
       ),
       title: 'Latest Trends',
-      subtitle: 'Fashion Forward'
+      subtitle: 'Trendy Bag Styles'
     },
     {
       icon: (
@@ -264,13 +264,13 @@ const Hero = ({ banners = [] }) => {
           <div className="flex items-center space-x-2 sm:space-x-4 flex-1">
             <div className="animate-pulse">
               <h2 className="text-white font-bold text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl">
-                Premium Fashion Collection
+                Premium Bag Collection
               </h2>
             </div>
             {/* Hide this on mobile */}
             <div className="hidden sm:block animate-bounce">
               <span className="font-medium text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl text-brand-accent">
-                Style You Love!
+                Bags You Love!
               </span>
             </div>
 

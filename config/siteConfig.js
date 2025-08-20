@@ -6,65 +6,67 @@
 
 const SITE_CONFIG = {
     // Environment Variables
-    siteId: 'zoha-attire',
-    nodeEnv: 'production',
-    storageKey: 'zohas-attire-cart',
+    siteId: process.env.NEXT_PUBLIC_SITE_ID || '',
+    nodeEnv: process.env.NODE_ENV || 'development',
+    dataSource: process.env.NEXT_PUBLIC_DATA_SOURCE || 'local', // 'local' or 'api'
+    storageKey: 'rumiistore-cart',
 
     // API Configuration
     api: {
-        dashboardApiUrl: 'https://web-portal-backend-production.up.railway.app/api/data/website/688e11c3f7a0c2e6597718ac',
+        dashboardApiUrl: process.env.NEXT_DASHBOARD_API_URL || '',
         timeout: 30000
     },
 
     // Schema Slugs for API/Data fetching
-    productsSchemaSlug: 'products_zohaattire',
-    categoriesSchemaSlug: 'categories_zohaattire',
-    bannersSchemaSlug: 'banners_zohaattire',
+    productsSchemaSlug: 'products_rumiistore',
+    categoriesSchemaSlug: 'categories_rumiistore',
+    bannersSchemaSlug: 'banners_rumiistore',
 
     // Business Information
-    businessName: "Zoha's Attire",
-    businessDescription: 'Premium Fashion & Garments - Stylish clothing collection for Men, Women, Baby and Fashion Accessories. Quality garments with trendy designs and affordable prices.',
-    businessContact: '0310-3503309',
-    businessEmail: 'contact@zohasattire.com', // Add if needed
-    businessAddress: '', // Add if needed
+    businessName: "Rumiistore",
+    businessDescription: 'Premium Bags Collection - Stylish and trendy ladies bags, handbags, and accessories. Quality bags with elegant designs and affordable prices.',
+    businessContact: '+66960840271',
+    businessEmail: 'therumiistore@gmail.com',
+    businessAddress: 'Lahore, Pakistan',
 
     // SEO Meta Data
-    seoTitle: 'Premium Fashion & Garments Collection - Latest Trends',
-    seoDescription: 'Discover trendy fashion at Zohas Attire Pakistan. Mens wear, Womens clothing, Baby garments, and stylish accessories. Quality fashion, affordable prices, latest trends and designs.',
-    seoKeywords: 'fashion, garments, mens wear, womens clothing, baby clothes, accessories, pakistani fashion, trendy clothes, zohas attire, quality garments, affordable fashion',
+    seoTitle: 'Premium Bags Collection - Ladies Bags & Handbags',
+    seoDescription: 'Discover stylish bags at Rumiistore Pakistan. Premium ladies bags, handbags, and fashion accessories. Quality bags with elegant designs and affordable prices.',
+    seoKeywords: 'bags, handbags, ladies bags, fashion accessories, pakistani bags, trendy bags, rumiistore, quality bags, affordable bags, stylish bags',
 
     // Assets
-    faviconPath: '/assets/Zoha_Attire_Logo.png',
+    faviconPath: '/assets/rumiistorelogo.jpg',
     faviconSize: '32x32',
-    logoPath: '/assets/Zoha_Attire_Logo.png',
+    logoPath: '/assets/rumiistorelogo.jpg',
 
     // Social Media Links (add as needed)
     socialMedia: {
         facebook: '',
         instagram: '',
         twitter: '',
-        whatsapp: '923103503309',
+        whatsapp: '66960840271',
     },
 
     // Site Settings
     currency: 'PKR',
     currencySymbol: 'Rs.',
+    locale: 'en-PK',
 
 
 
     // Page-specific configurations
     pages: {
         home: {
-            title: 'Premium Fashion & Garments Collection - Latest Trends',
-            description: 'Discover trendy fashion at Zohas Attire Pakistan. Mens wear, Womens clothing, Baby garments, and stylish accessories.',
+            title: 'Premium Bags Collection - Ladies Bags & Handbags',
+            description: 'Discover stylish bags at Rumiistore Pakistan. Premium ladies bags, handbags, and fashion accessories.',
         },
         shop: {
-            title: 'Shop All Products',
-            description: 'Browse our complete collection of trendy fashion and garments.',
+            title: 'Shop All Bags',
+            description: 'Browse our complete collection of trendy bags and accessories.',
         },
         about: {
-            title: 'About Us',
-            description: 'Learn more about Zohas Attire and our commitment to quality fashion.',
+            title: 'About Rumiistore',
+            description: 'Learn more about Rumiistore and our commitment to quality bags and accessories.',
         },
         contact: {
             title: 'Contact Us',
@@ -80,31 +82,31 @@ const SITE_CONFIG = {
         },
         payment: {
             title: 'Payment',
-            description: 'Complete your payment for premium fashion & garments',
+            description: 'Complete your payment for premium bags & accessories',
         },
         orderSuccess: {
             title: 'Order Confirmation',
-            description: 'Your order for premium fashion & garments has been confirmed',
+            description: 'Your order for premium bags & accessories has been confirmed',
         },
         orderFailed: {
             title: 'Order Failed',
-            description: 'Order processing failed for your fashion items order',
+            description: 'Order processing failed for your bags order',
         },
         category: {
             title: 'Category Products',
-            description: 'Browse our collection of fashion items in this category',
+            description: 'Browse our collection of bags and accessories in this category',
         },
         product: {
             title: 'Product Details',
-            description: 'View detailed information about this fashion item',
+            description: 'View detailed information about this bag or accessory',
         }
     },
 
     // Payment & Orders
     payment: {
-        supportPhone: '0310-3503309',
+        supportPhone: '+66960840271',
         supportHours: '9 AM - 6 PM (Mon-Sat)',
-        apiBaseUrl: 'https://web-portal-backend-production.up.railway.app/api/orders/submit',
+        apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || '',
         apiTimeout: 30000,
         codTitle: 'Cash on Delivery',
         codDescription: 'Pay when you receive your order',
@@ -181,13 +183,16 @@ export const getSchemaConfig = () => ({
 });
 
 // Helper function to check environment
-export const isDevelopment = () => SITE_CONFIG.nodeEnv === 'development';
-export const isProduction = () => SITE_CONFIG.nodeEnv === 'production';
+export const isDevelopment = () => process.env.NODE_ENV === 'development';
+export const isProduction = () => process.env.NODE_ENV === 'production';
+
+// Helper function to check data source (can be controlled independently of NODE_ENV)
+export const useApiData = () => SITE_CONFIG.dataSource === 'api';
 
 // Helper function to get environment-specific settings
 export const getEnvironmentConfig = () => ({
     siteId: SITE_CONFIG.siteId,
-    nodeEnv: SITE_CONFIG.nodeEnv,
+    nodeEnv: process.env.NODE_ENV,
     storageKey: SITE_CONFIG.storageKey,
     isDevelopment: isDevelopment(),
     isProduction: isProduction()

@@ -39,11 +39,11 @@ const Contact = () => {
             Get In Touch
           </h2>
           <h3 className="text-4xl md:text-5xl font-bold mb-4 text-brand-primary">
-            Contact <span className="text-brand-accent">ZOHA'S ATTIRE</span>
+            Contact <span className="text-brand-accent">RUMIISTORE</span>
           </h3>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions about our fashion collections? Need help with bulk orders or custom garments?
-            We're here to help you find the perfect outfits that bring style and confidence to your wardrobe.
+            Have questions about our bag collections? Need help with bulk orders or custom bags?
+            We're here to help you find the perfect bags that bring style and elegance to your wardrobe.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ const Contact = () => {
               </div>
               <h4 className="text-xl font-bold text-gray-900 mb-3 text-center">Call Us Now</h4>
               <div className="text-center space-y-2">
-                <p className="text-2xl font-bold text-brand-primary">0310-3503309</p>
+                <p className="text-2xl font-bold text-brand-primary">+66960840271</p>
                 <p className="text-gray-600">Available for orders & inquiries</p>
                 <div className="text-sm text-gray-500">
                   <p>📞 Mon-Sat: 9:00 AM - 6:00 PM</p>
@@ -77,11 +77,11 @@ const Contact = () => {
               </div>
               <h4 className="text-xl font-bold text-gray-900 mb-3 text-center">Email Us</h4>
               <div className="text-center space-y-2">
-                <p className="text-lg font-bold text-brand-primary">info@zohasattire.com</p>
+                <p className="text-lg font-bold text-brand-primary">therumiistore@gmail.com</p>
                 <p className="text-gray-600">For orders, bulk inquiries & support</p>
                 <div className="text-sm text-gray-500">
                   <p>📧 We reply within 24 hours</p>
-                  <p>👕 Custom garment solutions welcome</p>
+                  <p>👜 Custom bag solutions welcome</p>
                 </div>
               </div>
             </div>
@@ -97,11 +97,11 @@ const Contact = () => {
               <h4 className="text-xl font-bold text-gray-900 mb-3 text-center">Our Location</h4>
               <div className="text-center space-y-2">
                 <p className="text-gray-700 font-medium">
-                  ZOHA'S ATTIRE<br />
-                  Karachi, Sindh, Pakistan
+                  RUMIISTORE<br />
+                  Lahore, Pakistan
                 </p>
                 <p className="text-sm text-gray-500">
-                  📍 Quality fashion, made locally
+                  📍 Quality bags, made locally
                 </p>
               </div>
             </div>
@@ -173,14 +173,15 @@ const Contact = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition-colors"
                   >
                     <option value="">Select a subject</option>
-                    <option value="mens-wear">Men's Wear Orders</option>
-                    <option value="womens-clothing">Women's Clothing Inquiries</option>
-                    <option value="baby-garments">Baby Garments</option>
-                    <option value="accessories">Accessories</option>
-                    <option value="custom-tailoring">Custom Tailoring</option>
+                    <option value="handbags">Handbags Orders</option>
+                    <option value="shoulder-bags">Shoulder Bags Inquiries</option>
+                    <option value="crossbody-bags">Crossbody Bags</option>
+                    <option value="tote-bags">Tote Bags</option>
+                    <option value="clutch-bags">Clutch Bags</option>
+                    <option value="custom-bags">Custom Bag Design</option>
                     <option value="bulk-order">Bulk Order Inquiry</option>
-                    <option value="fabric-quality">Fabric Quality & Materials</option>
-                    <option value="size-fitting">Size & Fitting Guidance</option>
+                    <option value="material-quality">Material Quality & Care</option>
+                    <option value="size-guidance">Size & Fitting Guidance</option>
                     <option value="general">General Inquiry</option>
                   </select>
                 </div>
@@ -197,7 +198,7 @@ const Contact = () => {
                     required
                     rows={5}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition-colors resize-none"
-                    placeholder="Tell us about your fashion requirements, preferred styles, sizes, or any questions you have about our garments and accessories..."
+                    placeholder="Tell us about your bag requirements, preferred styles, sizes, or any questions you have about our bags and accessories..."
                   ></textarea>
                 </div>
 
@@ -227,25 +228,25 @@ const Contact = () => {
             💌 We'd Love to Hear From You!
           </h3>
           <p className="text-lg mb-6 opacity-90 max-w-3xl mx-auto">
-            Whether you're looking for the perfect cleaning solution for your home, need help with bulk orders,
-            or want to learn more about our effective formulas and quality ingredients, our team is here to assist you.
-            At MARAKISH, every customer is a valued partner.
+            Whether you're looking for the perfect bag for your style, need help with bulk orders,
+            or want to learn more about our quality materials and craftsmanship, our team is here to assist you.
+            At RUMIISTORE, every customer is a valued partner.
             <br /><br />
-            <span className="font-semibold">✨ From powerful dishwash liquids to effective disinfectants!</span>
-            Discover our complete collection of cleaning products that combine advanced formulas with quality ingredients
-            to bring cleanliness and freshness to every corner of your life.
+            <span className="font-semibold">✨ From elegant handbags to trendy crossbody bags!</span>
+            Discover our complete collection of bags that combine stylish designs with quality materials
+            to bring elegance and functionality to your everyday life.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://wa.me/923435801011"
+              href="https://wa.me/66960840271"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-brand-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center space-x-2"
             >
-              <span>💬 WhatsApp: 0343-5801011</span>
+              <span>💬 WhatsApp: +66960840271</span>
             </a>
             <a
-              href="mailto:info@marakish.com"
+              href="mailto:therumiistore@gmail.com"
               className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-brand-primary px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2"
             >
               <span>📧 Email Us</span>

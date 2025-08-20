@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '@/public/assets/Zoha_Attire_Logo.png';
+import logo from '@/public/assets/rumiistorelogo.jpg';
 
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const categories = [
-    { name: 'Baby', href: '/category/baby' },
-    { name: 'Men', href: '/category/men' },
-    { name: 'Women', href: '/category/women' },
-    { name: 'Accessories', href: '/category/accessories' }
+    { name: 'Ladies Bags', href: '/category/ladies-bags' },
+    { name: 'Hand Bags', href: '/category/hand-bags' },
+    { name: 'Shoulder Bags', href: '/category/shoulder-bags' },
+    { name: 'Crossbody Bags', href: '/category/crossbody-bags' },
+    { name: 'Tote Bags', href: '/category/tote-bags' },
+    { name: 'Clutch Bags', href: '/category/clutch-bags' }
   ];
 
   const quickLinks = [
@@ -36,10 +38,10 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Stay Updated with Our Latest Fashion Collections
+              Stay Updated with Our Latest Bag Collections
             </h3>
             <p className="text-gray-100 mb-2 max-w-2xl mx-auto">
-              Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and latest fashion trends.
+              Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and latest bag trends.
             </p>
             <p className="text-gray-100 mb-8 max-w-2xl mx-auto font-semibold">
               ✨ Plus, get a 10% discount on your first order!
@@ -77,12 +79,12 @@ const Footer = () => {
               </Link>
               <div className="text-2xl font-bold tracking-wide mb-4">
                 <span className="text-white">
-                  ZOHA'S
+                  RUMII
                 </span>
-                <span className="ml-2 font-light text-brand-accent">ATTIRE</span>
+                <span className="ml-2 font-light text-brand-accent">STORE</span>
               </div>
               <p className="text-gray-300 leading-relaxed mb-6">
-                Premium Quality Fashion & Garments. Discover stylish collections, latest trends, and complete fashion solutions for men, women, and babies. Specializing in shirts, dresses, traditional wear, and accessories.
+                Premium Quality Bags & Accessories. Discover stylish bag collections, latest trends, and complete bag solutions for ladies. Specializing in handbags, shoulder bags, crossbody bags, tote bags, and clutch bags.
               </p>
 
               {/* Trust Indicators */}
@@ -91,7 +93,7 @@ const Footer = () => {
                   <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-300 text-sm">Premium Fashion Quality</span>
+                  <span className="text-gray-300 text-sm">Premium Bag Quality</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +105,7 @@ const Footer = () => {
                   <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-300 text-sm">Latest Fashion Trends</span>
+                  <span className="text-gray-300 text-sm">Latest Bag Trends</span>
                 </div>
               </div>
             </div>
@@ -117,20 +119,20 @@ const Footer = () => {
                 <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span className="text-gray-300">0310-3503309</span>
+                <span className="text-gray-300">+66960840271</span>
               </div>
               <div className="flex items-center space-x-3">
                 <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="text-gray-300">info@zohasattire.com</span>
+                <span className="text-gray-300">therumiistore@gmail.com</span>
               </div>
               <div className="flex items-start space-x-3">
                 <svg className="w-5 h-5 text-brand-accent mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="text-gray-300">Karachi, Sindh, Pakistan</span>
+                <span className="text-gray-300">Lahore, Pakistan</span>
               </div>
               <div className="flex items-center space-x-3 mt-4 p-3 bg-gray-800 rounded-lg">
                 <svg className="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +183,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://wa.me/923103503309"
+                href="https://wa.me/66960840271"
                 className="bg-gray-800 hover:bg-brand-accent p-3 rounded-full transition-colors duration-200"
                 aria-label="WhatsApp"
               >
@@ -211,7 +213,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear > 2024 ? `2024 - ${currentYear}` : '2024'} Zoha's Attire. All rights reserved.
+              © {currentYear > 2024 ? `2024 - ${currentYear}` : '2024'} Rumiistore. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
               <Link href="/privacy-policy" className="text-gray-400 hover:text-brand-accent transition-colors duration-200">

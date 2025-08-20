@@ -1,26 +1,38 @@
 [
   {
     "id": "1",
-    "categoryname": "Baby",
-    "categorythumbnail": "https://images.unsplash.com/photo-1645458460588-64d7bd6b8a02?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFieSUyMGZhc2hpb258ZW58MHx8MHx8fDA%3D",
+    "categoryname": "Ladies Bags",
+    "categorythumbnail": "https://plus.unsplash.com/premium_photo-1664391658474-c5509d4fc003?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bGFkaWVzJTIwQmFnc3xlbnwwfHwwfHx8MA%3D%3D",
     "showonhomepage": true
   },
   {
     "id": "2",
-    "categoryname": "Men",
-    "categorythumbnail": "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    "categoryname": "Hand Bags",
+    "categorythumbnail": "https://images.unsplash.com/photo-1632282003890-020318a49e62?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFuZCUyMEJhZ3N8ZW58MHx8MHx8fDA%3D",
     "showonhomepage": true
   },
   {
     "id": "3",
-    "categoryname": "Women",
-    "categorythumbnail": "https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    "categoryname": "Shoulder Bags",
+    "categorythumbnail": "https://images.unsplash.com/photo-1738653926615-fb4452a58978?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNob3VsZGVyJTIwQmFnc3xlbnwwfHwwfHx8MA%3D%3D",
     "showonhomepage": true
   },
   {
     "id": "4",
-    "categoryname": "Accessories",
-    "categorythumbnail": "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWNjZXNzb3JpZXN8ZW58MHx8MHx8fDA%3D",
+    "categoryname": "Crossbody Bags",
+    "categorythumbnail": "https://images.unsplash.com/photo-1709898838174-83c3e155654c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y3Jvc3Nib2R5JTIwQmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+    "showonhomepage": true
+  },
+  {
+    "id": "5",
+    "categoryname": "Tote Bags",
+    "categorythumbnail": "https://images.unsplash.com/photo-1576695139696-e053aae84148?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG90ZSUyMEJhZ3N8ZW58MHx8MHx8fDA%3D",
+    "showonhomepage": true
+  },
+  {
+    "id": "6",
+    "categoryname": "Clutch Bags",
+    "categorythumbnail": "https://plus.unsplash.com/premium_photo-1693221848619-5cda3e687a62?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2x1dGNoJTIwQmFnc3xlbnwwfHwwfHx8MA%3D%3D",
     "showonhomepage": true
   }
 ]

@@ -9,12 +9,12 @@ import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 // Configuration Variables
 const ORDER_SUCCESS_CONFIG = {
   // Currency & Formatting
-  locale: 'en-PK',
+  locale: SITE_CONFIG.locale,
 
   // UI Text
   loadingText: 'Loading order details...',
   successTitle: 'Order Confirmed!',
-  successMessage: 'Thank you for choosing Zohas Attire! Your premium fashion items are being prepared for dispatch.',
+  successMessage: 'Thank you for choosing Rumiistore! Your premium bags are being prepared for dispatch.',
   orderNotFoundTitle: 'Order Not Found',
   orderNotFoundMessage: 'The order you\'re looking for could not be found.',
 
@@ -34,7 +34,7 @@ const ORDER_SUCCESS_CONFIG = {
     {
       step: 2,
       title: 'Quality Check & Packaging',
-      description: 'Your fashion items are being quality checked and carefully packaged',
+      description: 'Your bags are being quality checked and carefully packaged',
       bgColor: 'bg-blue-400',
       textColor: 'text-white'
     },
@@ -107,7 +107,7 @@ export default function OrderSuccessPage() {
   }, [orderId, router]);
 
   const formatPrice = (price) => {
-    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString()}`;
+    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString(ORDER_SUCCESS_CONFIG.locale)}`;
   };
 
   const formatDate = (dateString) => {
@@ -183,10 +183,10 @@ export default function OrderSuccessPage() {
   return (
     <>
       <Head>
-        <title>{ORDER_SUCCESS_CONFIG.pageTitle}</title>
-        <meta name="description" content={ORDER_SUCCESS_CONFIG.pageDescription} />
+        <title>{getPageMeta('orderSuccess').title}</title>
+        <meta name="description" content={getPageMeta('orderSuccess').description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={ORDER_SUCCESS_CONFIG.faviconPath} type="image/png" sizes={ORDER_SUCCESS_CONFIG.faviconSize} />
+        <link rel="icon" href={SITE_CONFIG.faviconPath} type="image/png" sizes={SITE_CONFIG.faviconSize} />
       </Head>
 
       <div className="min-h-screen bg-gray-50">

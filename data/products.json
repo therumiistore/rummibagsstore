@@ -1,218 +1,8 @@
 [
     {
         "id": "1",
-        "name": "Classic Men's Cotton Shirt",
-        "description": "Premium quality cotton shirt for men with comfortable fit and breathable fabric. Perfect for formal and casual occasions.",
-        "price": 2500,
-        "originalPrice": 3000,
-        "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Men",
-        "subcategory": "Shirts",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "Small",
-                "pricebysize": 2500
-            },
-            {
-                "size": "Medium",
-                "pricebysize": 2500
-            },
-            {
-                "size": "Large",
-                "pricebysize": 2500
-            },
-            {
-                "size": "XL",
-                "pricebysize": 2700
-            },
-            {
-                "size": "XXL",
-                "pricebysize": 2900
-            },
-            {
-                "size": "XXXL",
-                "pricebysize": 3200
-            }
-        ],
-        "colors": [
-            "White",
-            "Blue",
-            "Black",
-            "Red",
-            "Green",
-            "Yellow",
-            "Purple",
-            "Orange",
-            "Pink",
-            "Brown"
-        ],
-        "rating": 4.8,
-        "reviews": 186,
-        "inStock": true,
-        "bestseller": true,
-        "salepercentage": 17,
-        "stockLeft": 40,
-        "additionalFeatures": "100% Cotton, Wrinkle Free, Machine Washable, Comfortable Fit, Breathable Fabric",
-        "features": [
-            "👔 Premium 100% cotton fabric",
-            "🌬️ Breathable and comfortable",
-            "🔄 Wrinkle-free technology",
-            "🧺 Machine washable",
-            "✨ Smooth finish",
-            "💼 Perfect for office wear",
-            "🎯 Regular fit design",
-            "🌟 Long-lasting quality",
-            "🧵 Reinforced stitching",
-            "🏷️ Premium brand quality",
-            "💎 Elegant appearance",
-            "🔒 Color-fast fabric",
-            "👨 Suitable for all ages",
-            "⚡ Quick-dry material",
-            "✅ Quality assured"
-        ]
-    },
-    {
-        "id": "2",
-        "name": "Elegant Women's Floral Dress",
-        "description": "Beautiful floral print dress for women with elegant design and comfortable fit. Perfect for parties and special occasions.",
-        "price": 3500,
-        "originalPrice": 4200,
-        "image": "https://www.junaidjamshed.com/media/wysiwyg/featured13.jpg",
-        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Women",
-        "subcategory": "Dresses",
-        "brand": "Zoha's Attire",
-        "isNew": false,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "Small",
-                "pricebysize": 3500
-            },
-            {
-                "size": "Medium",
-                "pricebysize": 3500
-            },
-            {
-                "size": "Large",
-                "pricebysize": 3700
-            },
-            {
-                "size": "XL",
-                "pricebysize": 3900
-            }
-        ],
-        "colors": [
-            "Floral Blue",
-            "Floral Pink",
-            "Floral Green"
-        ],
-        "rating": 4.7,
-        "reviews": 134,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 17,
-        "stockLeft": 32,
-        "additionalFeatures": "Floral Print, Comfortable Fit, Party Wear, Machine Washable, Elegant Design",
-        "features": [
-            "🌸 Beautiful floral print",
-            "👗 Elegant party dress",
-            "💃 Comfortable fit",
-            "✨ Premium quality fabric",
-            "🎉 Perfect for occasions",
-            "🧺 Easy to maintain",
-            "🌺 Vibrant colors",
-            "💎 Stylish design",
-            "🔄 Wrinkle resistant",
-            "👩 Flattering silhouette",
-            "🌟 Fashion-forward",
-            "🧵 Quality stitching",
-            "💖 Feminine appeal",
-            "⚡ Lightweight fabric",
-            "✅ Premium finish"
-        ]
-    },
-    {
-        "id": "3",
-        "name": "Cute Baby Romper Set",
-        "description": "Adorable romper set for babies with soft cotton fabric and cute prints. Comfortable and safe for baby's delicate skin.",
-        "price": 1500,
-        "originalPrice": 1800,
-        "image": "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Baby",
-        "subcategory": "Rompers",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "0-3 months",
-                "pricebysize": 1500
-            },
-            {
-                "size": "3-6 months",
-                "pricebysize": 1600
-            },
-            {
-                "size": "6-12 months",
-                "pricebysize": 1700
-            },
-            {
-                "size": "12-18 months",
-                "pricebysize": 1800
-            }
-        ],
-        "colors": [
-            "Pink",
-            "Blue",
-            "Yellow"
-        ],
-        "rating": 4.9,
-        "reviews": 267,
-        "inStock": true,
-        "bestseller": true,
-        "salepercentage": 17,
-        "stockLeft": 58,
-        "additionalFeatures": "Soft Cotton, Baby Safe, Cute Prints, Easy Wash, Comfortable Fit",
-        "features": [
-            "👶 Baby-safe materials",
-            "🧸 Soft cotton fabric",
-            "😊 Cute adorable prints",
-            "💤 Comfortable for sleep",
-            "🌟 High-quality stitching",
-            "🧺 Easy to wash and dry",
-            "💕 Gentle on baby skin",
-            "🎨 Vibrant colors",
-            "🔒 Secure snap buttons",
-            "🌸 Breathable fabric",
-            "👕 Easy to put on",
-            "✨ Durable quality",
-            "🛡️ Hypoallergenic",
-            "⚡ Quick-dry material",
-            "✅ Quality tested"
-        ]
-    },
-    {
-        "id": "4",
-        "name": "Stylish Leather Handbag",
-        "description": "Premium leather handbag for women with multiple compartments and elegant design. Perfect accessory for daily use and special occasions.",
+        "name": "Classic Leather Handbag",
+        "description": "Premium genuine leather handbag with elegant design and multiple compartments. Perfect for daily use and professional settings.",
         "price": 4500,
         "originalPrice": 5500,
         "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
@@ -221,9 +11,9 @@
             "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
             "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Accessories",
-        "subcategory": "Bags",
-        "brand": "Zoha's Attire",
+        "category": "Hand Bags",
+        "subcategory": "Leather Bags",
+        "brand": "Rumiistore",
         "isNew": true,
         "onSale": true,
         "sizes": [
@@ -239,14 +29,15 @@
         "colors": [
             "Black",
             "Brown",
-            "Navy Blue"
+            "Red",
+            "White"
         ],
         "rating": 4.8,
-        "reviews": 324,
+        "reviews": 186,
         "inStock": true,
         "bestseller": true,
         "salepercentage": 18,
-        "stockLeft": 42,
+        "stockLeft": 40,
         "additionalFeatures": "Genuine Leather, Multiple Compartments, Adjustable Strap, Stylish Design, Durable Quality",
         "features": [
             "👜 Genuine leather material",
@@ -267,171 +58,318 @@
         ]
     },
     {
-        "id": "5",
-        "name": "Men's Casual T-Shirt",
-        "description": "Comfortable cotton t-shirt for men with modern fit and soft fabric. Ideal for casual wear and everyday comfort.",
-        "price": 1200,
-        "originalPrice": 1500,
-        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1583743814966-8936f37f8302?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "id": "2",
+        "name": "Elegant Ladies Shoulder Bag",
+        "description": "Beautiful shoulder bag for ladies with soft texture and trendy design. Perfect for casual outings and shopping.",
+        "price": 3200,
+        "originalPrice": 4000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1583743814966-8936f37f8302?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Men",
-        "subcategory": "T-Shirts",
-        "brand": "Zoha's Attire",
-        "isNew": true,
+        "category": "Shoulder Bags",
+        "subcategory": "Ladies Bags",
+        "brand": "Rumiistore",
+        "isNew": false,
         "onSale": true,
         "sizes": [
             {
                 "size": "Small",
-                "pricebysize": 1200
+                "pricebysize": 3200
             },
             {
                 "size": "Medium",
-                "pricebysize": 1200
-            },
-            {
-                "size": "Large",
-                "pricebysize": 1200
-            },
-            {
-                "size": "XL",
-                "pricebysize": 1300
+                "pricebysize": 3500
             }
         ],
         "colors": [
-            "White",
+            "Red",
             "Black",
-            "Grey",
-            "Navy"
+            "White",
+            "Brown"
+        ],
+        "rating": 4.7,
+        "reviews": 134,
+        "inStock": true,
+        "bestseller": false,
+        "salepercentage": 20,
+        "stockLeft": 32,
+        "additionalFeatures": "Soft Material, Trendy Design, Comfortable Strap, Easy Access, Lightweight",
+        "features": [
+            "🌸 Beautiful trendy design",
+            "👜 Perfect shoulder bag",
+            "💃 Comfortable to carry",
+            "✨ Premium quality material",
+            "🎉 Perfect for outings",
+            "🧺 Easy to maintain",
+            "🌺 Vibrant colors",
+            "💎 Stylish appearance",
+            "🔄 Durable construction",
+            "👩 Feminine appeal",
+            "🌟 Fashion-forward",
+            "🧵 Quality stitching",
+            "💖 Elegant look",
+            "⚡ Lightweight design",
+            "✅ Premium finish"
+        ]
+    },
+    {
+        "id": "3",
+        "name": "Stylish Crossbody Bag",
+        "description": "Trendy crossbody bag with adjustable strap and secure compartments. Perfect for hands-free carrying and travel.",
+        "price": 2800,
+        "originalPrice": 3500,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Crossbody Bags",
+        "subcategory": "Travel Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "One Size",
+                "pricebysize": 2800
+            }
+        ],
+        "colors": [
+            "Black",
+            "Red",
+            "White",
+            "Brown"
+        ],
+        "rating": 4.9,
+        "reviews": 267,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 20,
+        "stockLeft": 58,
+        "additionalFeatures": "Adjustable Strap, Secure Compartments, Hands-free Design, Travel Friendly, Compact Size",
+        "features": [
+            "🎒 Perfect crossbody design",
+            "🔗 Adjustable strap length",
+            "🔒 Secure compartments",
+            "💤 Comfortable for travel",
+            "🌟 High-quality material",
+            "🧺 Easy access pockets",
+            "💕 Hands-free carrying",
+            "🎨 Stylish colors",
+            "🔄 Durable construction",
+            "🌸 Compact and practical",
+            "👜 Modern design",
+            "✨ Premium quality",
+            "🛡️ Travel-friendly",
+            "⚡ Lightweight",
+            "✅ Essential accessory"
+        ]
+    },
+    {
+        "id": "4",
+        "name": "Large Tote Bag",
+        "description": "Spacious tote bag perfect for shopping, work, or daily use. Durable material with comfortable handles and stylish design.",
+        "price": 3800,
+        "originalPrice": 4500,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Tote Bags",
+        "subcategory": "Shopping Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Large",
+                "pricebysize": 3800
+            },
+            {
+                "size": "Extra Large",
+                "pricebysize": 4200
+            }
+        ],
+        "colors": [
+            "Red",
+            "Black",
+            "White",
+            "Brown"
+        ],
+        "rating": 4.8,
+        "reviews": 324,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 16,
+        "stockLeft": 42,
+        "additionalFeatures": "Spacious Interior, Comfortable Handles, Durable Material, Versatile Use, Stylish Design",
+        "features": [
+            "🛍️ Large spacious interior",
+            "💼 Perfect for work items",
+            "🔗 Comfortable handles",
+            "✨ Stylish design",
+            "💎 Premium quality material",
+            "🔒 Secure main compartment",
+            "📱 Interior pockets",
+            "🌟 Versatile usage",
+            "💪 Durable construction",
+            "🎯 Perfect for shopping",
+            "💖 Fashionable appearance",
+            "🧵 Quality stitching",
+            "🛡️ Long-lasting",
+            "⚡ Easy to carry",
+            "✅ Must-have accessory"
+        ]
+    },
+    {
+        "id": "5",
+        "name": "Elegant Clutch Bag",
+        "description": "Sophisticated clutch bag perfect for evening events and formal occasions. Compact design with elegant finish.",
+        "price": 2200,
+        "originalPrice": 2800,
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Ladies Bags",
+        "subcategory": "Evening Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "One Size",
+                "pricebysize": 2200
+            }
+        ],
+        "colors": [
+            "Black",
+            "Red",
+            "White",
+            "Gold"
         ],
         "rating": 4.6,
         "reviews": 198,
         "inStock": true,
         "bestseller": false,
-        "salepercentage": 20,
+        "salepercentage": 21,
         "stockLeft": 67,
-        "additionalFeatures": "100% Cotton, Soft Fabric, Modern Fit, Casual Wear, Machine Washable",
+        "additionalFeatures": "Compact Design, Elegant Finish, Evening Wear, Premium Material, Sophisticated Look",
         "features": [
-            "👕 100% pure cotton",
-            "😌 Soft and comfortable",
-            "🏃 Modern athletic fit",
-            "🌬️ Breathable material",
-            "🧺 Machine washable",
-            "🎯 Perfect for casual wear",
-            "💪 Durable fabric",
-            "✨ Smooth finish",
-            "🔄 Shrink-resistant",
-            "👨 Suitable for all ages",
-            "🌟 Classic design",
-            "🧵 Quality construction",
-            "💖 Comfortable neckline",
-            "⚡ Quick-dry fabric",
-            "✅ Everyday essential"
+            "💎 Elegant sophisticated design",
+            "🌟 Perfect for events",
+            "✨ Premium finish",
+            "🎉 Evening wear essential",
+            "🔒 Secure closure",
+            "💖 Compact and stylish",
+            "🧵 Quality craftsmanship",
+            "💪 Durable material",
+            "🎯 Perfect size for essentials",
+            "👜 Sophisticated look",
+            "🌸 Beautiful colors",
+            "💼 Formal occasion accessory",
+            "⚡ Easy to carry",
+            "🛡️ Premium quality",
+            "✅ Must-have for parties"
         ]
     },
     {
         "id": "6",
-        "name": "Women's Elegant Blouse",
-        "description": "Sophisticated blouse for women with elegant design and comfortable fabric. Perfect for office wear and formal occasions.",
-        "price": 2800,
-        "originalPrice": 3500,
-        "image": "https://www.junaidjamshed.com/media/catalog/product/j/s/jss-25-502_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "hoverimage": "https://www.junaidjamshed.com/media/catalog/product/j/s/jss-25-502_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
+        "name": "Designer Ladies Handbag",
+        "description": "Premium designer handbag with unique pattern and luxurious feel. Perfect statement piece for fashion-conscious women.",
+        "price": 5500,
+        "originalPrice": 7000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1551803091-e20673f15770?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Women",
-        "subcategory": "Tops",
-        "brand": "Zoha's Attire",
+        "category": "Ladies Bags",
+        "subcategory": "Designer Bags",
+        "brand": "Rumiistore",
         "isNew": false,
         "onSale": true,
         "sizes": [
             {
-                "size": "Small",
-                "pricebysize": 2800
-            },
-            {
                 "size": "Medium",
-                "pricebysize": 2800
+                "pricebysize": 5500
             },
             {
                 "size": "Large",
-                "pricebysize": 3000
-            },
-            {
-                "size": "XL",
-                "pricebysize": 3200
+                "pricebysize": 6000
             }
         ],
         "colors": [
-            "White",
-            "Light Blue",
-            "Cream"
+            "Red",
+            "Black",
+            "White"
         ],
         "rating": 4.7,
         "reviews": 156,
         "inStock": true,
         "bestseller": false,
-        "salepercentage": 20,
+        "salepercentage": 21,
         "stockLeft": 38,
-        "additionalFeatures": "Professional Look, Comfortable Fit, Quality Fabric, Office Wear, Machine Washable",
+        "additionalFeatures": "Designer Pattern, Luxurious Feel, Premium Material, Statement Piece, Fashion Accessory",
         "features": [
-            "💼 Professional office wear",
-            "✨ Elegant and sophisticated",
-            "👩‍💼 Perfect for work",
-            "🌟 High-quality fabric",
-            "💎 Refined appearance",
-            "🔄 Wrinkle-resistant",
-            "🧺 Easy care",
-            "💪 Durable material",
-            "🎯 Tailored fit",
-            "👗 Versatile styling",
-            "🌸 Feminine design",
-            "🧵 Expert tailoring",
-            "💖 Comfortable wear",
-            "⚡ Professional look",
-            "✅ Quality guaranteed"
+            "💼 Designer premium quality",
+            "✨ Luxurious appearance",
+            "👩‍💼 Perfect fashion statement",
+            "🌟 Unique designer pattern",
+            "💎 High-end materials",
+            "🔄 Versatile styling",
+            "🧺 Easy maintenance",
+            "💪 Exceptional durability",
+            "🎯 Perfect size ratio",
+            "👜 Sophisticated design",
+            "🌸 Fashion-forward",
+            "🧵 Expert craftsmanship",
+            "💖 Elegant appearance",
+            "⚡ Trendy and modern",
+            "✅ Luxury accessory"
         ]
     },
     {
         "id": "7",
-        "name": "Baby Girl's Pretty Dress",
-        "description": "Adorable dress for baby girls with soft fabric and cute design. Perfect for special occasions and everyday wear.",
+        "name": "Casual Canvas Tote",
+        "description": "Comfortable canvas tote bag perfect for casual outings and everyday use. Eco-friendly material with stylish design.",
         "price": 1800,
         "originalPrice": 2200,
-        "image": "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1607081692251-5208ed1b9194?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1607081692251-5208ed1b9194?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Baby",
-        "subcategory": "Dresses",
-        "brand": "Zoha's Attire",
+        "category": "Tote Bags",
+        "subcategory": "Canvas Bags",
+        "brand": "Rumiistore",
         "isNew": false,
         "onSale": true,
         "sizes": [
             {
-                "size": "0-6 months",
+                "size": "Medium",
                 "pricebysize": 1800
             },
             {
-                "size": "6-12 months",
-                "pricebysize": 1900
-            },
-            {
-                "size": "12-24 months",
+                "size": "Large",
                 "pricebysize": 2000
             }
         ],
         "colors": [
-            "Pink",
+            "Red",
+            "Black",
             "White",
-            "Lavender"
+            "Natural"
         ],
         "rating": 4.5,
         "reviews": 89,
@@ -439,855 +377,742 @@
         "bestseller": false,
         "salepercentage": 18,
         "stockLeft": 29,
-        "additionalFeatures": "Soft Fabric, Cute Design, Baby Safe, Easy Dress, Comfortable Fit",
+        "additionalFeatures": "Canvas Material, Eco-friendly, Casual Design, Comfortable Handles, Versatile Use",
         "features": [
-            "👶 Baby-safe materials",
-            "🎀 Adorable cute design",
-            "💕 Soft and gentle fabric",
-            "🌸 Pretty colors",
-            "✨ Special occasion wear",
-            "🧺 Easy to wash",
-            "💎 Quality stitching",
-            "🌟 Comfortable fit",
-            "🔒 Safe snap closures",
-            "👗 Beautiful silhouette",
-            "🎨 Vibrant patterns",
-            "🛡️ Hypoallergenic",
-            "💖 Perfect for photos",
-            "⚡ Quick-dry fabric",
-            "✅ Quality assured"
+            "🌱 Eco-friendly canvas",
+            "🎀 Casual stylish design",
+            "💕 Comfortable to carry",
+            "🌸 Perfect for daily use",
+            "✨ Durable canvas material",
+            "🧺 Easy to clean",
+            "💎 Quality construction",
+            "🌟 Versatile styling",
+            "🔒 Secure main compartment",
+            "👜 Practical design",
+            "🎨 Beautiful colors",
+            "🛡️ Long-lasting",
+            "💖 Casual chic look",
+            "⚡ Lightweight",
+            "✅ Everyday essential"
         ]
     },
     {
         "id": "8",
-        "name": "Classic Silver Watch",
-        "description": "Elegant silver watch with modern design and reliable movement. Perfect accessory for both casual and formal occasions.",
-        "price": 6500,
-        "originalPrice": 8000,
-        "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "name": "Premium Leather Clutch",
+        "description": "Exquisite leather clutch with gold hardware and sophisticated design. Perfect for formal events and special occasions.",
+        "price": 3200,
+        "originalPrice": 4000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Accessories",
-        "subcategory": "Watches",
-        "brand": "Zoha's Attire",
+        "category": "Clutch Bags",
+        "subcategory": "Leather Clutch",
+        "brand": "Rumiistore",
         "isNew": false,
         "onSale": true,
         "sizes": [
             {
                 "size": "One Size",
-                "pricebysize": 6500
+                "pricebysize": 3200
             }
         ],
         "colors": [
-            "Silver",
-            "Gold",
-            "Black"
+            "Black",
+            "Red",
+            "White"
         ],
         "rating": 4.4,
         "reviews": 76,
         "inStock": true,
         "bestseller": false,
-        "salepercentage": 19,
+        "salepercentage": 20,
         "stockLeft": 34,
-        "additionalFeatures": "Water Resistant, Stainless Steel, Quartz Movement, Adjustable Strap, Modern Design",
+        "additionalFeatures": "Premium Leather, Gold Hardware, Sophisticated Design, Formal Wear, Luxury Feel",
         "features": [
-            "⌚ Precision quartz movement",
-            "💎 Stainless steel construction",
-            "💧 Water-resistant design",
-            "🔗 Adjustable metal strap",
-            "✨ Elegant appearance",
-            "🌟 Scratch-resistant glass",
-            "💪 Durable build quality",
-            "🎯 Perfect for any occasion",
-            "💼 Professional look",
-            "🔒 Secure clasp mechanism",
-            "⚡ Long battery life",
-            "🧵 Quality craftsmanship",
-            "💖 Stylish design",
-            "🛡️ Reliable timekeeping",
-            "✅ Premium accessory"
+            "💎 Premium leather material",
+            "🌟 Gold hardware accents",
+            "✨ Sophisticated design",
+            "💼 Perfect for formal events",
+            "🔒 Secure closure",
+            "💖 Elegant appearance",
+            "🧵 Expert craftsmanship",
+            "💪 Durable construction",
+            "🎯 Perfect size for essentials",
+            "👜 Luxury feel",
+            "⚡ Easy to handle",
+            "🛡️ High-quality materials",
+            "💕 Beautiful finish",
+            "🌸 Timeless design",
+            "✅ Special occasion essential"
         ]
     },
     {
         "id": "9",
-        "name": "Men's Formal Trousers",
-        "description": "Premium formal trousers for men with perfect fit and wrinkle-resistant fabric. Ideal for office wear and formal events.",
-        "price": 3200,
-        "originalPrice": 4000,
-        "image": "https://images.unsplash.com/photo-1605204567609-09e4140bfbdf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dHJvdXNlciUyMG1lbid8ZW58MHx8MHx8fDA%3D",
-        "hoverimage": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "name": "Trendy Mini Crossbody",
+        "description": "Compact and stylish mini crossbody bag perfect for essentials. Ideal for parties, shopping, and casual outings.",
+        "price": 2200,
+        "originalPrice": 2800,
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1506629905607-0b3a7ed5db9e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Men",
-        "subcategory": "Pants",
-        "brand": "Zoha's Attire",
-        "isNew": false,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "30",
-                "pricebysize": 3200
-            },
-            {
-                "size": "32",
-                "pricebysize": 3200
-            },
-            {
-                "size": "34",
-                "pricebysize": 3200
-            },
-            {
-                "size": "36",
-                "pricebysize": 3400
-            },
-            {
-                "size": "38",
-                "pricebysize": 3400
-            }
-        ],
-        "colors": [
-            "Black",
-            "Navy",
-            "Grey",
-            "Charcoal"
-        ],
-        "rating": 4.6,
-        "reviews": 143,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 20,
-        "stockLeft": 51,
-        "additionalFeatures": "Wrinkle Resistant, Perfect Fit, Premium Fabric, Formal Wear, Machine Washable",
-        "features": [
-            "👔 Premium formal wear",
-            "💼 Perfect for office",
-            "🌟 Wrinkle-resistant fabric",
-            "🎯 Tailored fit",
-            "💪 Durable material",
-            "🔄 Easy care",
-            "✨ Professional appearance",
-            "🧵 Expert tailoring",
-            "💎 Quality fabric",
-            "🛡️ Long-lasting wear",
-            "⚡ Comfortable fit",
-            "🌸 Smooth finish",
-            "💖 Classic design",
-            "🔒 Quality construction",
-            "✅ Formal essential"
-        ]
-    },
-    {
-        "id": "10",
-        "name": "Women's Stylish Scarf",
-        "description": "Beautiful silk scarf for women with elegant patterns and soft texture. Perfect accessory to complement any outfit.",
-        "price": 1800,
-        "originalPrice": 2200,
-        "image": "https://scarfsnscarf.pk/cdn/shop/collections/image00004.png?v=1732315255&width=640",
-        "hoverimage": "https://scarfsnscarf.pk/cdn/shop/collections/image00004.png?v=1732315255&width=640",
-        "gallery": [
-            "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Accessories",
-        "subcategory": "Scarves",
-        "brand": "Zoha's Attire",
+        "category": "Crossbody Bags",
+        "subcategory": "Mini Crossbody",
+        "brand": "Rumiistore",
         "isNew": true,
         "onSale": true,
         "sizes": [
             {
-                "size": "One Size",
-                "pricebysize": 1800
+                "size": "Small",
+                "pricebysize": 2200
             }
         ],
         "colors": [
-            "Floral",
-            "Geometric",
-            "Solid Colors"
+            "Black",
+            "Red",
+            "White",
+            "Pink"
+        ],
+        "rating": 4.6,
+        "reviews": 143,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 21,
+        "stockLeft": 51,
+        "additionalFeatures": "Compact Size, Adjustable Strap, Phone Pocket, Lightweight, Trendy Design",
+        "features": [
+            "👜 Perfect mini size",
+            "🔗 Adjustable crossbody strap",
+            "📱 Phone pocket",
+            "✨ Trendy modern design",
+            "💎 Premium materials",
+            "🔒 Secure zipper",
+            "🎯 Perfect for essentials",
+            "🌟 Lightweight construction",
+            "💪 Durable quality",
+            "🎨 Vibrant colors",
+            "💖 Stylish appearance",
+            "🧵 Quality stitching",
+            "🛡️ Long-lasting",
+            "⚡ Easy to carry",
+            "✅ Modern essential"
+        ]
+    },
+    {
+        "id": "10",
+        "name": "Luxury Work Handbag",
+        "description": "Professional luxury handbag designed for working women. Spacious compartments with laptop sleeve and elegant design.",
+        "price": 6500,
+        "originalPrice": 8000,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Hand Bags",
+        "subcategory": "Work Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Large",
+                "pricebysize": 6500
+            },
+            {
+                "size": "Extra Large",
+                "pricebysize": 7200
+            }
+        ],
+        "colors": [
+            "Black",
+            "Brown",
+            "Navy",
+            "Red"
+        ],
+        "rating": 4.8,
+        "reviews": 89,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 19,
+        "stockLeft": 25,
+        "additionalFeatures": "Laptop Compartment, Professional Design, Multiple Pockets, Premium Leather, Comfortable Handles",
+        "features": [
+            "💼 Professional work bag",
+            "💻 Laptop compartment",
+            "📁 Multiple organizer pockets",
+            "✨ Luxury leather material",
+            "👩‍💼 Perfect for office",
+            "🔒 Secure zipper closure",
+            "🎯 Spacious interior",
+            "🌟 Elegant design",
+            "💪 Durable construction",
+            "🧵 Expert craftsmanship",
+            "💎 Premium hardware",
+            "🛡️ Long-lasting quality",
+            "⚡ Comfortable handles",
+            "💖 Professional appearance",
+            "✅ Career essential"
+        ]
+    },
+    {
+        "id": "11",
+        "name": "Vintage Style Satchel",
+        "description": "Classic vintage-style satchel bag with retro charm and modern functionality. Perfect for fashion enthusiasts.",
+        "price": 3600,
+        "originalPrice": 4500,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Hand Bags",
+        "subcategory": "Satchel Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Medium",
+                "pricebysize": 3600
+            }
+        ],
+        "colors": [
+            "Brown",
+            "Black",
+            "Red"
         ],
         "rating": 4.3,
         "reviews": 92,
         "inStock": true,
         "bestseller": false,
-        "salepercentage": 18,
+        "salepercentage": 20,
         "stockLeft": 46,
-        "additionalFeatures": "Silk Material, Elegant Patterns, Soft Texture, Versatile Style, Premium Quality",
+        "additionalFeatures": "Vintage Style, Retro Charm, Modern Functionality, Fashion Statement, Quality Material",
         "features": [
-            "🧣 Premium silk material",
-            "🌸 Elegant pattern designs",
-            "💫 Soft and luxurious",
-            "💎 Versatile styling",
-            "✨ Premium quality",
-            "🎨 Beautiful colors",
-            "💖 Fashion accessory",
-            "🌟 Lightweight fabric",
-            "🔄 Easy to style",
-            "👗 Complements any outfit",
-            "🧵 Quality edges",
-            "💪 Durable material",
-            "⚡ Easy care",
-            "🛡️ Color-fast fabric",
+            "🕰️ Classic vintage design",
+            "🌸 Retro charm appeal",
+            "💫 Modern functionality",
+            "💎 Fashion statement piece",
+            "✨ High-quality material",
+            "🎨 Beautiful classic colors",
+            "💖 Stylish accessory",
+            "🌟 Timeless appeal",
+            "🔄 Versatile styling",
+            "👜 Perfect size ratio",
+            "🧵 Quality craftsmanship",
+            "💪 Durable construction",
+            "⚡ Easy to maintain",
+            "🛡️ Long-lasting design",
             "✅ Fashion essential"
         ]
     },
     {
-        "id": "11",
-        "name": "Men's Casual Jeans",
-        "description": "Comfortable denim jeans for men with modern fit and durable fabric. Perfect for casual outings and everyday wear.",
+        "id": "12",
+        "name": "Evening Party Clutch",
+        "description": "Glamorous evening clutch with beaded details and chain strap. Perfect for parties, weddings, and special events.",
         "price": 2800,
         "originalPrice": 3500,
-        "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Men",
-        "subcategory": "Jeans",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "30",
-                "pricebysize": 2800
-            },
-            {
-                "size": "32",
-                "pricebysize": 2800
-            },
-            {
-                "size": "34",
-                "pricebysize": 2800
-            },
-            {
-                "size": "36",
-                "pricebysize": 3000
-            },
-            {
-                "size": "38",
-                "pricebysize": 3000
-            }
-        ],
-        "colors": [
-            "Dark Blue",
-            "Light Blue",
-            "Black",
-            "Grey"
-        ],
-        "rating": 4.7,
-        "reviews": 215,
-        "inStock": true,
-        "bestseller": true,
-        "salepercentage": 20,
-        "stockLeft": 65,
-        "additionalFeatures": "Premium Denim, Comfortable Fit, Durable Quality, Casual Wear, Multiple Pockets",
-        "features": [
-            "👖 Premium denim fabric",
-            "💪 Durable construction",
-            "🎯 Perfect casual fit",
-            "🔒 Strong stitching",
-            "💼 Multiple pockets",
-            "🌟 Fade-resistant",
-            "🧺 Machine washable",
-            "✨ Classic design",
-            "🔄 Comfortable stretch",
-            "👨 Modern styling",
-            "🏷️ Quality brand",
-            "💎 Premium finish",
-            "🛡️ Long-lasting wear",
-            "⚡ Easy maintenance",
-            "✅ Wardrobe essential"
-        ]
-    },
-    {
-        "id": "12",
-        "name": "Women's Summer Kurti",
-        "description": "Traditional Pakistani kurti with modern design and comfortable fabric. Perfect for casual and semi-formal occasions.",
-        "price": 2200,
-        "originalPrice": 2800,
-        "image": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-512_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "hoverimage": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-512_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "gallery": [
-            "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Women",
-        "subcategory": "Traditional Wear",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "Small",
-                "pricebysize": 2200
-            },
-            {
-                "size": "Medium",
-                "pricebysize": 2200
-            },
-            {
-                "size": "Large",
-                "pricebysize": 2400
-            },
-            {
-                "size": "XL",
-                "pricebysize": 2600
-            }
-        ],
-        "colors": [
-            "White",
-            "Pink",
-            "Blue",
-            "Green"
-        ],
-        "rating": 4.8,
-        "reviews": 187,
-        "inStock": true,
-        "bestseller": true,
-        "salepercentage": 21,
-        "stockLeft": 43,
-        "additionalFeatures": "Traditional Design, Modern Cut, Comfortable Fabric, Pakistani Style, Versatile Wear",
-        "features": [
-            "🕌 Traditional Pakistani design",
-            "💃 Modern contemporary cut",
-            "🌸 Beautiful embroidery",
-            "✨ Premium fabric quality",
-            "💖 Comfortable fit",
-            "🎨 Vibrant colors",
-            "🧺 Easy to maintain",
-            "👗 Versatile styling",
-            "🌟 Cultural elegance",
-            "💎 Quality stitching",
-            "🔄 Breathable material",
-            "🧵 Expert tailoring",
-            "🛡️ Long-lasting wear",
-            "⚡ Perfect for occasions",
-            "✅ Authentic design"
-        ]
-    },
-    {
-        "id": "13",
-        "name": "Baby Boy's Casual Set",
-        "description": "Comfortable casual set for baby boys with soft fabric and playful design. Includes shirt and shorts for everyday wear.",
-        "price": 1600,
-        "originalPrice": 2000,
-        "image": "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Baby",
-        "subcategory": "Sets",
-        "brand": "Zoha's Attire",
-        "isNew": false,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "0-6 months",
-                "pricebysize": 1600
-            },
-            {
-                "size": "6-12 months",
-                "pricebysize": 1700
-            },
-            {
-                "size": "12-18 months",
-                "pricebysize": 1800
-            },
-            {
-                "size": "18-24 months",
-                "pricebysize": 1900
-            }
-        ],
-        "colors": [
-            "Blue",
-            "Green",
-            "Red"
-        ],
-        "rating": 4.6,
-        "reviews": 124,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 20,
-        "stockLeft": 37,
-        "additionalFeatures": "2-Piece Set, Soft Cotton, Playful Design, Easy Wear, Machine Washable",
-        "features": [
-            "👕 Complete 2-piece set",
-            "👶 Baby-safe materials",
-            "🧸 Playful fun design",
-            "💤 Comfortable for play",
-            "🌟 High-quality cotton",
-            "🧺 Easy to wash",
-            "💕 Gentle on skin",
-            "🎨 Bright colors",
-            "🔒 Safe button closures",
-            "🌸 Breathable fabric",
-            "👔 Easy to dress",
-            "✨ Durable quality",
-            "🛡️ Hypoallergenic",
-            "⚡ Quick-dry material",
-            "✅ Quality tested"
-        ]
-    },
-    {
-        "id": "14",
-        "name": "Women's Casual Jeans",
-        "description": "Stylish denim jeans for women with comfortable fit and trendy design. Perfect for casual outings and everyday wear.",
-        "price": 2600,
-        "originalPrice": 3200,
-        "image": "https://www.junaidjamshed.com/media/catalog/product/j/s/jst-25-2230_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "hoverimage": "https://www.junaidjamshed.com/media/catalog/product/j/s/jst-25-2230_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "gallery": [
-            "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Women",
-        "subcategory": "Jeans",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "26",
-                "pricebysize": 2600
-            },
-            {
-                "size": "28",
-                "pricebysize": 2600
-            },
-            {
-                "size": "30",
-                "pricebysize": 2600
-            },
-            {
-                "size": "32",
-                "pricebysize": 2800
-            },
-            {
-                "size": "34",
-                "pricebysize": 2800
-            }
-        ],
-        "colors": [
-            "Dark Blue",
-            "Light Blue",
-            "Black"
-        ],
-        "rating": 4.5,
-        "reviews": 168,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 19,
-        "stockLeft": 29,
-        "additionalFeatures": "Skinny Fit, Stretch Denim, Comfortable Wear, Trendy Style, Multiple Sizes",
-        "features": [
-            "👖 Premium stretch denim",
-            "💃 Perfect skinny fit",
-            "✨ Trendy modern style",
-            "🔄 Comfortable stretch",
-            "💪 Durable construction",
-            "🌟 Fade-resistant color",
-            "🧺 Machine washable",
-            "💎 Quality stitching",
-            "🎯 Flattering silhouette",
-            "👩 Feminine design",
-            "🏷️ Fashion-forward",
-            "🛡️ Long-lasting wear",
-            "⚡ Easy care",
-            "💖 Stylish appearance",
-            "✅ Wardrobe staple"
-        ]
-    },
-    {
-        "id": "15",
-        "name": "Fashion Sunglasses",
-        "description": "Stylish sunglasses with UV protection and trendy design. Perfect accessory for outdoor activities and fashion statement.",
-        "price": 1500,
-        "originalPrice": 2000,
-        "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1506629905607-0b3a7ed5db9e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1506629905607-0b3a7ed5db9e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Accessories",
-        "subcategory": "Sunglasses",
-        "brand": "Zoha's Attire",
+        "category": "Ladies Bags",
+        "subcategory": "Evening Clutch",
+        "brand": "Rumiistore",
         "isNew": true,
         "onSale": true,
         "sizes": [
             {
                 "size": "One Size",
-                "pricebysize": 1500
-            }
-        ],
-        "colors": [
-            "Black",
-            "Brown",
-            "Gold"
-        ],
-        "rating": 4.2,
-        "reviews": 95,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 25,
-        "stockLeft": 52,
-        "additionalFeatures": "UV Protection, Trendy Design, Lightweight Frame, Scratch Resistant, Fashion Accessory",
-        "features": [
-            "🕶️ 100% UV protection",
-            "✨ Trendy fashion design",
-            "💎 Lightweight frame",
-            "🌟 Scratch-resistant lenses",
-            "💪 Durable construction",
-            "🎯 Perfect for outdoors",
-            "🏖️ Beach essential",
-            "💖 Stylish appearance",
-            "🔒 Secure fit",
-            "🌸 Comfortable wear",
-            "🧵 Quality materials",
-            "⚡ Easy to clean",
-            "🛡️ Eye protection",
-            "💼 Professional look",
-            "✅ Fashion statement"
-        ]
-    },
-    {
-        "id": "16",
-        "name": "Men's Sports Hoodie",
-        "description": "Comfortable hoodie for men with soft interior and stylish design. Perfect for casual wear and outdoor activities.",
-        "price": 3500,
-        "originalPrice": 4200,
-        "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Men",
-        "subcategory": "Hoodies",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "Small",
-                "pricebysize": 3500
-            },
-            {
-                "size": "Medium",
-                "pricebysize": 3500
-            },
-            {
-                "size": "Large",
-                "pricebysize": 3700
-            },
-            {
-                "size": "XL",
-                "pricebysize": 3900
-            }
-        ],
-        "colors": [
-            "Grey",
-            "Black",
-            "Navy",
-            "Maroon"
-        ],
-        "rating": 4.7,
-        "reviews": 203,
-        "inStock": true,
-        "bestseller": true,
-        "salepercentage": 17,
-        "stockLeft": 38,
-        "additionalFeatures": "Fleece Interior, Front Pocket, Adjustable Hood, Comfortable Fit, Casual Wear",
-        "features": [
-            "🧥 Soft fleece interior",
-            "🎯 Comfortable regular fit",
-            "👥 Front kangaroo pocket",
-            "🌟 Adjustable drawstring hood",
-            "💪 Durable construction",
-            "🧺 Machine washable",
-            "✨ Premium quality fabric",
-            "🔄 Pre-shrunk material",
-            "🌸 Smooth exterior",
-            "💖 Cozy and warm",
-            "🏷️ Stylish design",
-            "🛡️ Long-lasting wear",
-            "⚡ Easy care",
-            "👨 Perfect for layering",
-            "✅ Casual essential"
-        ]
-    },
-    {
-        "id": "17",
-        "name": "Women's Cardigan",
-        "description": "Elegant cardigan for women with soft knit fabric and versatile design. Perfect for layering and office wear.",
-        "price": 2900,
-        "originalPrice": 3600,
-        "image": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-195_4_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "hoverimage": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-195_4_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "gallery": [
-            "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Women",
-        "subcategory": "Cardigans",
-        "brand": "Zoha's Attire",
-        "isNew": false,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "Small",
-                "pricebysize": 2900
-            },
-            {
-                "size": "Medium",
-                "pricebysize": 2900
-            },
-            {
-                "size": "Large",
-                "pricebysize": 3100
-            },
-            {
-                "size": "XL",
-                "pricebysize": 3300
-            }
-        ],
-        "colors": [
-            "Beige",
-            "Black",
-            "Grey",
-            "Navy"
-        ],
-        "rating": 4.6,
-        "reviews": 147,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 19,
-        "stockLeft": 31,
-        "additionalFeatures": "Soft Knit, Button Front, Long Sleeves, Versatile Style, Professional Look",
-        "features": [
-            "🧶 Soft knit fabric",
-            "💼 Professional appearance",
-            "🔘 Button-front closure",
-            "✨ Elegant design",
-            "💃 Flattering fit",
-            "🌟 Versatile styling",
-            "🧺 Easy care",
-            "💎 Quality construction",
-            "🎯 Perfect for layering",
-            "👩‍💼 Office appropriate",
-            "🌸 Comfortable wear",
-            "🧵 Expert knitting",
-            "💖 Feminine style",
-            "⚡ Easy maintenance",
-            "✅ Wardrobe essential"
-        ]
-    },
-    {
-        "id": "18",
-        "name": "Leather Belt Set",
-        "description": "Premium leather belt set with multiple buckle options. High-quality craftsmanship and versatile design for formal and casual wear.",
-        "price": 2200,
-        "originalPrice": 2800,
-        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1506629905607-0b3a7ed5db9e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1506629905607-0b3a7ed5db9e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Accessories",
-        "subcategory": "Belts",
-        "brand": "Zoha's Attire",
-        "isNew": false,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "32",
-                "pricebysize": 2200
-            },
-            {
-                "size": "34",
-                "pricebysize": 2200
-            },
-            {
-                "size": "36",
-                "pricebysize": 2200
-            },
-            {
-                "size": "38",
-                "pricebysize": 2400
-            },
-            {
-                "size": "40",
-                "pricebysize": 2400
-            }
-        ],
-        "colors": [
-            "Black",
-            "Brown",
-            "Tan"
-        ],
-        "rating": 4.5,
-        "reviews": 118,
-        "inStock": true,
-        "bestseller": false,
-        "salepercentage": 21,
-        "stockLeft": 44,
-        "additionalFeatures": "Genuine Leather, Multiple Buckles, Adjustable Size, Premium Quality, Versatile Use",
-        "features": [
-            "🧴 Genuine leather material",
-            "🔗 Multiple buckle options",
-            "✨ Premium craftsmanship",
-            "💼 Perfect for formal wear",
-            "🎯 Adjustable sizing",
-            "🌟 Durable construction",
-            "💎 Quality hardware",
-            "🔒 Secure buckle mechanism",
-            "👔 Professional appearance",
-            "💪 Long-lasting material",
-            "🧵 Expert stitching",
-            "⚡ Easy adjustment",
-            "🛡️ Scratch-resistant",
-            "💖 Classic design",
-            "✅ Essential accessory"
-        ]
-    },
-    {
-        "id": "19",
-        "name": "Baby Winter Jacket",
-        "description": "Warm winter jacket for babies with soft lining and weather protection. Keeps baby cozy and comfortable in cold weather.",
-        "price": 2500,
-        "originalPrice": 3000,
-        "image": "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "hoverimage": "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-        "gallery": [
-            "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-        ],
-        "category": "Baby",
-        "subcategory": "Outerwear",
-        "brand": "Zoha's Attire",
-        "isNew": true,
-        "onSale": true,
-        "sizes": [
-            {
-                "size": "6-12 months",
-                "pricebysize": 2500
-            },
-            {
-                "size": "12-18 months",
-                "pricebysize": 2600
-            },
-            {
-                "size": "18-24 months",
-                "pricebysize": 2700
-            },
-            {
-                "size": "2-3 years",
                 "pricebysize": 2800
             }
         ],
         "colors": [
-            "Pink",
-            "Blue",
-            "Red",
-            "Green"
+            "Black",
+            "Gold",
+            "Silver",
+            "Red"
         ],
-        "rating": 4.8,
-        "reviews": 156,
+        "rating": 4.7,
+        "reviews": 167,
         "inStock": true,
         "bestseller": true,
-        "salepercentage": 17,
-        "stockLeft": 27,
-        "additionalFeatures": "Warm Lining, Weather Protection, Soft Material, Easy Zipper, Cute Design",
+        "salepercentage": 20,
+        "stockLeft": 33,
+        "additionalFeatures": "Beaded Details, Chain Strap, Glamorous Design, Evening Wear, Compact Size",
         "features": [
-            "🧥 Warm soft lining",
-            "❄️ Weather protection",
-            "👶 Baby-safe materials",
-            "🌟 Comfortable fit",
-            "🔒 Easy zipper closure",
-            "💕 Cute adorable design",
-            "🧺 Machine washable",
-            "✨ Quality construction",
-            "🎨 Bright fun colors",
-            "💤 Cozy and warm",
-            "🛡️ Wind resistant",
-            "🌸 Breathable lining",
-            "⚡ Easy to put on",
-            "💖 Perfect for outdoors",
-            "✅ Winter essential"
+            "✨ Glamorous beaded design",
+            "🌟 Perfect for parties",
+            "💎 Chain strap included",
+            "🎉 Evening wear essential",
+            "🔒 Secure magnetic closure",
+            "💖 Compact elegant size",
+            "🧵 Intricate beadwork",
+            "💪 Quality construction",
+            "🎯 Perfect for essentials",
+            "👜 Sophisticated look",
+            "🌸 Beautiful finishes",
+            "💼 Special occasion bag",
+            "⚡ Easy to carry",
+            "🛡️ Premium materials",
+            "✅ Party essential"
         ]
     },
     {
-        "id": "20",
-        "name": "Women's Evening Gown",
-        "description": "Stunning evening gown for special occasions with elegant design and flowing fabric. Perfect for parties and formal events.",
-        "price": 8500,
-        "originalPrice": 10500,
-        "image": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-202_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
-        "hoverimage": "https://www.junaidjamshed.com/media/catalog/product/2/5/25-202_1_.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=755&width=589&canvas=589:755&dpr=2",
+        "id": "13",
+        "name": "Boho Style Shoulder Bag",
+        "description": "Bohemian style shoulder bag with fringe details and ethnic patterns. Perfect for casual outings and festivals.",
+        "price": 2900,
+        "originalPrice": 3600,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
         "gallery": [
-            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-            "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         ],
-        "category": "Women",
-        "subcategory": "Evening Wear",
-        "brand": "Zoha's Attire",
+        "category": "Shoulder Bags",
+        "subcategory": "Boho Style",
+        "brand": "Rumiistore",
+        "isNew": false,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Medium",
+                "pricebysize": 2900
+            },
+            {
+                "size": "Large",
+                "pricebysize": 3200
+            }
+        ],
+        "colors": [
+            "Brown",
+            "Tan",
+            "Black",
+            "Red"
+        ],
+        "rating": 4.5,
+        "reviews": 98,
+        "inStock": true,
+        "bestseller": false,
+        "salepercentage": 19,
+        "stockLeft": 41,
+        "additionalFeatures": "Boho Style, Fringe Details, Ethnic Patterns, Casual Design, Festival Ready",
+        "features": [
+            "🌻 Bohemian style design",
+            "✨ Fringe detail accents",
+            "🎨 Ethnic pattern work",
+            "💃 Perfect for festivals",
+            "🌟 Casual chic appeal",
+            "🧺 Spacious interior",
+            "💎 Unique styling",
+            "🔄 Versatile usage",
+            "👜 Comfortable strap",
+            "🌸 Free-spirited vibe",
+            "🧵 Artisan craftsmanship",
+            "💖 Bohemian elegance",
+            "⚡ Lightweight design",
+            "🛡️ Durable materials",
+            "✅ Festival essential"
+        ]
+    },
+    {
+        "id": "14",
+        "name": "Minimalist Leather Handbag",
+        "description": "Clean and minimalist leather handbag with sleek lines and modern design. Perfect for contemporary fashion lovers.",
+        "price": 4200,
+        "originalPrice": 5200,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Hand Bags",
+        "subcategory": "Minimalist",
+        "brand": "Rumiistore",
         "isNew": true,
         "onSale": true,
         "sizes": [
             {
-                "size": "Small",
-                "pricebysize": 8500
+                "size": "Medium",
+                "pricebysize": 4200
             },
+            {
+                "size": "Large",
+                "pricebysize": 4800
+            }
+        ],
+        "colors": [
+            "Black",
+            "White",
+            "Nude",
+            "Red"
+        ],
+        "rating": 4.6,
+        "reviews": 124,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 19,
+        "stockLeft": 37,
+        "additionalFeatures": "Minimalist Design, Clean Lines, Premium Leather, Modern Style, Versatile Use",
+        "features": [
+            "💫 Minimalist clean design",
+            "✨ Sleek modern lines",
+            "👜 Premium leather quality",
+            "🌟 Contemporary style",
+            "💎 Sophisticated appearance",
+            "🔄 Versatile styling",
+            "🧺 Well-organized interior",
+            "💪 Durable construction",
+            "🎯 Perfect proportions",
+            "👩‍💼 Professional look",
+            "🌸 Timeless elegance",
+            "🧵 Precise craftsmanship",
+            "💖 Modern femininity",
+            "⚡ Easy maintenance",
+            "✅ Wardrobe staple"
+        ]
+    },
+    {
+        "id": "15",
+        "name": "Quilted Chain Shoulder Bag",
+        "description": "Elegant quilted shoulder bag with chain details and luxurious feel. Inspired by classic designer styles.",
+        "price": 4800,
+        "originalPrice": 6000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Ladies Bags",
+        "subcategory": "Quilted Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Medium",
+                "pricebysize": 4800
+            }
+        ],
+        "colors": [
+            "Black",
+            "Red",
+            "Navy",
+            "Beige"
+        ],
+        "rating": 4.8,
+        "reviews": 201,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 20,
+        "stockLeft": 28,
+        "additionalFeatures": "Quilted Pattern, Chain Strap, Luxury Feel, Classic Design, Premium Quality",
+        "features": [
+            "💎 Elegant quilted pattern",
+            "🔗 Classic chain strap",
+            "✨ Luxurious feel",
+            "🌟 Designer-inspired style",
+            "💼 Premium materials",
+            "🔒 Secure flap closure",
+            "📱 Interior compartments",
+            "💪 Durable construction",
+            "🎯 Perfect size",
+            "👜 Timeless design",
+            "🌸 Sophisticated appeal",
+            "🧵 Expert quilting",
+            "💖 Luxury accessory",
+            "⚡ Easy to style",
+            "✅ Investment piece"
+        ]
+    },
+    {
+        "id": "16",
+        "name": "Structured Top Handle Bag",
+        "description": "Professional structured handbag with top handles and removable shoulder strap. Perfect for business and formal occasions.",
+        "price": 5200,
+        "originalPrice": 6500,
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Hand Bags",
+        "subcategory": "Structured Bags",
+        "brand": "Rumiistore",
+        "isNew": false,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Medium",
+                "pricebysize": 5200
+            },
+            {
+                "size": "Large",
+                "pricebysize": 5800
+            }
+        ],
+        "colors": [
+            "Black",
+            "Navy",
+            "Brown",
+            "Red"
+        ],
+        "rating": 4.7,
+        "reviews": 143,
+        "inStock": true,
+        "bestseller": false,
+        "salepercentage": 20,
+        "stockLeft": 32,
+        "additionalFeatures": "Structured Design, Top Handles, Removable Strap, Professional Look, Premium Quality",
+        "features": [
+            "💼 Structured professional design",
+            "🔗 Top handles included",
+            "✨ Removable shoulder strap",
+            "🌟 Premium leather quality",
+            "💎 Polished hardware",
+            "🔒 Secure closure system",
+            "📁 Organized interior",
+            "💪 Maintains shape",
+            "🎯 Perfect for business",
+            "👩‍💼 Professional appearance",
+            "🌸 Elegant silhouette",
+            "🧵 Expert construction",
+            "💖 Sophisticated style",
+            "⚡ Versatile carrying",
+            "✅ Executive essential"
+        ]
+    },
+    {
+        "id": "17",
+        "name": "Embroidered Ethnic Clutch",
+        "description": "Beautiful embroidered clutch with ethnic motifs and vibrant colors. Perfect for traditional events and cultural occasions.",
+        "price": 2400,
+        "originalPrice": 3000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Ladies Bags",
+        "subcategory": "Ethnic Clutch",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "One Size",
+                "pricebysize": 2400
+            }
+        ],
+        "colors": [
+            "Red",
+            "Gold",
+            "Green",
+            "Blue"
+        ],
+        "rating": 4.5,
+        "reviews": 87,
+        "inStock": true,
+        "bestseller": false,
+        "salepercentage": 20,
+        "stockLeft": 45,
+        "additionalFeatures": "Embroidered Design, Ethnic Motifs, Vibrant Colors, Traditional Style, Handcrafted",
+        "features": [
+            "🌺 Beautiful embroidery work",
+            "🎨 Ethnic motif designs",
+            "✨ Vibrant color patterns",
+            "🕌 Traditional style",
+            "💎 Handcrafted details",
+            "🔒 Secure closure",
+            "📱 Perfect for essentials",
+            "🌟 Cultural heritage",
+            "💪 Quality materials",
+            "🎯 Compact size",
+            "👜 Unique design",
+            "🧵 Artisan craftsmanship",
+            "💖 Traditional elegance",
+            "⚡ Light and portable",
+            "✅ Cultural accessory"
+        ]
+    },
+    {
+        "id": "18",
+        "name": "Sport Crossbody Bag",
+        "description": "Functional sport crossbody bag with water-resistant material and multiple pockets. Perfect for active lifestyle and outdoor activities.",
+        "price": 2600,
+        "originalPrice": 3200,
+        "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Crossbody Bags",
+        "subcategory": "Sport Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "One Size",
+                "pricebysize": 2600
+            }
+        ],
+        "colors": [
+            "Black",
+            "Navy",
+            "Red",
+            "Grey"
+        ],
+        "rating": 4.4,
+        "reviews": 156,
+        "inStock": true,
+        "bestseller": false,
+        "salepercentage": 19,
+        "stockLeft": 62,
+        "additionalFeatures": "Water Resistant, Multiple Pockets, Sport Design, Active Lifestyle, Outdoor Ready",
+        "features": [
+            "🏃‍♀️ Sport-focused design",
+            "💧 Water-resistant material",
+            "📱 Multiple pocket system",
+            "🔗 Adjustable strap",
+            "🌟 Lightweight construction",
+            "🔒 Secure zippers",
+            "🎯 Perfect for activities",
+            "💪 Durable materials",
+            "⚡ Quick access pockets",
+            "🌸 Comfortable wearing",
+            "🧵 Reinforced stitching",
+            "💖 Active lifestyle",
+            "🛡️ Weather resistant",
+            "🎨 Modern sporty look",
+            "✅ Outdoor essential"
+        ]
+    },
+    {
+        "id": "19",
+        "name": "Luxury Designer Handbag",
+        "description": "Exclusive luxury handbag with premium materials and exquisite craftsmanship. A statement piece for sophisticated women.",
+        "price": 8500,
+        "originalPrice": 10500,
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Ladies Bags",
+        "subcategory": "Luxury Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
             {
                 "size": "Medium",
                 "pricebysize": 8500
             },
             {
                 "size": "Large",
-                "pricebysize": 8800
-            },
-            {
-                "size": "XL",
-                "pricebysize": 9100
+                "pricebysize": 9200
             }
         ],
         "colors": [
             "Black",
-            "Navy",
-            "Burgundy",
-            "Emerald"
+            "Brown",
+            "Red"
         ],
         "rating": 4.9,
-        "reviews": 89,
+        "reviews": 78,
         "inStock": true,
         "bestseller": true,
         "salepercentage": 19,
-        "stockLeft": 18,
-        "additionalFeatures": "Elegant Design, Flowing Fabric, Perfect Fit, Special Occasion, Premium Quality",
+        "stockLeft": 15,
+        "additionalFeatures": "Luxury Materials, Exquisite Craftsmanship, Statement Piece, Premium Hardware, Limited Collection",
         "features": [
-            "✨ Stunning elegant design",
-            "👗 Perfect for special events",
-            "💃 Flowing graceful fabric",
-            "🌟 Premium quality material",
-            "💎 Sophisticated appearance",
-            "🎉 Ideal for parties",
-            "💖 Flattering silhouette",
-            "🧵 Expert tailoring",
-            "🌸 Comfortable fit",
-            "🏆 Luxury feel",
-            "💼 Formal occasion wear",
-            "⚡ Easy movement",
-            "🛡️ Quality construction",
-            "🎯 Show-stopping look",
-            "✅ Special occasion essential"
+            "💎 Luxury premium materials",
+            "✨ Exquisite craftsmanship",
+            "🌟 Statement designer piece",
+            "👑 Exclusive collection",
+            "💼 Premium hardware",
+            "🔒 Secure luxury closure",
+            "📱 Luxury interior lining",
+            "💪 Superior construction",
+            "🎯 Perfect luxury size",
+            "👜 Iconic design",
+            "🌸 Sophisticated elegance",
+            "🧵 Master craftsmanship",
+            "💖 Luxury experience",
+            "⚡ Timeless investment",
+            "✅ Luxury essential"
+        ]
+    },
+    {
+        "id": "20",
+        "name": "Eco-Friendly Tote Bag",
+        "description": "Sustainable eco-friendly tote bag made from recycled materials. Perfect for environmentally conscious shoppers.",
+        "price": 1600,
+        "originalPrice": 2000,
+        "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "hoverimage": "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+        "gallery": [
+            "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+            "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+        ],
+        "category": "Tote Bags",
+        "subcategory": "Eco Bags",
+        "brand": "Rumiistore",
+        "isNew": true,
+        "onSale": true,
+        "sizes": [
+            {
+                "size": "Large",
+                "pricebysize": 1600
+            }
+        ],
+        "colors": [
+            "Natural",
+            "Green",
+            "Brown",
+            "Red"
+        ],
+        "rating": 4.6,
+        "reviews": 234,
+        "inStock": true,
+        "bestseller": true,
+        "salepercentage": 20,
+        "stockLeft": 89,
+        "additionalFeatures": "Eco-Friendly, Recycled Materials, Sustainable, Durable, Environmentally Conscious",
+        "features": [
+            "🌱 Eco-friendly materials",
+            "♻️ Made from recycled content",
+            "🌍 Environmentally conscious",
+            "✨ Sustainable fashion",
+            "💚 Planet-friendly choice",
+            "🧺 Spacious interior",
+            "💪 Durable construction",
+            "🔄 Reusable design",
+            "🎯 Perfect for shopping",
+            "👜 Practical everyday bag",
+            "🌸 Natural appearance",
+            "🧵 Ethical production",
+            "💖 Conscious consumer",
+            "⚡ Easy to clean",
+            "✅ Green lifestyle"
         ]
     }
 ]

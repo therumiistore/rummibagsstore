@@ -5,11 +5,11 @@
 /* Custom base styles */
 @layer base {
   :root {
-    --brand-primary: #2c3949;
-    --brand-secondary: #957679;
-    --brand-accent: #c56d53;
-    --brand-light: #f8f9fa;
-    --brand-dark: #2c3949;
+    --brand-primary: #0f0f0f;
+    --brand-secondary: #c50000;
+    --brand-accent: #eb3838;
+    --brand-light: #ffffff;
+    --brand-dark: #a10000;
   }
 
   html {

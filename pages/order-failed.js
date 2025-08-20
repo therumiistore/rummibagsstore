@@ -10,10 +10,13 @@ import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 // Configuration Variables
 const ORDER_FAILED_CONFIG = {
   // Currency & Formatting
-  locale: 'en-PK',
+  locale: SITE_CONFIG.locale,
+  currency: SITE_CONFIG.currency,
 
   // Contact Information
   supportEmail: SITE_CONFIG.businessEmail,
+  supportPhone: SITE_CONFIG.businessContact,
+  supportHours: SITE_CONFIG.payment.supportHours,
 
   // UI Text
   loadingText: 'Loading...',
@@ -36,7 +39,7 @@ const ORDER_FAILED_CONFIG = {
     },
     inventory_unavailable: {
       title: 'Item Unavailable',
-      description: 'One or more fashion items in your cart are currently out of stock.',
+      description: 'One or more bags in your cart are currently out of stock.',
       suggestions: ['Remove out-of-stock items and try again', 'Check for similar available products', 'Contact us for restock information']
     },
     system_error: {
@@ -110,11 +113,7 @@ export default function OrderFailedPage() {
   }, [reason]);
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat(ORDER_FAILED_CONFIG.locale, {
-      style: 'currency',
-      currency: ORDER_FAILED_CONFIG.currency,
-      minimumFractionDigits: 0
-    }).format(price);
+    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString(ORDER_FAILED_CONFIG.locale)}`;
   };
 
   const getErrorDetails = (reason) => {
@@ -177,10 +176,10 @@ export default function OrderFailedPage() {
   return (
     <>
       <Head>
-        <title>{ORDER_FAILED_CONFIG.pageTitle}</title>
-        <meta name="description" content={ORDER_FAILED_CONFIG.pageDescription} />
+        <title>{getPageMeta('orderFailed').title}</title>
+        <meta name="description" content={getPageMeta('orderFailed').description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={ORDER_FAILED_CONFIG.faviconPath} type="image/png" sizes={ORDER_FAILED_CONFIG.faviconSize} />
+        <link rel="icon" href={SITE_CONFIG.faviconPath} type="image/png" sizes={SITE_CONFIG.faviconSize} />
       </Head>
 
       <div className="min-h-screen bg-gray-50">

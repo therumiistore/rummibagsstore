@@ -27,7 +27,7 @@ const PAYMENT_CONFIG = {
   codDescription: 'Pay when you receive your order',
   codHowItWorksTitle: 'How it works:',
   codSteps: [
-    'Your fashion items will be carefully packaged',
+    'Your items will be carefully packaged',
     'Pay the delivery person when your order arrives',
     'Inspect your products before payment',
     'Cash payment only at delivery'
@@ -89,7 +89,7 @@ export default function PaymentPage() {
   }, [router]);
 
   const formatPrice = (price) => {
-    return `${SITE_CONFIG.currency} ${price.toFixed(0)}`;
+    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString(SITE_CONFIG.locale)}`;
   };
 
   const generateOrderId = () => {
@@ -129,7 +129,7 @@ export default function PaymentPage() {
         quantity: item.quantity,
         category: item.category || '',
         image: item.image || '',
-        brand: item.brand || PAYMENT_CONFIG.defaultBrand,
+        brand: item.brand || SITE_CONFIG.businessName,
         inStock: item.inStock || true,
         selectedConfiguration: item.selectedConfiguration || null
       }));
@@ -137,7 +137,7 @@ export default function PaymentPage() {
       // Calculate totals according to backend expectations
       const subtotal = orderData.summary.subtotal;
       const shipping = orderData.summary.shippingFee || 0;
-      const tax = 0; // No tax for surgical instruments store
+      const tax = 0; // No tax for bags store
       const discount = 0; // No discounts
       const total = subtotal + shipping;
 
@@ -169,6 +169,9 @@ export default function PaymentPage() {
         totals,
         paymentInfo
       };
+
+      console.log("apiBaseUrl", PAYMENT_CONFIG.apiBaseUrl);
+      console.log("siteId", PAYMENT_CONFIG.siteId);
 
       const response = await axios.post(
         `${PAYMENT_CONFIG.apiBaseUrl}/${PAYMENT_CONFIG.siteId}`,
@@ -291,7 +294,7 @@ export default function PaymentPage() {
           {/* Header */}
           <div className="mb-8">
             <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-              <Link href={PAYMENT_CONFIG.shopRoute} className="hover:text-brand-accent transition-colors">👗 Shop</Link>
+              <Link href={PAYMENT_CONFIG.shopRoute} className="hover:text-brand-accent transition-colors">👜 Shop</Link>
               <span>→</span>
               <Link href={PAYMENT_CONFIG.checkoutRoute} className="hover:text-brand-accent transition-colors">Checkout</Link>
               <span>→</span>
@@ -425,7 +428,8 @@ export default function PaymentPage() {
                     <p className="text-sm font-medium text-brand-primary">Delivery Address</p>
                     <p className="text-sm text-gray-800">
                       {orderData.customer.address}<br />
-                      {orderData.customer.city}, {orderData.customer.area} {orderData.customer.zipCode}
+                      {orderData.customer.city}, {orderData.customer.area} {orderData.customer.zipCode}<br />
+                      {orderData.customer.country}
                     </p>
                   </div>
                   {orderData.customer.notes && (
@@ -448,42 +452,49 @@ export default function PaymentPage() {
               {/* Items */}
               <div className="space-y-4 mb-6">
                 {orderData.items.map((item, index) => (
-                  <div key={`${item.id}-${item.selectedSize}-${index}`} className="flex items-center space-x-4 bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <div className="relative w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-medium text-gray-800 truncate">
-                        {item.name}
-                      </h4>
-
-                      {/* Display configuration details if available */}
-                      {item.selectedConfiguration && Object.keys(item.selectedConfiguration).length > 0 && (
-                        <div className="text-xs text-gray-500 mt-1">
-                          {/* size */}
-                          {item.selectedConfiguration.size && (
-                            <span className="inline-block mr-2">Size: {item.selectedConfiguration.size}</span>
-                          )}
-                          {/* color */}
-                          {item.selectedConfiguration.color && (
-                            <span className="inline-block mr-2">Color: {item.selectedConfiguration.color}</span>
-                          )}
+                  <div key={`${item.id}-${item.selectedSize}-${index}`} className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
                         </div>
-                      )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-medium text-gray-800 truncate">
+                            {item.name}
+                          </h4>
 
-                      <p className="text-xs text-gray-600 mt-1">
-                        Quantity: {item.quantity}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-                        {formatPrice(item.price * item.quantity)}
-                      </p>
+                          {/* Display configuration details if available */}
+                          {item.selectedConfiguration && Object.keys(item.selectedConfiguration).length > 0 && (
+                            <div className="text-xs text-gray-500 mt-1">
+                              {/* size */}
+                              {item.selectedConfiguration.size && (
+                                <span className="inline-block mr-2">Size: {item.selectedConfiguration.size}</span>
+                              )}
+                              {/* color */}
+                              {item.selectedConfiguration.color && (
+                                <span className="inline-block mr-2">Color: {item.selectedConfiguration.color}</span>
+                              )}
+                            </div>
+                          )}
+
+                          <p className="text-xs text-gray-600 mt-1">
+                            Quantity: {item.quantity}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Price - separate row on mobile */}
+                      <div className="flex justify-between sm:justify-end items-center">
+                        <span className="text-sm text-gray-600 sm:hidden">Total:</span>
+                        <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                          {formatPrice(item.price * item.quantity)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}

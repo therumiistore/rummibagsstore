@@ -1,0 +1,9 @@
+name = "cf-static-worker"
+main = "index.js"
+compatibility_date = "2025-08-03"
+workers_dev = true
+
+[[r2_buckets]]
+binding = "BUSINESS_WEB_BUCKET"
+bucket_name = "business-web-bucket"
+preview_bucket_name = "business-web-bucket"

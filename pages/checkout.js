@@ -12,8 +12,8 @@ import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 const CHECKOUT_CONFIG = {
   // Currency & Pricing
   currency: SITE_CONFIG.currency || 'PKR',
-  freeShippingThreshold: 5000,
-  shippingFee: 250,
+  freeShippingThreshold: SITE_CONFIG.shipping.freeShippingThreshold,
+  shippingFee: SITE_CONFIG.shipping.shippingFee,
 
   // Form Placeholders (Pakistani context)
   placeholders: {
@@ -25,6 +25,7 @@ const CHECKOUT_CONFIG = {
     city: 'Islamabad',
     area: 'F-8 Markaz',
     zipCode: '44000',
+    country: 'Pakistan',
     notes: 'Any special instructions for your order... (e.g., preferred delivery time, leave at door, etc.)'
   },
 
@@ -49,7 +50,7 @@ const CHECKOUT_CONFIG = {
   paymentRoute: '/payment',
 
   // Return Policy
-  returnPolicyDays: 7,
+  returnPolicyDays: SITE_CONFIG.payment.returnPolicyDays,
   returnPolicyText: 'Shop with confidence! Quality guarantee & returns within 7 days for quality issues.'
 };
 
@@ -71,6 +72,7 @@ export default function CheckoutPage() {
     city: '',
     area: '',
     zipCode: '',
+    country: '',
 
     // Additional Information
     notes: ''
@@ -117,6 +119,7 @@ export default function CheckoutPage() {
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.city.trim()) newErrors.city = 'City is required';
     if (!formData.area.trim()) newErrors.area = 'Area is required';
+    if (!formData.country.trim()) newErrors.country = 'Country is required';
 
     // Email validation
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -339,7 +342,7 @@ export default function CheckoutPage() {
                       />
                       {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
                           City *
@@ -371,6 +374,24 @@ export default function CheckoutPage() {
                           placeholder={CHECKOUT_CONFIG.placeholders.area}
                         />
                         {errors.area && <p className="text-red-500 text-xs mt-1">{errors.area}</p>}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                          Country *
+                        </label>
+                        <input
+                          type="text"
+                          id="country"
+                          name="country"
+                          value={formData.country}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-gray-50 border rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition-all duration-200 ${errors.country ? 'border-red-500' : 'border-gray-300'
+                            }`}
+                          placeholder={CHECKOUT_CONFIG.placeholders.country}
+                        />
+                        {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                       </div>
                       <div>
                         <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
@@ -448,48 +469,54 @@ export default function CheckoutPage() {
               {/* Items */}
               <div className="space-y-4 mb-6">
                 {items.map((item, index) => (
-                  <div key={`${item.id}-${item.selectedSize}-${index}`} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center space-x-4">
-                      <div className="relative w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                        />
+                  <div key={`${item.id}-${item.selectedSize}-${index}`} className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-medium text-gray-800 truncate">
+                            {item.name}
+                          </h4>
+                          <p className="text-xs text-gray-600 mb-1">
+                            {item.category} {item.selectedConfiguration.size && `• ${item.selectedConfiguration.size}`} {item.selectedConfiguration.color && `• ${item.selectedConfiguration.color}`}
+                          </p>
+                          <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                            {formatPrice(item.price)}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-gray-800 truncate">
-                          {item.name}
-                        </h4>
-                        <p className="text-xs text-gray-600 mb-2">
-                          {item.category} {item.selectedConfiguration.size && `• ${item.selectedConfiguration.size}`} {item.selectedConfiguration.color && `• ${item.selectedConfiguration.color}`}
-                        </p>
 
-                        <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-                          {formatPrice(item.price)}
-                        </p>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() => handleQuantityChange(item, item.quantity - 1)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 text-gray-600"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                          </svg>
-                        </button>
-                        <span className="w-8 text-center text-sm font-medium text-gray-800">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => handleQuantityChange(item, item.quantity + 1)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-brand-primary hover:border-brand-primary transition-all duration-200 text-gray-600 hover:text-white"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                          </svg>
-                        </button>
+                      {/* Quantity controls - moved to separate row on mobile */}
+                      <div className="flex items-center justify-between sm:justify-end">
+                        <span className="text-sm text-gray-600 sm:hidden">Quantity:</span>
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                            className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 text-gray-600"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            </svg>
+                          </button>
+                          <span className="w-8 text-center text-sm font-medium text-gray-800">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                            className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-brand-primary hover:border-brand-primary transition-all duration-200 text-gray-600 hover:text-white"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
