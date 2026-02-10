@@ -5,11 +5,24 @@
 /* Custom base styles */
 @layer base {
   :root {
-    --brand-primary: #0f0f0f;
-    --brand-secondary: #c50000;
-    --brand-accent: #eb3838;
+    /* Default brand colors - overridden by color scheme from store settings */
+    --brand-primary: #18181b;
+    /* Zinc-900 */
+    --brand-secondary: #71717a;
+    /* Zinc-500 */
+    --brand-accent: #27272a;
+    /* Zinc-800 */
     --brand-light: #ffffff;
-    --brand-dark: #a10000;
+    --brand-dark: #09090b;
+    /* Zinc-950 */
+
+    /* Color Scheme Variables - defaults, overridden by _app.js when a scheme is selected */
+    --color-primary: #18181b;
+    --color-secondary: #27272a;
+    --color-accent: #3f3f46;
+    --color-background: #fafafa;
+    --color-text: #18181b;
+    --color-button-text: #ffffff;
   }
 
   html {
@@ -30,19 +43,32 @@
 /* Custom components */
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    background-color: var(--color-primary);
+    color: var(--color-button-text);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-secondary);
   }
 
   .btn-secondary {
-    @apply bg-secondary-200 hover:bg-secondary-300 text-secondary-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-200;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-button-text);
   }
 
   .glass-card {
-    @apply bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg;
+    @apply bg-white/80 backdrop-blur-sm border border-gray-100 rounded-xl shadow-sm;
   }
 
   .container-custom {
@@ -50,17 +76,78 @@
   }
 
   .loading {
-    @apply inline-block w-5 h-5 border-2 border-gray-200 border-t-primary-600 rounded-full animate-spin;
+    @apply inline-block w-5 h-5 border-2 border-gray-200 rounded-full animate-spin;
+    border-top-color: var(--color-primary);
+  }
+
+  /* Color Scheme Utility Classes */
+  .bg-scheme-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-scheme-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .bg-scheme-accent {
+    background-color: var(--color-accent);
+  }
+
+  .bg-scheme-background {
+    background-color: var(--color-background);
+  }
+
+  .text-scheme-primary {
+    color: var(--color-primary);
+  }
+
+  .text-scheme-secondary {
+    color: var(--color-secondary);
+  }
+
+  .text-scheme-accent {
+    color: var(--color-accent);
+  }
+
+  .text-scheme-text {
+    color: var(--color-text);
+  }
+
+  .text-scheme-button {
+    color: var(--color-button-text);
+  }
+
+  .border-scheme-primary {
+    border-color: var(--color-primary);
+  }
+
+  .border-scheme-secondary {
+    border-color: var(--color-secondary);
+  }
+
+  .border-scheme-accent {
+    border-color: var(--color-accent);
+  }
+
+  .ring-scheme-primary {
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 /* Custom utilities */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .shadow-glow {
     box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+  }
+
+  .shadow-scheme-glow {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent);
   }
 }

@@ -9,7 +9,7 @@ import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 // Configuration Variables
 const ORDER_SUCCESS_CONFIG = {
   // Currency & Formatting
-  locale: SITE_CONFIG.locale,
+  locale: SITE_CONFIG?.locale || 'en-US',
 
   // UI Text
   loadingText: 'Loading order details...',
@@ -198,7 +198,7 @@ export default function OrderSuccessPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-brand-primary mb-2">{ORDER_SUCCESS_CONFIG.successTitle}</h1>
+            <h1 className="text-3xl font-bold text-green-600 mb-2">{ORDER_SUCCESS_CONFIG.successTitle}</h1>
             <p className="text-lg text-gray-600 mb-4">
               {ORDER_SUCCESS_CONFIG.successMessage}
             </p>
@@ -222,7 +222,7 @@ export default function OrderSuccessPage() {
             <div className="space-y-6">
               {/* Delivery Information */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-lg font-semibold text-brand-primary mb-4">Delivery Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Delivery Information</h3>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-8 h-8 bg-brand-light rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -279,7 +279,7 @@ export default function OrderSuccessPage() {
 
               {/* Contact Information */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-lg font-semibold text-brand-primary mb-4">Contact Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm font-medium text-gray-700">Email</p>
@@ -299,8 +299,8 @@ export default function OrderSuccessPage() {
               </div>
 
               {/* What's Next */}
-              <div className="bg-brand-light border border-brand-secondary rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-brand-primary mb-4">What happens next?</h3>
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">What happens next?</h3>
                 <div className="space-y-3">
                   {ORDER_SUCCESS_CONFIG.deliverySteps.map((deliveryStep, index) => (
                     <div key={index} className="flex items-start space-x-3">
@@ -319,7 +319,7 @@ export default function OrderSuccessPage() {
 
             {/* Order Summary */}
             <div className="bg-white rounded-lg shadow-sm p-6 h-fit">
-              <h3 className="text-lg font-semibold text-brand-primary mb-4">Order Summary</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
 
               {/* Items */}
               <div className="space-y-4 mb-6">
@@ -388,14 +388,14 @@ export default function OrderSuccessPage() {
                 <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between">
                     <span className="text-base font-semibold text-gray-900">Total (COD)</span>
-                    <span className="text-base font-semibold text-brand-primary">{formatPrice(orderData.summary.total)}</span>
+                    <span className="text-base font-semibold text-gray-900">{formatPrice(orderData.summary.total)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="mt-6 space-y-3">
-                <Link href={ORDER_SUCCESS_CONFIG.shopRoute} className="w-full bg-brand-primary hover:bg-brand-dark text-white block text-center py-3 rounded-lg font-medium transition-colors duration-200">
+                <Link href={ORDER_SUCCESS_CONFIG.shopRoute} className="w-full bg-gray-900 hover:bg-gray-800 text-white block text-center py-3 rounded-lg font-medium transition-colors duration-200">
                   {ORDER_SUCCESS_CONFIG.shopMoreButtonText}
                 </Link>
                 <button
@@ -411,4 +411,28 @@ export default function OrderSuccessPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req, query }) {
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
+
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+
+  if (!storeSlug) {
+    return { props: { store: null, storeSlug: null } };
+  }
+
+  try {
+    const storeRes = await storefrontApi.getStore(storeSlug).catch(() => ({ success: false }));
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+      },
+    };
+  } catch (error) {
+    return { props: { store: null, storeSlug } };
+  }
 } 

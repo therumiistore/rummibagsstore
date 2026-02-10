@@ -1,26 +1,28 @@
-import { fetchClientProducts, fetchClientCategories, fetchClientBanners } from '@/lib/fetchProducts';
-import SITE_CONFIG, { getPageMeta, getBusinessInfo, getSchemaConfig, isDevelopment } from '@/config/siteConfig';
+/**
+ * Homepage - Dynamic Storefront
+ * Fetches content based on store domain/subdomain
+ */
+
 import Head from 'next/head';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Categories from '@/components/Categories';
 import Products from '@/components/Products';
 import Reviews from '@/components/Reviews';
-
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import storefrontApi, { resolveStoreSlug } from '@/lib/storefrontApi';
 
-export default function Home({ products, categories, banners, clientInfo }) {
-  const pageMeta = getPageMeta('home');
+export default function Home({ store, products, categories, banners, reviews }) {
+  const storeName = store?.name || 'Store';
+  const description = store?.description || 'Welcome to our online store';
 
   return (
     <>
       <Head>
-        <title>{pageMeta.title}</title>
-        <meta name="description" content={pageMeta.description} />
-        <meta name="keywords" content={pageMeta.keywords} />
+        <title>{storeName}</title>
+        <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={SITE_CONFIG.faviconPath} type="image/png" sizes={SITE_CONFIG.faviconSize} />
+        {store?.favicon && <link rel="icon" href={store.favicon} />}
       </Head>
 
       <div className="min-h-screen bg-gray-50">
@@ -28,64 +30,74 @@ export default function Home({ products, categories, banners, clientInfo }) {
         <Hero banners={banners} />
         <Categories categories={categories} />
         <Products products={products} categories={categories} />
-        <Reviews />
+        <Reviews reviews={reviews} />
         <Footer />
-        {/* Add bottom padding for mobile navigation bar */}
-        {/* Just Typing for repo update */}
+        {/* Bottom padding for mobile nav */}
         <div className="lg:hidden h-16"></div>
       </div>
     </>
   );
 }
 
-export async function getStaticProps() {
-  try {
-    console.log('Fetching products and categories for homepage...');
+export async function getServerSideProps(context) {
+  const { req, query } = context;
+  const host = req.headers.host || '';
 
-    const schemaConfig = getSchemaConfig();
-    const businessInfo = getBusinessInfo();
+  // Resolve store slug from domain or query param
+  const storeSlug = resolveStoreSlug(host, query);
 
-    // Fetch products and categories at build time
-    const [products, categories, banners] = await Promise.all([
-      fetchClientProducts(schemaConfig.productsSchemaSlug),
-      fetchClientCategories(schemaConfig.categoriesSchemaSlug),
-      fetchClientBanners(schemaConfig.bannersSchemaSlug)
-    ]);
-
-    // Client info from configuration
-    const clientInfo = businessInfo;
-
-    console.log(`Homepage: Successfully fetched ${products.length} products, ${categories.length} categories, and ${banners.length} banners`);
-
+  if (!storeSlug) {
     return {
       props: {
-        products,
-        categories,
-        banners,
-        clientInfo,
-      },
-      // Pure SSG - no revalidation (compatible with static export)
-    };
-  } catch (error) {
-    console.error('Error in getStaticProps (homepage):', error);
-
-    // In development, this might be expected if using local JSON
-    // In production, this indicates an API issue
-    const isDevMode = isDevelopment();
-
-    return {
-      props: {
+        store: null,
+        storeSlug: null,
         products: [],
         categories: [],
         banners: [],
-        clientInfo: {
-          ...getBusinessInfo(),
-          description: isDevMode
-            ? SITE_CONFIG.development.fallbackMessage + ' - check your data/products.json, data/categories.json, and data/banners.json files'
-            : SITE_CONFIG.production.fallbackMessage
-        }
+        error: 'No store found. Use ?store=yourstore in development.',
       },
-      // Pure SSG - no revalidation
     };
   }
-} 
+
+  try {
+    // Fetch all store data in parallel
+    const [storeRes, productsRes, categoriesRes, bannersRes, reviewsRes] = await Promise.all([
+      storefrontApi.getStore(storeSlug).catch(() => ({ success: false })),
+      storefrontApi.getProducts(storeSlug, { limit: 20 }).catch(() => ({ success: false, data: { products: [] } })),
+      storefrontApi.getCategories(storeSlug).catch(() => ({ success: false, data: [] })),
+      storefrontApi.getBanners(storeSlug).catch(() => ({ success: false, data: [] })),
+      storefrontApi.getReviews(storeSlug).catch(() => ({ success: false, data: [] })),
+    ]);
+
+    if (!storeRes.success) {
+      return {
+        notFound: true,
+      };
+    }
+
+
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+        products: productsRes.data?.products || [],
+        categories: categoriesRes.data || [],
+        categories: categoriesRes.data || [],
+        banners: bannersRes.data || [],
+        reviews: reviewsRes?.data || [],
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+    return {
+      props: {
+        store: null,
+        storeSlug,
+        products: [],
+        categories: [],
+        banners: [],
+        error: 'Failed to load store data',
+      },
+    };
+  }
+}

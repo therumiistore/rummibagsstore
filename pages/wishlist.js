@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { useWishlist } from '@/lib/WishlistContext';
 import { useCart } from '@/lib/CartContext';
 import { useNotification } from '@/lib/NotificationContext';
-import SizeSelectionPopup from '@/components/SizeSelectionPopup';
+import VariantSelectionPopup from '@/components/VariantSelectionPopup';
 import ProductCard from '@/components/ProductCard';
 
 export default function Wishlist() {
@@ -148,11 +148,35 @@ export default function Wishlist() {
       </div>
 
       {/* Size Selection Popup */}
-      <SizeSelectionPopup
+      <VariantSelectionPopup
         product={sizePopup.product}
         isOpen={sizePopup.isOpen}
         onClose={closeSizePopup}
       />
     </>
   );
+}
+
+export async function getServerSideProps({ req, query }) {
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
+
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+
+  if (!storeSlug) {
+    return { props: { store: null, storeSlug: null } };
+  }
+
+  try {
+    const storeRes = await storefrontApi.getStore(storeSlug).catch(() => ({ success: false }));
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+      },
+    };
+  } catch (error) {
+    return { props: { store: null, storeSlug } };
+  }
 } 

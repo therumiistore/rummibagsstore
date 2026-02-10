@@ -6,14 +6,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/lib/CartContext';
 import { useNotification } from '@/lib/NotificationContext';
+import { useStore } from '@/lib/StoreContext';
 import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 
 // Configuration Variables
 const CHECKOUT_CONFIG = {
   // Currency & Pricing
-  currency: SITE_CONFIG.currency || 'PKR',
-  freeShippingThreshold: SITE_CONFIG.shipping.freeShippingThreshold,
-  shippingFee: SITE_CONFIG.shipping.shippingFee,
+  currency: SITE_CONFIG?.currency || 'PKR',
+  freeShippingThreshold: SITE_CONFIG?.shipping?.freeShippingThreshold || 5000,
+  shippingFee: SITE_CONFIG?.shipping?.shippingFee || 200,
 
   // Form Placeholders (Pakistani context)
   placeholders: {
@@ -32,7 +33,7 @@ const CHECKOUT_CONFIG = {
   // UI Text
   emptyCartTitle: 'Your cart is empty',
   emptyCartMessage: 'Add some fashion items to your cart before checking out.',
-  browseButtonText: '👗 Browse Products',
+  browseButtonText: 'Browse Products',
   submitButtonText: 'Proceed to Payment',
   processingText: 'Processing...',
 
@@ -50,7 +51,7 @@ const CHECKOUT_CONFIG = {
   paymentRoute: '/payment',
 
   // Return Policy
-  returnPolicyDays: SITE_CONFIG.payment.returnPolicyDays,
+  returnPolicyDays: SITE_CONFIG?.payment?.returnPolicyDays || 7,
   returnPolicyText: 'Shop with confidence! Quality guarantee & returns within 7 days for quality issues.'
 };
 
@@ -58,6 +59,12 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, itemCount, updateQuantity, removeItem } = useCart();
   const { showErrorNotification } = useNotification();
+  const { currencySymbol, shippingFee: storeShippingFee, freeShippingThreshold: storeFreeShipping } = useStore();
+
+  // Use store values or fallback to config
+  const currency = currencySymbol || CHECKOUT_CONFIG.currency;
+  const shippingFee = parseFloat(storeShippingFee || CHECKOUT_CONFIG.shippingFee);
+  const freeShippingThreshold = parseFloat(storeFreeShipping || CHECKOUT_CONFIG.freeShippingThreshold);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
@@ -81,7 +88,8 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState({});
 
   const formatPrice = (price) => {
-    return `${CHECKOUT_CONFIG.currency} ${price.toFixed(0)}`;
+    const val = parseFloat(price) || 0;
+    return `${currency} ${val.toFixed(0)}`;
   };
 
   const handleInputChange = (e) => {
@@ -152,16 +160,17 @@ export default function CheckoutPage() {
 
     try {
       // Calculate shipping fee
-      const shippingFee = totalPrice >= CHECKOUT_CONFIG.freeShippingThreshold ? 0 : CHECKOUT_CONFIG.shippingFee;
-      const finalTotal = totalPrice + shippingFee;
+      const numericTotalPrice = parseFloat(totalPrice) || 0;
+      const calculatedShippingFee = numericTotalPrice >= freeShippingThreshold ? 0 : shippingFee;
+      const finalTotal = numericTotalPrice + calculatedShippingFee;
 
       // Prepare order data
       const orderData = {
         customer: formData,
         items: items,
         summary: {
-          subtotal: totalPrice,
-          shippingFee: shippingFee,
+          subtotal: numericTotalPrice,
+          shippingFee: calculatedShippingFee,
           total: finalTotal,
           itemCount
         },
@@ -201,9 +210,9 @@ export default function CheckoutPage() {
             <div className="w-32 h-32 bg-gradient-to-br from-brand-primary to-brand-accent rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-6xl">{CHECKOUT_CONFIG.emptyCartIcon}</span>
             </div>
-            <h1 className="text-3xl font-bold text-brand-primary mb-3">{CHECKOUT_CONFIG.emptyCartTitle}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-3">{CHECKOUT_CONFIG.emptyCartTitle}</h1>
             <p className="text-gray-600 mb-6">{CHECKOUT_CONFIG.emptyCartMessage}</p>
-            <Link href={CHECKOUT_CONFIG.shopRoute} className="bg-gradient-to-r from-brand-primary to-brand-accent text-white px-8 py-3 rounded-lg font-semibold hover:from-brand-accent hover:to-brand-primary transition-all duration-300">
+            <Link href={CHECKOUT_CONFIG.shopRoute} className="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
               {CHECKOUT_CONFIG.browseButtonText}
             </Link>
           </div>
@@ -226,13 +235,13 @@ export default function CheckoutPage() {
           {/* Header */}
           <div className="mb-8">
             <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-              <Link href="/shop" className="hover:text-brand-accent transition-colors">👗 Shop</Link>
+              <Link href="/shop" className="hover:text-brand-accent transition-colors">Shop</Link>
               <span>→</span>
               <span className="text-brand-primary font-medium">Checkout</span>
             </nav>
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                <span className="bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">{getPageMeta('checkout').title}</span>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                {getPageMeta('checkout').title}
               </h1>
               <p className="text-gray-600">{getPageMeta('checkout').description}</p>
             </div>
@@ -245,7 +254,7 @@ export default function CheckoutPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Customer Information */}
                 <div>
-                  <h3 className="text-xl font-bold text-brand-primary mb-4 flex items-center">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
                     <span className="text-2xl mr-2">{CHECKOUT_CONFIG.customerIcon}</span>
                     Customer Information
                   </h3>
@@ -310,7 +319,7 @@ export default function CheckoutPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-50 border rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition-all duration-200 ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-4 py-3 bg-gray-50 border rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200 ${errors.phone ? 'border-red-500' : 'border-gray-300'
                           }`}
                         placeholder={CHECKOUT_CONFIG.placeholders.phone}
                       />
@@ -321,7 +330,7 @@ export default function CheckoutPage() {
 
                 {/* Delivery Address */}
                 <div>
-                  <h3 className="text-xl font-bold text-brand-primary mb-4 flex items-center">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
                     <span className="text-2xl mr-2">{CHECKOUT_CONFIG.deliveryIcon}</span>
                     Delivery Address
                   </h3>
@@ -413,7 +422,7 @@ export default function CheckoutPage() {
 
                 {/* Additional Information */}
                 <div>
-                  <h3 className="text-xl font-bold text-brand-primary mb-4 flex items-center">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
                     <span className="text-2xl mr-2">{CHECKOUT_CONFIG.notesIcon}</span>
                     Additional Information
                   </h3>
@@ -440,7 +449,7 @@ export default function CheckoutPage() {
                     disabled={isProcessing}
                     className={`w-full py-4 px-6 rounded-lg font-bold text-lg transition-all duration-200 ${isProcessing
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-brand-primary to-brand-accent hover:from-brand-accent hover:to-brand-primary transform hover:scale-105'
+                      : 'bg-gray-900 hover:bg-gray-800 transform hover:scale-105'
                       } text-white`}
                   >
                     {isProcessing ? (
@@ -461,7 +470,7 @@ export default function CheckoutPage() {
 
             {/* Order Summary */}
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 h-fit">
-              <h3 className="text-xl font-bold text-brand-primary mb-6 flex items-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
                 <span className="text-2xl mr-2">{CHECKOUT_CONFIG.summaryIcon}</span>
                 Order Summary
               </h3>
@@ -485,9 +494,12 @@ export default function CheckoutPage() {
                             {item.name}
                           </h4>
                           <p className="text-xs text-gray-600 mb-1">
-                            {item.category} {item.selectedConfiguration.size && `• ${item.selectedConfiguration.size}`} {item.selectedConfiguration.color && `• ${item.selectedConfiguration.color}`}
+                            {item.category}
+                            {item.selectedConfiguration && Object.entries(item.selectedConfiguration).map(([key, value]) => (
+                              value && <span key={key}> • {typeof value === 'object' ? value.name : value}</span>
+                            ))}
                           </p>
-                          <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                          <p className="text-sm font-semibold text-gray-900">
                             {formatPrice(item.price)}
                           </p>
                         </div>
@@ -510,7 +522,7 @@ export default function CheckoutPage() {
                           </span>
                           <button
                             onClick={() => handleQuantityChange(item, item.quantity + 1)}
-                            className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-brand-primary hover:border-brand-primary transition-all duration-200 text-gray-600 hover:text-white"
+                            className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-900 hover:border-gray-900 transition-all duration-200 text-gray-600 hover:text-white"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -532,21 +544,21 @@ export default function CheckoutPage() {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium text-green-600">
-                    {totalPrice >= CHECKOUT_CONFIG.freeShippingThreshold ? 'FREE' : formatPrice(CHECKOUT_CONFIG.shippingFee)}
+                    {totalPrice >= freeShippingThreshold ? 'FREE' : formatPrice(shippingFee)}
                   </span>
                 </div>
                 <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between">
                     <span className="text-base font-semibold text-gray-800">Total</span>
-                    <span className="text-base font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-                      {formatPrice(totalPrice >= CHECKOUT_CONFIG.freeShippingThreshold ? totalPrice : totalPrice + CHECKOUT_CONFIG.shippingFee)}
+                    <span className="text-base font-semibold text-gray-900">
+                      {formatPrice(totalPrice >= freeShippingThreshold ? totalPrice : totalPrice + shippingFee)}
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Payment Method */}
-              <div className="mt-6 p-4 bg-gradient-to-r from-brand-primary to-brand-accent rounded-lg">
+              <div className="mt-6 p-4 bg-gray-900 rounded-lg">
                 <div className="flex items-center space-x-3 text-white">
                   <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                     <span className="text-lg">{CHECKOUT_CONFIG.paymentIcon}</span>
@@ -572,10 +584,10 @@ export default function CheckoutPage() {
               </div>
 
               {/* Free Shipping Info */}
-              {totalPrice < CHECKOUT_CONFIG.freeShippingThreshold && (
-                <div className="mt-4 p-3 bg-brand-light border border-brand-secondary rounded-lg">
-                  <p className="text-brand-primary text-sm text-center">
-                    🚚 Add {formatPrice(CHECKOUT_CONFIG.freeShippingThreshold - totalPrice)} more for FREE shipping!
+              {totalPrice < freeShippingThreshold && (
+                <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-amber-800 text-sm text-center">
+                    🚚 Add {formatPrice(freeShippingThreshold - totalPrice)} more for FREE shipping!
                   </p>
                 </div>
               )}
@@ -585,4 +597,28 @@ export default function CheckoutPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req, query }) {
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
+
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+
+  if (!storeSlug) {
+    return { props: { store: null, storeSlug: null } };
+  }
+
+  try {
+    const storeRes = await storefrontApi.getStore(storeSlug).catch(() => ({ success: false }));
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+      },
+    };
+  } catch (error) {
+    return { props: { store: null, storeSlug } };
+  }
 } 

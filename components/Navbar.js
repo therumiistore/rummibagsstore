@@ -1,247 +1,366 @@
+/**
+ * Dynamic Navbar Component
+ * Uses store context for branding, contact info, and custom navigation links
+ */
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/CartContext';
 import { useWishlist } from '@/lib/WishlistContext';
-import Image from 'next/image';
+import { useStoreOptional } from '@/lib/StoreContext';
 import { useRouter } from 'next/router';
 
-import logo from '@/public/assets/rumiistorelogo.jpg';
-
-const Navbar = () => {
+const Navbar = ({
+  previewMode = false,
+  previewAppearance = null,
+  previewLinks = null,
+  previewLogo = null,
+  previewStoreName = null,
+  previewColorScheme = null
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSweetsSubmenuOpen, setIsSweetsSubmenuOpen] = useState(false);
-  const [isMobileSweetsOpen, setIsMobileSweetsOpen] = useState(false);
   const [showBottomNav, setShowBottomNav] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const { itemCount, toggleCart } = useCart();
   const { wishlistCount } = useWishlist();
   const router = useRouter();
+  const storeContext = useStoreOptional();
+
+  // Dynamic store info from context OR props
+  const storeName = previewMode ? (previewStoreName || 'Store') : (storeContext?.storeName || 'Store');
+  const phone = previewMode ? '123-456-7890' : (storeContext?.phone || '');
+  const email = previewMode ? 'contact@store.com' : (storeContext?.email || '');
+  const address = previewMode ? '123 Store St, City' : (storeContext?.address || '');
+  const logo = previewMode ? previewLogo : storeContext?.logo;
+
+  // Appearance: use preview if available, otherwise context
+  const navbarAppearance = previewMode
+    ? (previewAppearance || {})
+    : (storeContext?.store?.appearance?.navbar || {});
+
+  // Helper to convert hex to rgba
+  const hexToRgba = (hex, opacity) => {
+    if (!hex) return '';
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`;
+  };
+
+  const backgroundColor = navbarAppearance.backgroundColor || '#ffffff';
+  const backgroundOpacity = navbarAppearance.backgroundOpacity ?? 100;
+  const navbarBgColor = hexToRgba(backgroundColor, backgroundOpacity);
+
+  const linkColor = navbarAppearance.linkColor || '#374151';
+  const linkOpacity = navbarAppearance.linkOpacity ?? 100;
+  const navbarLinkColor = hexToRgba(linkColor, linkOpacity);
+
+  const hTextColor = navbarAppearance.hoverTextColor || '#4f46e5';
+  const hTextOpacity = navbarAppearance.hoverTextOpacity ?? 100;
+  const hoverTextColor = hexToRgba(hTextColor, hTextOpacity);
+
+  const hBgColor = navbarAppearance.hoverBackgroundColor || '#f9fafb';
+  const hBgOpacity = navbarAppearance.hoverBackgroundOpacity ?? 100;
+  const hoverBackgroundColor = hexToRgba(hBgColor, hBgOpacity);
+
+  const subBgColor = navbarAppearance.submenuBackgroundColor || '#ffffff';
+  const subBgOpacity = navbarAppearance.submenuBackgroundOpacity ?? 100;
+  const submenuBgColor = hexToRgba(subBgColor, subBgOpacity);
+
+  const subLinkColor = navbarAppearance.submenuLinkColor || '#374151';
+  const subLinkOpacity = navbarAppearance.submenuLinkOpacity ?? 100;
+  const submenuLinkColor = hexToRgba(subLinkColor, subLinkOpacity);
+
+  const subHoverTextColor = navbarAppearance.submenuHoverTextColor || '#4f46e5';
+  const subHoverTextOpacity = navbarAppearance.submenuHoverTextOpacity ?? 100;
+  const submenuHoverTextColor = hexToRgba(subHoverTextColor, subHoverTextOpacity);
+
+  const subHoverBgColor = navbarAppearance.submenuHoverBackgroundColor || '#f9fafb';
+  const subHoverBgOpacity = navbarAppearance.submenuHoverBackgroundOpacity ?? 100;
+  const submenuHoverBackgroundColor = hexToRgba(subHoverBgColor, subHoverBgOpacity);
+
+  // Default nav links (fallback)
+  const defaultNavLinks = [
+    { id: 'home', label: 'HOME', href: '/', showOnNavbar: true, sublinks: [] },
+    { id: 'shop', label: 'SHOP', href: '/shop', showOnNavbar: true, sublinks: [] },
+    { id: 'contact', label: 'CONTACT', href: '/contact', showOnNavbar: true, sublinks: [] }
+  ];
+
+  // Use custom links if available, otherwise fallback to defaults
+  // Filter out links where showOnNavbar is explicitly false
+  const allNavLinks = previewMode
+    ? (previewLinks || defaultNavLinks)
+    : (storeContext?.navbarLinks && storeContext.navbarLinks.length > 0
+      ? storeContext.navbarLinks
+      : defaultNavLinks);
+
+  const navLinks = allNavLinks.filter(link => link.showOnNavbar !== false);
 
   useEffect(() => {
     const toggleBottomNavVisibility = () => {
-      // Show bottom nav when user scrolls down 10% of the page
       const scrolled = document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       const scrollPercentage = (scrolled / (documentHeight - windowHeight)) * 100;
-
-      if (scrollPercentage > 4) {
-        setShowBottomNav(true);
-      } else {
-        setShowBottomNav(false);
-      }
+      setShowBottomNav(scrollPercentage > 4);
     };
 
     window.addEventListener('scroll', toggleBottomNavVisibility);
-
-    return () => {
-      window.removeEventListener('scroll', toggleBottomNavVisibility);
-    };
+    return () => window.removeEventListener('scroll', toggleBottomNavVisibility);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    setIsMobileSweetsOpen(false); // Close submenu when main menu closes
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const toggleMobileSweetsSubmenu = () => {
-    setIsMobileSweetsOpen(!isMobileSweetsOpen);
-  };
-
-  const bagCategories = [
-    {
-      name: 'Ladies Bags',
-      href: '/category/ladies-bags',
-      image: 'https://images.unsplash.com/photo-1559563458-527698bf5295?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bGFkaWVzJTIwYmFnc3xlbnwwfHwwfHx8MA%3D%3D',
-      subcategories: ['Designer Bags', 'Casual Bags', 'Work Bags', 'Evening Bags']
-    },
-    {
-      name: 'Hand Bags',
-      href: '/category/hand-bags',
-      image: 'https://images.unsplash.com/photo-1524498250077-390f9e378fc0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGFuZCUyMGJhZ3N8ZW58MHx8MHx8fDA%3D',
-      subcategories: ['Leather Handbags', 'Canvas Handbags', 'Mini Handbags', 'Large Handbags']
-    },
-    {
-      name: 'Shoulder Bags',
-      href: '/category/shoulder-bags',
-      image: 'https://images.pexels.com/photos/4077319/pexels-photo-4077319.jpeg',
-      subcategories: ['Casual Shoulder', 'Office Shoulder', 'Travel Shoulder', 'Chain Shoulder']
-    },
-    {
-      name: 'Crossbody Bags',
-      href: '/category/crossbody-bags',
-      image: 'https://images.pexels.com/photos/17550987/pexels-photo-17550987.jpeg',
-      subcategories: ['Mini Crossbody', 'Travel Crossbody', 'Phone Crossbody', 'Camera Crossbody']
-    },
-    {
-      name: 'Tote Bags',
-      href: '/category/tote-bags',
-      image: 'https://images.unsplash.com/photo-1647742313922-fe9597734836?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fFRvdGUlMjBCYWdzfGVufDB8fDB8fHww',
-      subcategories: ['Canvas Tote', 'Leather Tote', 'Shopping Tote', 'Beach Tote']
-    },
-    {
-      name: 'Clutch Bags',
-      href: '/category/clutch-bags',
-      image: 'https://images.pexels.com/photos/31039968/pexels-photo-31039968.jpeg',
-      subcategories: ['Evening Clutch', 'Wedding Clutch', 'Beaded Clutch', 'Chain Clutch']
+  // Dynamic Styles
+  const dynamicStyles = `
+    .nav-item-custom:hover {
+        color: ${hoverTextColor} !important;
+        background-color: ${hoverBackgroundColor};
     }
-  ];
+    .dropdown-item-custom:hover {
+        color: ${submenuHoverTextColor} !important;
+        background-color: ${submenuHoverBackgroundColor};
+    }
+    /* Mobile Menu Link Hover */
+    .mobile-nav-item:hover {
+        color: ${hoverTextColor} !important;
+        background-color: ${hoverBackgroundColor};
+    }
+  `;
 
-  const navLinks = [
-    { name: 'HOME', href: '/' },
-    { name: 'LADIES BAGS', href: '/category/ladies-bags' },
-    { name: 'HANDBAGS', href: '/category/hand-bags' },
-    { name: 'SHOULDER BAGS', href: '/category/shoulder-bags' },
-    { name: 'ALL BAGS', href: '/category/all-bags', hasSubmenu: true },
-    { name: 'CONTACT', href: '/contact' }
-  ];
+  // Color Scheme Application
+  const activeColorScheme = previewMode
+    ? (previewColorScheme || storeContext?.store?.appearance?.colorScheme)
+    : storeContext?.store?.appearance?.colorScheme;
+
+  const accentColor = activeColorScheme?.colors?.accent || '#4f46e5'; // Default indigo-600
+  const buttonTextColor = activeColorScheme?.colors?.buttonText || '#ffffff';
 
   return (
     <>
-      {/* Header Bar with Contact Info */}
-      <div className="bg-brand-primary text-white text-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-2">
-            {/* Mobile - Show only location */}
-            <div className="flex items-center space-x-2 md:hidden">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-              </svg>
-              <span>Lahore, Pakistan</span>
-            </div>
-
-            {/* Desktop - Show all contact info */}
-            <div className="hidden md:flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                </svg>
-                <span>+66960840271</span>
+      <style>{dynamicStyles}</style>
+      {/* Top Bar with Contact Info - Hidden in Preview Mode */}
+      {!previewMode && (phone || email) && (
+        <div className="bg-gray-900 text-white text-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-2">
+              <div className="flex items-center space-x-4">
+                {phone && (
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                    </svg>
+                    <span className="hidden sm:inline">{phone}</span>
+                  </div>
+                )}
+                {email && (
+                  <div className="hidden md:flex items-center space-x-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>{email}</span>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center space-x-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-                <span>therumiistore@gmail.com</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                </svg>
-                <span>Lahore, Pakistan</span>
-              </div>
-            </div>
-            <div className="hidden sm:flex items-center space-x-4">
-              <span className="text-brand-secondary">Follow Us:</span>
-              <div className="flex items-center space-x-3">
-                <a href="https://www.facebook.com/zohasattire" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">
+              {address && (
+                <div className="flex items-center space-x-2 text-gray-300">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
-                </a>
-                <a href="#" className="hover:text-gray-600 transition-colors">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.357-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z" />
-                  </svg>
-                </a>
-              </div>
+                  <span className="hidden sm:inline">{address}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <nav className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-200">
-        {/* Single Row Navigation */}
-        <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className={`shadow-lg border-b border-gray-200 transition-colors duration-300 ${previewMode ? 'relative' : 'sticky top-0 z-50'}`} style={{ backgroundColor: navbarBgColor }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
-            {/* Mobile Menu Button - Left side */}
-            <button
-              onClick={toggleMenu}
-              className="lg:hidden text-brand-primary transition-colors duration-300"
-            >
+            {/* Mobile Menu Button */}
+            <button onClick={toggleMenu} className="lg:hidden" style={{ color: navbarLinkColor }}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
 
-            {/* Brand Logo - Left */}
+            {/* Logo */}
             <Link href="/" className="flex items-center">
-              <div className="flex items-center justify-center text-center">
-                {/* Fashion Icon - Always visible */}
-                {/* <div className="relative mr-3">
-                  <svg className="w-8 h-8 sm:w-10 sm:h-10 text-brand-accent" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-brand-accent opacity-80"></div>
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full opacity-60"></div>
-                </div> */}
-                {/* Company Logo - visible on mobile, smaller size */}
-                <Image src={logo} alt="Brand Logo" className='mr-2' width={58} height={58} />
-                {/* Logo text - hidden on mobile, visible on larger screens */}
-                <div className="hidden sm:block text-lg sm:text-xl lg:text-2xl font-bold tracking-wide">
-                  <span className="text-brand-primary">
-                    RUMII
-                  </span>
-                  <span className="ml-1 sm:ml-2 font-light text-brand-accent">STORE</span>
-                </div>
-              </div>
+              {(() => {
+                // Determine appearance object based on mode
+                const appearance = previewMode
+                  ? (previewAppearance || {})
+                  : (storeContext?.store?.appearance?.navbar || {});
+
+                // Desktop Settings
+                const logoType = appearance.logoType || (logo ? 'image' : 'text');
+                const logoUrl = appearance.logoUrl || logo;
+                const logoText = appearance.logoText || storeName;
+                const logoHeight = appearance.logoHeight || 40;
+                const textSize = appearance.textSize || 20;
+                const textColor = appearance.textColor || '#111827';
+
+                // Mobile Settings
+                const mobileLogoType = appearance.mobileLogoType || logoType;
+                const mobileLogoHeight = appearance.mobileLogoHeight || 30;
+                const mobileTextSize = appearance.mobileTextSize || 18;
+
+                const renderLogo = (type, height, tSize, isMobile) => {
+                  if (type === 'image' && logoUrl) {
+                    return (
+                      <img
+                        src={logoUrl}
+                        alt={storeName}
+                        style={{ height: `${height}px` }}
+                        className={`w-auto mr-3 object-contain`}
+                      />
+                    );
+                  }
+
+                  if (type === 'text') {
+                    return (
+                      <span
+                        className="font-bold block truncate max-w-[200px]"
+                        style={{ color: textColor, fontSize: `${tSize}px` }}
+                      >
+                        {logoText}
+                      </span>
+                    );
+                  }
+
+                  if (type === 'both') {
+                    return (
+                      <div className="flex items-center gap-3">
+                        {logoUrl && (
+                          <img
+                            src={logoUrl}
+                            alt={storeName}
+                            style={{ height: `${height}px` }}
+                            className="w-auto object-contain"
+                          />
+                        )}
+                        <span
+                          className="font-bold block truncate max-w-[200px]"
+                          style={{ color: textColor, fontSize: `${tSize}px` }}
+                        >
+                          {logoText}
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  // Fallback
+                  return (
+                    <div className={`rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mr-3 ${isMobile ? 'w-8 h-8' : 'w-10 h-10'}`}>
+                      <span className="text-white font-bold" style={{ fontSize: isMobile ? '16px' : '18px' }}>{storeName.charAt(0)}</span>
+                    </div>
+                  );
+                };
+
+                return (
+                  <>
+                    {/* Mobile View */}
+                    <div className="md:hidden">
+                      {renderLogo(mobileLogoType, mobileLogoHeight, mobileTextSize, true)}
+                    </div>
+                    {/* Desktop View */}
+                    <div className="hidden md:block">
+                      {renderLogo(logoType, logoHeight, textSize, false)}
+                    </div>
+                  </>
+                );
+              })()}
+              {(!navbarAppearance?.logoType || navbarAppearance?.logoType === 'image') && !navbarAppearance?.logoUrl && !logo && (
+                <span className="text-xl font-bold hidden sm:block ml-3" style={{ color: navbarLinkColor }}>{storeName}</span>
+              )}
             </Link>
 
-            {/* Navigation Links - Center (Desktop) */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {navLinks.slice(0, 5).map((link) => (
-                <div key={link.name} className="relative">
-                  {link.hasSubmenu ? (
-                    <button
-                      onMouseEnter={() => setIsSweetsSubmenuOpen(true)}
-                      onMouseLeave={() => setIsSweetsSubmenuOpen(false)}
-                      className="font-medium transition-colors duration-300 px-3 py-2 rounded-md flex items-center space-x-1 hover:bg-gray-100 text-brand-primary"
-                    >
-                      <span>{link.name}</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  ) : (
+            {/* Desktop Nav Links with Dropdown Support */}
+            <div className="hidden lg:flex items-center space-x-6">
+              {navLinks.map((link) => {
+                const hasSublinks = link.sublinks && link.sublinks.length > 0;
+                const linkLabel = link.label || link.name;
+                const isActive = router.pathname === link.href;
+
+                return (
+                  <div
+                    key={link.id || linkLabel}
+                    className="relative group"
+                    onMouseEnter={() => hasSublinks && setActiveDropdown(link.id)}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
                     <Link
                       href={link.href}
-                      className="font-medium transition-colors duration-300 px-3 py-2 rounded-md hover:bg-gray-100 text-brand-primary"
+                      className={`font-medium px-3 py-2 rounded-md transition-colors flex items-center gap-1 nav-item-custom ${isActive ? 'active-link' : ''}`}
+                      style={{
+                        color: isActive ? hoverTextColor : navbarLinkColor,
+                        backgroundColor: isActive ? hoverBackgroundColor : undefined
+                      }}
                     >
-                      {link.name}
+                      {linkLabel}
+                      {hasSublinks && (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
                     </Link>
-                  )}
-                </div>
-              ))}
+                    {/* Dropdown Menu */}
+                    {hasSublinks && (
+                      <div className={`absolute top-full left-0 mt-1 w-48 rounded-lg shadow-xl border border-gray-100 py-2 transition-all z-50 ${activeDropdown === link.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`} style={{ backgroundColor: submenuBgColor }}>
+                        {link.sublinks.map((sub) => (
+                          <Link
+                            key={sub.id || sub.label}
+                            href={sub.href}
+                            className="block px-4 py-2 text-sm transition-colors dropdown-item-custom"
+                            style={{ color: submenuLinkColor }}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Action Buttons - Right side */}
+            {/* Action Buttons */}
             <div className="flex items-center space-x-3">
-              {/* Wishlist Button - Hidden on extra small mobile devices */}
-              <Link
-                href="/wishlist"
-                className="relative transition-colors duration-300 p-2 hidden sm:block hover:bg-gray-100 rounded-md text-brand-primary"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Wishlist */}
+              <Link href="/wishlist" className="relative p-2 hover:text-indigo-600 hidden sm:block" style={{ color: navbarLinkColor }}>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-brand-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
-              {/* Cart Button */}
+              {/* Cart */}
               <button
                 onClick={toggleCart}
-                className="relative px-3 py-2 sm:px-4 sm:py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center space-x-2 bg-brand-accent text-white"
+                className="relative px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 shadow-sm hover:opacity-90 active:scale-95 transform duration-100"
+                style={{
+                  backgroundColor: accentColor,
+                  color: buttonTextColor
+                }}
               >
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z" />
                 </svg>
-                <span className="hidden sm:inline font-medium text-sm">Cart</span>
+                <span className="hidden sm:inline font-medium">Cart</span>
                 {itemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-white text-brand-primary text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
+                  <span
+                    className="absolute -top-2 -right-2 text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold border-2"
+                    style={{
+                      backgroundColor: buttonTextColor,
+                      color: accentColor,
+                      borderColor: accentColor
+                    }}
+                  >
                     {itemCount}
                   </span>
                 )}
@@ -250,136 +369,63 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Full Width Submenu for ALL PRODUCTS */}
-        <div
-          className={`absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-200 transition-all duration-300 ease-in-out ${isSweetsSubmenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-            }`}
-          onMouseEnter={() => setIsSweetsSubmenuOpen(true)}
-          onMouseLeave={() => setIsSweetsSubmenuOpen(false)}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {bagCategories.map((category) => (
-                <Link
-                  key={category.name}
-                  href={category.href}
-                  className="group block rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 bg-brand-light"
-                >
-                  <div className="aspect-w-3 aspect-h-2 relative h-32">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-3 text-center">
-                    <h3 className="text-sm font-medium group-hover:transition-colors duration-300 text-brand-primary">
-                      {category.name}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out z-40 lg:hidden ${isMenuOpen ? 'bg-opacity-50 pointer-events-auto' : 'bg-opacity-0 pointer-events-none'
-          }`} onClick={toggleMenu}>
+        {/* Mobile Menu */}
+        <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={toggleMenu}>
           <div
-            className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-              }`}
+            className={`fixed top-0 right-0 h-full w-72 bg-white shadow-xl transform transition-transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Mobile Menu Header */}
-            <div className="flex justify-between items-center p-6 border-b border-gray-200">
-              <div className="flex items-center">
-                <div className="relative mr-3">
-                  <svg className="w-8 h-8 text-brand-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-brand-accent opacity-80"></div>
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full opacity-60"></div>
-                </div>
-                <div className="text-xl font-bold">
-                  <span className="text-brand-primary">
-                    RUMII
-                  </span>
-                  <span className="ml-2 text-brand-secondary">STORE</span>
-                </div>
-              </div>
-              <button
-                onClick={toggleMenu}
-                className="text-gray-500 transition-colors duration-200 hover:text-brand-primary"
-              >
+            <div className="flex justify-between items-center p-4 border-b">
+              <span className="text-lg font-bold text-gray-900">{storeName}</span>
+              <button onClick={toggleMenu} className="text-gray-500">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-
-            {/* Mobile Menu Items */}
-            <div className="py-6 px-6 space-y-2 overflow-y-auto">
-              {navLinks.map((link) => (
-                <div key={link.name}>
-                  {link.hasSubmenu ? (
-                    <div>
-                      <button
-                        onClick={toggleMobileSweetsSubmenu}
-                        className="w-full flex justify-between items-center px-4 py-3 rounded-lg transition-all duration-200 font-medium text-brand-primary"
-                      >
-                        <span>{link.name}</span>
-                        <svg
-                          className={`w-4 h-4 transition-transform duration-200 ${isMobileSweetsOpen ? 'rotate-180' : ''
-                            }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-
-                      {/* Mobile Submenu for ALL BAGS */}
-                      <div className={`ml-4 mt-2 space-y-1 overflow-hidden transition-all duration-300 ${isMobileSweetsOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                        }`}>
-                        {bagCategories.map((category) => (
+            <div className="py-4 px-4 space-y-2">
+              {navLinks.map((link) => {
+                const linkLabel = link.label || link.name;
+                const hasSublinks = link.sublinks && link.sublinks.length > 0;
+                return (
+                  <div key={link.id || linkLabel}>
+                    <Link
+                      href={link.href}
+                      className={`block px-4 py-3 rounded-lg font-medium mobile-nav-item transition-colors ${router.pathname === link.href ? 'active-link' : ''}`}
+                      style={{
+                        color: router.pathname === link.href ? hoverTextColor : navbarLinkColor,
+                        backgroundColor: router.pathname === link.href ? hoverBackgroundColor : undefined
+                      }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {linkLabel}
+                    </Link>
+                    {hasSublinks && (
+                      <div className="pl-4 space-y-1">
+                        {link.sublinks.map((sub) => (
                           <Link
-                            key={category.name}
-                            href={category.href}
-                            className="block px-4 py-2 text-sm rounded-lg transition-all duration-200 text-brand-secondary"
-                            onClick={() => {
-                              setIsMenuOpen(false);
-                              setIsMobileSweetsOpen(false);
-                            }}
+                            key={sub.id || sub.label}
+                            href={sub.href}
+                            className="block px-4 py-2 rounded-lg text-sm text-gray-500 mobile-nav-item transition-colors"
+                            style={{ color: navbarLinkColor }}
+                            onClick={() => setIsMenuOpen(false)}
                           >
-                            {category.name}
+                            {sub.label}
                           </Link>
                         ))}
                       </div>
-                    </div>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="block px-4 py-3 rounded-lg transition-all duration-200 font-medium text-brand-primary"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  )}
-                </div>
-              ))}
-
+                    )}
+                  </div>
+                );
+              })}
               <Link
                 href="/wishlist"
-                className="block px-4 py-3 rounded-lg transition-all duration-200 font-medium flex items-center justify-between text-brand-primary"
+                className="block px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 font-medium flex justify-between"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <span>Wishlist</span>
                 {wishlistCount > 0 && (
-                  <span className="bg-brand-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
-                    {wishlistCount}
-                  </span>
+                  <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{wishlistCount}</span>
                 )}
               </Link>
             </div>
@@ -387,81 +433,65 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <div className={`lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 transition-all duration-300 transform ${showBottomNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}>
+      {/* Mobile Bottom Nav */}
+      <div className={`lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 transition-transform ${showBottomNav ? 'translate-y-0' : 'translate-y-full'}`}>
         <div className="grid grid-cols-4 h-16">
-          {/* Home */}
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center space-y-1 transition-colors duration-200 ${router.pathname === '/'
-              ? 'bg-gray-100 text-brand-primary'
-              : 'text-gray-500 hover:bg-gray-100'
-              }`}
+          <Link href="/" className={`flex flex-col items-center justify-center`}
+            style={{ color: router.pathname === '/' ? hoverTextColor : '#6b7280' }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            <span className="text-xs font-medium">Home</span>
+            <span className="text-xs mt-1">Home</span>
           </Link>
-
-          {/* Shop */}
-          <Link
-            href="/shop"
-            className={`flex flex-col items-center justify-center space-y-1 transition-colors duration-200 ${router.pathname === '/shop'
-              ? 'bg-gray-100 text-brand-primary'
-              : 'text-gray-500 hover:bg-gray-100'
-              }`}
+          <Link href="/shop" className={`flex flex-col items-center justify-center transition-colors`}
+            style={{
+              color: router.pathname === '/shop' ? hoverTextColor : '#6b7280',
+              backgroundColor: router.pathname === '/shop' ? hoverBackgroundColor : undefined
+            }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            <span className="text-xs font-medium">Shop</span>
+            <span className="text-xs mt-1">Shop</span>
           </Link>
-
-          {/* Wishlist */}
-          <Link
-            href="/wishlist"
-            className={`relative flex flex-col items-center justify-center space-y-1 transition-colors duration-200 ${router.pathname === '/wishlist'
-              ? 'bg-gray-100 text-brand-primary'
-              : 'text-gray-500 hover:bg-gray-100'
-              }`}
+          <Link href="/wishlist" className={`flex flex-col items-center justify-center relative transition-colors`}
+            style={{
+              color: router.pathname === '/wishlist' ? hoverTextColor : '#6b7280',
+              backgroundColor: router.pathname === '/wishlist' ? hoverBackgroundColor : undefined
+            }}
           >
             <div className="relative">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-brand-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
-                  {wishlistCount}
-                </span>
-              )}
+              {wishlistCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">{wishlistCount}</span>}
             </div>
-            <span className="text-xs font-medium">Wishlist</span>
+            <span className="text-xs mt-1">Wishlist</span>
           </Link>
-
-          {/* Cart */}
-          <button
-            onClick={toggleCart}
-            className="relative flex flex-col items-center justify-center space-y-1 text-gray-500 hover:bg-gray-100 transition-colors duration-200"
-          >
+          <button onClick={toggleCart} className="flex flex-col items-center justify-center text-gray-500 relative">
             <div className="relative">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z" />
               </svg>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-brand-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
+                <span
+                  className="absolute -top-1 -right-1 text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold"
+                  style={{
+                    backgroundColor: accentColor,
+                    color: buttonTextColor
+                  }}
+                >
                   {itemCount}
                 </span>
               )}
             </div>
-            <span className="text-xs font-medium">Cart</span>
+            <span className="text-xs mt-1">Cart</span>
           </button>
         </div>
       </div>
-
     </>
   );
 };
 
-export default Navbar; 
+export default Navbar;

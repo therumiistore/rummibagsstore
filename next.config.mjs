@@ -1,25 +1,33 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
-  
-  // Image optimization settings (disabled for static export)
+  // Removed 'output: export' to enable getServerSideProps
+  // This allows dynamic server-side rendering based on domain
+
+  transpilePackages: ['lucide-react', 'react-quill'],
+
+  // Image optimization
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true, // Use unoptimized for external images
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
   },
-  
-  // Environment variables available to the client
+
+  // Environment variables
   env: {
-    CLIENT_ID: process.env.CLIENT_ID,
-    BUSINESS_NAME: process.env.BUSINESS_NAME,
-    BUSINESS_DESCRIPTION: process.env.BUSINESS_DESCRIPTION,
-    BUSINESS_CONTACT: process.env.BUSINESS_CONTACT,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
+    NEXT_PUBLIC_DEFAULT_STORE: process.env.NEXT_PUBLIC_DEFAULT_STORE,
   },
-  
-  // Webpack configuration for better compatibility
+
+  // Webpack configuration
   webpack: (config, { isServer }) => {
-    // Ensure proper handling of CSS in production
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,

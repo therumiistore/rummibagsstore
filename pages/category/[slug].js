@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import { fetchClientProducts, fetchClientCategories } from '@/lib/fetchProducts';
-import SITE_CONFIG, { getPageMeta, getSchemaConfig } from '@/config/siteConfig';
+import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 import { useCart } from '@/lib/CartContext';
 import { useWishlist } from '@/lib/WishlistContext';
 import { useNotification } from '@/lib/NotificationContext';
+import { useStore } from '@/lib/StoreContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import SizeSelectionPopup from '@/components/SizeSelectionPopup';
+import VariantSelectionPopup from '@/components/VariantSelectionPopup';
 import ProductCard from '@/components/ProductCard';
 
 export default function CategoryPage({
@@ -45,17 +45,17 @@ export default function CategoryPage({
 
   // Update price range and initial filtered products when products change
   useEffect(() => {
-    console.log("Products", products);
     if (products.length > 0) {
       const newMinPrice = Math.min(...products.map(product => product.price));
       const newMaxPrice = Math.max(...products.map(product => product.price));
       setPriceRange([newMinPrice, newMaxPrice]);
-      // Also update filtered products if this is the initial load
-      if (filteredProducts.length === 0) {
-        setFilteredProducts(products);
-      }
     }
   }, [products]);
+
+  // Reset filters when category changes
+  useEffect(() => {
+    resetFilters();
+  }, [category]);
 
   // Handle loading state
   if (router.isFallback) {
@@ -92,9 +92,12 @@ export default function CategoryPage({
   }
 
   // Get current category's subcategories
+  console.log("DEBUG - Category from URL:", category);
+  console.log("DEBUG - Full categoryHierarchy:", JSON.stringify(categoryHierarchy, null, 2));
   const currentCategoryData = categoryHierarchy?.find(cat => cat.slug === category);
-  console.log("Current Category Data", currentCategoryData);
+  console.log("DEBUG - Found currentCategoryData:", currentCategoryData);
   const subcategories = currentCategoryData?.subcategories || [];
+  console.log("DEBUG - Subcategories to display:", subcategories);
 
   // Get current subcategory from URL
   const currentSubcategoryFromUrl = router.query.subcategory ?
@@ -312,9 +315,9 @@ export default function CategoryPage({
   return (
     <>
       <Head>
-        <title>{categoryDisplayName} - {SITE_CONFIG.businessName}</title>
+        <title>{categoryDisplayName} - {SITE_CONFIG?.appName || 'Store'}</title>
         <meta name="description" content={getPageMeta('category').description} />
-        <meta name="keywords" content={SITE_CONFIG.seoKeywords} />
+        <meta name="keywords" content={SITE_CONFIG?.seoKeywords || 'store, shop, category'} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={SITE_CONFIG.faviconPath} type="image/png" sizes={SITE_CONFIG.faviconSize} />
       </Head>
@@ -450,27 +453,7 @@ export default function CategoryPage({
                     </div>
                   </div>
 
-                  {/* Subcategory Filters */}
-                  {subcategories.length > 0 && (
-                    <div className="mb-8">
-                      <h4 className="text-sm font-semibold text-brand-primary mb-4">Subcategories</h4>
-                      <div className="space-y-3">
-                        {subcategories.map((subcat) => (
-                          <label key={subcat.name} className="flex items-center">
-                            <input
-                              type="checkbox"
-                              checked={selectedSubcategories.includes(subcat.name)}
-                              onChange={() => handleSubcategoryToggle(subcat.name)}
-                              className="w-4 h-4 text-brand-primary bg-gray-100 border-gray-300 rounded focus:ring-brand-accent focus:ring-2"
-                            />
-                            <span className="ml-3 text-sm text-gray-700">
-                              {subcat.name} ({subcat.count})
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+
 
                   {/* Price Range */}
                   <div className="mb-8">
@@ -627,7 +610,7 @@ export default function CategoryPage({
       </div>
 
       {/* Size Selection Popup */}
-      <SizeSelectionPopup
+      <VariantSelectionPopup
         product={sizePopup.product}
         isOpen={sizePopup.isOpen}
         onClose={closeSizePopup}
@@ -636,154 +619,112 @@ export default function CategoryPage({
   );
 }
 
-export async function getStaticPaths() {
-  try {
-    console.log('Generating static paths for category pages...');
+export async function getServerSideProps({ params, req, query }) {
+  // Import storefront utilities for SSR
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
 
-    // Fetch both products and categories to get all possible paths
-    const [products, categories] = await Promise.all([
-      fetchClientProducts(SITE_CONFIG.productsSchemaSlug),
-      fetchClientCategories(SITE_CONFIG.categoriesSchemaSlug)
-    ]);
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+  const { slug } = params;
 
-    // Get categories from both sources to ensure we don't miss any
-    const productCategories = [...new Set(products.map(product => product.category))];
-    const dashboardCategories = categories.map(cat => cat.categoryname);
-
-    // Combine and deduplicate categories
-    const allCategories = [...new Set([...productCategories, ...dashboardCategories])];
-
-    console.log('Categories found for paths:', allCategories);
-
-    // Create category slugs
-    const categoryPaths = allCategories.map(category => {
-      let slug = category.toLowerCase().replace(/\s+/g, '-');
-      return {
-        params: { slug }
-      };
-    });
-
-    // Add special category paths
-    const specialPaths = [
-      { params: { slug: 'new-arrivals' } },
-      { params: { slug: 'on-sale' } }
-    ];
-
-    console.log(`Generated ${categoryPaths.length + specialPaths.length} category paths`);
-
+  if (!storeSlug) {
     return {
-      paths: [...categoryPaths, ...specialPaths],
-      fallback: false
-    };
-  } catch (error) {
-    console.error('Error generating static paths:', error);
-    return {
-      paths: [
-        { params: { slug: 'new-arrivals' } },
-        { params: { slug: 'on-sale' } }
-      ],
-      fallback: false
+      props: {
+        products: [],
+        category: slug,
+        allCategories: [],
+        categoryHierarchy: [],
+        currentSubcategory: null,
+        store: null,
+        storeSlug: null,
+        banners: [],
+      },
     };
   }
-}
 
-export async function getStaticProps({ params }) {
   try {
-    console.log(`Fetching products and categories for category page: ${params.slug}`);
+    console.log(`Fetching all data for category page: ${slug}`);
 
-    // Fetch both products and categories using the same config as index.js
-    const [allProducts, allCategories] = await Promise.all([
-      fetchClientProducts(SITE_CONFIG.productsSchemaSlug),
-      fetchClientCategories(SITE_CONFIG.categoriesSchemaSlug)
+    // Fetch all data for StoreContext
+    const [storeRes, productsRes, categoriesRes, bannersRes] = await Promise.all([
+      storefrontApi.getStore(storeSlug).catch(() => ({ success: false })),
+      storefrontApi.getProducts(storeSlug, { limit: 100 }).catch(() => ({ success: false, data: { products: [] } })),
+      storefrontApi.getCategories(storeSlug).catch(() => ({ success: false, data: [] })),
+      storefrontApi.getBanners(storeSlug).catch(() => ({ success: false, data: [] })),
     ]);
 
-    console.log(`Category page: Fetched ${allProducts.length} products and ${allCategories.length} categories`);
+    const allProducts = productsRes.data?.products || [];
+    const allCategories = categoriesRes.data || [];
 
-    const { slug } = params;
+    // DEBUG: Log what we got from the API
+    console.log("SERVER DEBUG - categoriesRes.data:", JSON.stringify(categoriesRes.data, null, 2));
+    console.log("SERVER DEBUG - allCategories:", JSON.stringify(allCategories, null, 2));
 
+    // Filter products for this category
     let products = [];
     let category = slug;
     let currentSubcategory = null;
 
-    // Filter products based on category slug
     if (slug === 'new-arrivals') {
       products = allProducts.filter(product => product.isNew);
-      console.log(`Found ${products.length} new arrivals`);
     } else if (slug === 'on-sale') {
       products = allProducts.filter(product => product.onSale);
-      console.log(`Found ${products.length} on-sale products`);
     } else {
-      // Dynamic category matching: convert slug back to category name
-      const slugToCategoryName = (slug) => {
-        // First, try to find exact match from dashboard categories
-        const dashboardCategory = allCategories.find(cat =>
-          cat.categoryname.toLowerCase().replace(/\s+/g, '-') === slug
-        );
+      // Dynamic category matching
+      const dashboardCategory = allCategories.find(cat =>
+        (cat.name || cat.categoryname || '').toLowerCase().replace(/\s+/g, '-') === slug
+      );
 
-        if (dashboardCategory) {
-          return dashboardCategory.categoryname;
-        }
-
-        // Fallback: convert slug to title case for backward compatibility
-        return slug.split('-').map(word =>
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
-      };
-
-      const categoryName = slugToCategoryName(slug);
-      console.log(`Looking for category: "${categoryName}" from slug: "${slug}"`);
+      const categoryName = dashboardCategory?.name || dashboardCategory?.categoryname ||
+        slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
       products = allProducts.filter(product =>
-        product.category.toLowerCase() === categoryName.toLowerCase()
+        product.category?.toLowerCase() === categoryName.toLowerCase()
       );
-
-      console.log(`Found ${products.length} products for category: ${categoryName}`);
     }
 
-    // Get all categories for navigation (from both products and dashboard)
-    const productCategories = [...new Set(allProducts.map(product => product.category))];
-    const dashboardCategoryNames = allCategories.map(cat => cat.categoryname);
+    // Build category navigation
+    const productCategories = [...new Set(allProducts.map(product => product.category).filter(Boolean))];
+    const dashboardCategoryNames = allCategories.map(cat => cat.name || cat.categoryname).filter(Boolean);
     const combinedCategories = [...new Set([...productCategories, ...dashboardCategoryNames])];
 
-    console.log('Available categories:', combinedCategories);
+    const categoriesForNavigation = combinedCategories.map(cat => ({
+      name: cat,
+      slug: cat.toLowerCase().replace(/\s+/g, '-')
+    }));
 
-    const categoriesForNavigation = combinedCategories.map(cat => {
-      let slug = cat.toLowerCase().replace(/\s+/g, '-');
-      return {
-        name: cat,
-        slug: slug
-      };
-    });
-
-    // Build category hierarchy with subcategories
+    // Build category hierarchy - get subcategories from category data (database)
     const categoryHierarchy = combinedCategories.map(cat => {
-      const categorySlug = cat.toLowerCase().replace(/\s+/g, '-');
-      const categoryProducts = allProducts.filter(product =>
-        product.category.toLowerCase() === cat.toLowerCase()
+      // Get category data from database first to get proper slug
+      const categoryData = allCategories.find(c =>
+        (c.name || c.categoryname || '').toLowerCase() === cat.toLowerCase()
       );
 
-      // Get unique subcategories for this category
-      const subcategories = [...new Set(categoryProducts
-        .filter(product => product.subcategory)
-        .map(product => product.subcategory)
-      )].map(subcat => {
-        const subcatSlug = subcat.toLowerCase().replace(/\s+/g, '-');
-        const subcatCount = categoryProducts.filter(product =>
-          product.subcategory === subcat
-        ).length;
+      // Use database slug if available, otherwise generate from name
+      const categorySlug = categoryData?.slug || cat.toLowerCase().replace(/\s+/g, '-');
 
-        return {
-          name: subcat,
-          slug: subcatSlug,
-          count: subcatCount
-        };
-      });
+      const categoryProducts = allProducts.filter(product =>
+        product.category?.toLowerCase() === cat.toLowerCase()
+      );
 
-      return {
-        name: cat,
-        slug: categorySlug,
-        subcategories: subcategories
-      };
+      // Parse subcategories from database (stored as JSONB array)
+      let rawSubcategories = categoryData?.subcategories || [];
+      if (typeof rawSubcategories === 'string') {
+        try {
+          rawSubcategories = JSON.parse(rawSubcategories);
+        } catch (e) {
+          rawSubcategories = [];
+        }
+      }
+
+      const subcategories = rawSubcategories.map(subcat => ({
+        name: subcat,
+        slug: subcat.toLowerCase().replace(/\s+/g, '-'),
+        count: categoryProducts.filter(product => product.subcategory === subcat).length
+      }));
+
+      return { name: cat, slug: categorySlug, subcategories };
     });
 
     return {
@@ -792,24 +733,29 @@ export async function getStaticProps({ params }) {
         category,
         allCategories: categoriesForNavigation,
         categoryHierarchy,
-        currentSubcategory
+        currentSubcategory,
+        // For StoreContext
+        store: storeRes.data || null,
+        storeSlug,
+        categories: allCategories,
+        banners: bannersRes.data || [],
       },
-      // Pure SSG - no revalidation (compatible with static export)
     };
   } catch (error) {
     console.error('Error fetching category products:', error);
-
-    // Return empty data with error state for better debugging
     return {
       props: {
         products: [],
-        category: params.slug,
+        category: slug,
         allCategories: [],
         categoryHierarchy: [],
         currentSubcategory: null,
+        store: null,
+        storeSlug,
+        categories: [],
+        banners: [],
         error: 'Failed to load category data'
       },
-      // Pure SSG - no revalidation
     };
   }
 } 

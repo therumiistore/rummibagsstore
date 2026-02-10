@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchClientProducts } from '@/lib/fetchProducts';
-import SITE_CONFIG, { getPageMeta, getSchemaConfig } from '@/config/siteConfig';
+import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 import { useCart } from '@/lib/CartContext';
 import { useNotification } from '@/lib/NotificationContext';
+import { useStore } from '@/lib/StoreContext';
 import { processGalleryItems, isYouTubeVideo, getYouTubeThumbnail } from '@/lib/mediaUtils';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -160,10 +160,22 @@ const PRODUCT_DETAIL_CONFIG = {
   ]
 };
 
-export default function ProductDetail({ product, relatedProducts }) {
+export default function ProductDetail({ product: ssrProduct, relatedProducts: ssrRelatedProducts, productId }) {
   const router = useRouter();
   const { addItem } = useCart();
   const { showCartNotification } = useNotification();
+  const { products, getProductById, getRelatedProducts, loading, dataLoaded, store } = useStore();
+  const activeColorScheme = store?.appearance?.colorScheme;
+  const primaryColor = activeColorScheme?.colors?.primary || '#b91c1c';
+  const secondaryColor = activeColorScheme?.colors?.secondary || '#1f2937';
+  const accentColor = activeColorScheme?.colors?.accent || '#fbbf24';
+  const onSaleElementColor = activeColorScheme?.colors?.onSaleElement || '#FEF9C3';
+  const onSaleElementText = activeColorScheme?.colors?.secondary || primaryColor; // Use secondary or primary for text on onSaleElement if needed
+
+  // Get product from context or SSR props
+  const id = productId || router.query.id;
+  const product = ssrProduct || (id ? getProductById(id) : null);
+  const relatedProducts = ssrRelatedProducts || (product ? getRelatedProducts(product, 4) : []);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
@@ -175,6 +187,9 @@ export default function ProductDetail({ product, relatedProducts }) {
   const programmaticSlideChangeRef = useRef(false);
 
   const [activeTab, setActiveTab] = useState('description');
+
+  // Custom variant selections state
+  const [selectedCustomVariants, setSelectedCustomVariants] = useState({});
 
   // Process gallery items to handle both images and videos
   const galleryItems = product ? processGalleryItems(product.gallery) : [];
@@ -189,6 +204,19 @@ export default function ProductDetail({ product, relatedProducts }) {
 
       // Reset programmatic slide change flag
       programmaticSlideChangeRef.current = false;
+
+      // Initialize custom variants selection (default to first option if select type)
+      if (product.customVariants) {
+        const initialSelections = {};
+        Object.entries(product.customVariants).forEach(([variantName, options]) => {
+          if (Array.isArray(options) && options.length > 0) {
+            initialSelections[variantName] = options[0]; // Pre-select first option
+          }
+        });
+        setSelectedCustomVariants(initialSelections);
+      } else {
+        setSelectedCustomVariants({});
+      }
     }
   }, [product]);
 
@@ -326,17 +354,28 @@ export default function ProductDetail({ product, relatedProducts }) {
     return colorMap[colorName] || 'bg-gray-400';
   };
 
-  // Get current price based on selected size
+  // Get current price based on selected size and custom variants (combined)
   const getCurrentPrice = () => {
-    if (!product.sizes || product.sizes.length === 0) return product.price;
+    let basePrice = product.price || 0;
 
     // If sizes are objects with price, find the selected size price
-    if (typeof product.sizes[0] === 'object' && product.sizes[0].pricebysize) {
+    if (product.sizes?.length > 0 && typeof product.sizes[0] === 'object' && product.sizes[0].pricebysize) {
       const selectedSizeObj = product.sizes.find(s => s.size === selectedSize);
-      return selectedSizeObj ? selectedSizeObj.pricebysize : product.price;
+      if (selectedSizeObj) {
+        basePrice = parseFloat(selectedSizeObj.pricebysize) || basePrice;
+      }
     }
 
-    return product.price;
+    // Add prices from selected custom variants
+    if (product.customVariants && Object.keys(selectedCustomVariants).length > 0) {
+      Object.entries(selectedCustomVariants).forEach(([variantName, selectedOption]) => {
+        if (selectedOption && typeof selectedOption === 'object' && selectedOption.price) {
+          basePrice += parseFloat(selectedOption.price) || 0;
+        }
+      });
+    }
+
+    return basePrice;
   };
 
   const handleAddToCart = async () => {
@@ -369,12 +408,13 @@ export default function ProductDetail({ product, relatedProducts }) {
       // Prepare user selections for configuration
       const userSelections = {
         size: selectedSize,
-        color: product.colors && product.colors.length > 0 ? product.colors[selectedColorIndex !== null ? selectedColorIndex : 0] : null
+        color: product.colors && product.colors.length > 0 ? product.colors[selectedColorIndex !== null ? selectedColorIndex : 0] : null,
+        ...selectedCustomVariants  // Include custom variant selections
       };
 
       // Use new addItem signature: addItem(product, quantity, userSelections)
       addItem(productConfig, Number(quantity), userSelections);
-      showCartNotification(productConfig, selectedSize, Number(quantity));
+      showCartNotification(productConfig, selectedSize, Number(quantity), 'added to cart', getCurrentPrice());
 
       setTimeout(() => {
         setAddingToCart(false);
@@ -399,9 +439,9 @@ export default function ProductDetail({ product, relatedProducts }) {
   return (
     <>
       <Head>
-        <title>{product.name} - {SITE_CONFIG.businessName}</title>
+        <title>{`${product.name} - ${SITE_CONFIG?.appName || 'Store'}`}</title>
         <meta name="description" content={product.description} />
-        <meta name="keywords" content={`${product.category}, ${product.brand}, ${SITE_CONFIG.seoKeywords}, ${product.name}`} />
+        <meta name="keywords" content={`${product.category}, ${product.brand}, ${SITE_CONFIG?.seoKeywords || 'store, shop'}, ${product.name}`} />
         <meta property="og:title" content={product.name} />
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.image} />
@@ -541,10 +581,10 @@ export default function ProductDetail({ product, relatedProducts }) {
             <div className="space-y-6">
               {/* Product Title and Category */}
               <div>
-                <p className="text-sm uppercase tracking-wide font-semibold mb-2 text-brand-secondary">
+                <p className="text-sm text-gray-400 mb-4">
                   {product.category}
                 </p>
-                <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-brand-primary">
+                <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-gray-900">
                   {product.name}
                 </h1>
 
@@ -601,7 +641,7 @@ export default function ProductDetail({ product, relatedProducts }) {
               {/* Price */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-4">
-                  <span className="text-3xl font-bold text-brand-primary">
+                  <span className="text-3xl font-bold text-gray-900">
                     {formatPrice(getCurrentPrice())}
                   </span>
                   {product.onSale && (
@@ -638,20 +678,19 @@ export default function ProductDetail({ product, relatedProducts }) {
               {product.colors && product.colors.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold mb-3 text-brand-primary">{PRODUCT_DETAIL_CONFIG.labels.color}</h3>
-                  <div className="mb-4 p-3 rounded-lg border bg-brand-secondary bg-opacity-10 border-brand-secondary">
-                    <p className="text-base font-semibold text-brand-primary">
-                      {PRODUCT_DETAIL_CONFIG.labels.selectedColor} <span className="font-bold text-brand-accent">{product.colors[selectedColorIndex !== null ? selectedColorIndex : 0]}</span>
-                    </p>
-                  </div>
+                  <div className="mb-4"></div>
                   <div className="flex items-center flex-wrap gap-2">
                     {product.colors.map((color, index) => (
                       <button
                         key={index}
                         onClick={() => handleColorSelect(index)}
                         className={`px-4 py-2 border-2 rounded-lg font-medium transition-all duration-300 text-sm ${(selectedColorIndex !== null ? selectedColorIndex : 0) === index
-                          ? 'border-brand-accent bg-brand-accent bg-opacity-10 text-brand-accent shadow-md transform scale-105'
+                          ? 'shadow-md transform scale-105'
                           : 'border-gray-300 text-gray-700 hover:border-brand-secondary hover:bg-brand-secondary hover:bg-opacity-10'
                           }`}
+                        style={(selectedColorIndex !== null ? selectedColorIndex : 0) === index
+                          ? { backgroundColor: secondaryColor, borderColor: secondaryColor, color: '#ffffff' }
+                          : {}}
                         title={`${color} - Image ${index + 1}`}
                       >
                         {color}
@@ -678,13 +717,16 @@ export default function ProductDetail({ product, relatedProducts }) {
                           key={index}
                           onClick={() => setSelectedSize(sizeLabel)}
                           className={`py-2 px-4 border rounded-lg font-medium transition-all duration-200 text-center ${selectedSize === sizeLabel
-                            ? 'border-brand-accent bg-brand-accent bg-opacity-10 text-brand-accent'
+                            ? 'shadow-md'
                             : 'border-gray-300 hover:border-gray-400'
                             }`}
+                          style={selectedSize === sizeLabel
+                            ? { backgroundColor: secondaryColor, borderColor: secondaryColor, color: '#ffffff' }
+                            : {}}
                         >
                           <div className="text-sm">{sizeLabel}</div>
                           {sizePrice && (
-                            <div className="text-xs text-gray-500 mt-1">
+                            <div className="text-xs mt-1" style={{ color: selectedSize === sizeLabel ? '#ffffff' : 'inherit' }}>
                               {formatPrice(sizePrice)}
                             </div>
                           )}
@@ -692,6 +734,57 @@ export default function ProductDetail({ product, relatedProducts }) {
                       );
                     })}
                   </div>
+                </div>
+              )}
+
+              {/* Custom Variants Selection (Dynamic from product attributes - like Sizes with name + price) */}
+              {product.customVariants && Object.keys(product.customVariants).length > 0 && (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-brand-primary">Product Options</h3>
+                  {Object.entries(product.customVariants).map(([variantName, options]) => (
+                    <div key={variantName}>
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">{variantName}</h4>
+                      {Array.isArray(options) && options.length > 0 ? (
+                        <div className="grid grid-cols-4 gap-2">
+                          {options.map((option, index) => {
+                            // Handle both new {name, price} format and legacy string format
+                            const optionName = typeof option === 'object' ? option.name : option;
+                            const optionPrice = typeof option === 'object' ? option.price : null;
+                            const isSelected = selectedCustomVariants[variantName]?.name === optionName ||
+                              selectedCustomVariants[variantName] === optionName;
+
+                            return (
+                              <button
+                                key={index}
+                                onClick={() => setSelectedCustomVariants({
+                                  ...selectedCustomVariants,
+                                  [variantName]: option
+                                })}
+                                className={`py-2 px-4 border rounded-lg font-medium transition-all duration-200 text-center ${isSelected
+                                  ? 'shadow-md'
+                                  : 'border-gray-300 hover:border-gray-400'
+                                  }`}
+                                style={isSelected
+                                  ? { backgroundColor: secondaryColor, borderColor: secondaryColor, color: '#ffffff' }
+                                  : {}}
+                              >
+                                <div className="text-sm">{optionName}</div>
+                                {optionPrice && (
+                                  <div className="text-xs mt-1" style={{ color: isSelected ? '#ffffff' : 'inherit' }}>
+                                    {formatPrice(optionPrice)}
+                                  </div>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
+                          {typeof options === 'object' ? options.name : options}
+                        </p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
 
@@ -720,12 +813,15 @@ export default function ProductDetail({ product, relatedProducts }) {
               </div>
 
               {/* Configuration Summary */}
-              {(selectedColorIndex !== null || selectedSize) && (
+              {(selectedColorIndex !== null || selectedSize || Object.keys(selectedCustomVariants).length > 0) && (
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h4 className="text-sm font-semibold mb-2 text-brand-primary">{PRODUCT_DETAIL_CONFIG.labels.yourSelection}</h4>
                   <div className="space-y-1 text-sm text-gray-600">
                     {selectedColorIndex !== null && <p>• Finish: {product.colors[selectedColorIndex]}</p>}
                     {selectedSize && <p>• Size: {selectedSize}</p>}
+                    {Object.entries(selectedCustomVariants).map(([name, value]) => (
+                      <p key={name}>• {name}: {typeof value === 'object' ? value.name : value}</p>
+                    ))}
                   </div>
                 </div>
               )}
@@ -739,8 +835,11 @@ export default function ProductDetail({ product, relatedProducts }) {
                     ? 'bg-brand-accent text-white'
                     : (product.sizes && product.sizes.length > 0 && !selectedSize) || !isProductInStock()
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-brand-primary to-brand-accent text-white transform hover:scale-105 shadow-lg'
+                      : 'text-white transform hover:scale-105 shadow-lg'
                     }`}
+                  style={!addingToCart && !((product.sizes && product.sizes.length > 0 && !selectedSize) || !isProductInStock())
+                    ? { backgroundColor: primaryColor }
+                    : {}}
                 >
                   {addingToCart ? (
                     <>
@@ -1193,55 +1292,69 @@ export default function ProductDetail({ product, relatedProducts }) {
   );
 }
 
-export async function getStaticPaths() {
-  try {
-    const schemaConfig = getSchemaConfig();
-    const products = await fetchClientProducts(schemaConfig.productsSchemaSlug);
+export async function getServerSideProps({ params, req, query }) {
+  // Import storefront utilities for SSR
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
 
-    const paths = products.map((product) => ({
-      params: { id: product.id.toString() }
-    }));
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
 
+  if (!storeSlug) {
     return {
-      paths,
-      fallback: false // Show 404 for non-existent products
-    };
-  } catch (error) {
-    console.error('Error generating static paths:', error);
-    return {
-      paths: [],
-      fallback: false
+      props: {
+        productId: params.id,
+        store: null,
+        storeSlug: null,
+        products: [],
+        categories: [],
+        banners: [],
+      },
     };
   }
-}
 
-export async function getStaticProps({ params }) {
   try {
-    const schemaConfig = getSchemaConfig();
-    const products = await fetchClientProducts(schemaConfig.productsSchemaSlug);
+    // Fetch all data for StoreContext
+    const [storeRes, productsRes, categoriesRes, bannersRes] = await Promise.all([
+      storefrontApi.getStore(storeSlug).catch(() => ({ success: false })),
+      storefrontApi.getProducts(storeSlug, { limit: 100 }).catch(() => ({ success: false, data: { products: [] } })),
+      storefrontApi.getCategories(storeSlug).catch(() => ({ success: false, data: [] })),
+      storefrontApi.getBanners(storeSlug).catch(() => ({ success: false, data: [] })),
+    ]);
+
+    const products = productsRes.data?.products || [];
     const product = products.find(p => p.id.toString() === params.id);
 
-    if (!product) {
-      return {
-        notFound: true
-      };
-    }
-
-    // Get related products from the same category
-    const relatedProducts = products
-      .filter(p => p.category === product.category && p.id !== product.id)
-      .slice(0, 4);
+    // Get related products
+    const relatedProducts = product
+      ? products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+      : [];
 
     return {
       props: {
-        product,
-        relatedProducts
-      }
+        productId: params.id,
+        product: product || null,
+        relatedProducts,
+        store: storeRes.data || null,
+        storeSlug,
+        products,
+        categories: categoriesRes.data || [],
+        banners: bannersRes.data || [],
+      },
     };
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error('Error fetching product data:', error);
     return {
-      notFound: true
+      props: {
+        productId: params.id,
+        product: null,
+        relatedProducts: [],
+        store: null,
+        storeSlug,
+        products: [],
+        categories: [],
+        banners: [],
+      },
     };
   }
 } 

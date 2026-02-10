@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { useCart } from '@/lib/CartContext';
 import { useWishlist } from '@/lib/WishlistContext';
 import { useNotification } from '@/lib/NotificationContext';
-import SizeSelectionPopup from './SizeSelectionPopup';
+import { useStoreOptional } from '@/lib/StoreContext';
+import VariantSelectionPopup from './VariantSelectionPopup';
 import ProductCard from './ProductCard';
 
 // Import Swiper styles
@@ -12,6 +13,7 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Mousewheel, Navigation } from 'swiper/modules';
+import SITE_CONFIG from '@/config/siteConfig';
 
 // Configuration Variables
 const PRODUCTS_CONFIG = {
@@ -115,6 +117,11 @@ const Products = ({ products = [], categories = [] }) => {
   const [selectedColors, setSelectedColors] = useState({}); // Track selected color for each product
   const [visibleItems, setVisibleItems] = useState({}); // Track how many items are visible per category
 
+  const storeContext = useStoreOptional();
+  const activeColorScheme = storeContext?.store?.appearance?.colorScheme;
+  const primaryColor = activeColorScheme?.colors?.primary || '#b91c1c'; // Default red-700
+  const buttonTextColor = activeColorScheme?.colors?.buttonText || '#ffffff';
+
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { showCartNotification } = useNotification();
@@ -159,8 +166,9 @@ const Products = ({ products = [], categories = [] }) => {
   };
 
   // Format price for Pakistani Rupees
+  // Format price for Pakistani Rupees
   const formatPrice = (price) => {
-    return `${PRODUCTS_CONFIG.currency} ${price.toLocaleString()}`;
+    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString()}`;
   };
 
   // Handle color selection
@@ -231,9 +239,6 @@ const Products = ({ products = [], categories = [] }) => {
           <h3 className="text-4xl md:text-5xl font-bold text-brand-primary mb-4">
             {category.categoryname}
           </h3>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {productsInCategory.length} items available in this collection
-          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-6 mb-8">
@@ -347,7 +352,10 @@ const Products = ({ products = [], categories = [] }) => {
       <div className="mb-20 py-16 bg-brand-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-sm font-semibold uppercase tracking-wide mb-4 text-brand-secondary">
+            <h2
+              className="text-sm font-semibold uppercase tracking-wide mb-4"
+              style={{ color: buttonTextColor }}
+            >
               {PRODUCTS_CONFIG.specialOffersSection.subtitle}
             </h2>
             <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -412,6 +420,7 @@ const Products = ({ products = [], categories = [] }) => {
             <Link
               href={PRODUCTS_CONFIG.specialOffersSection.viewAllLink}
               className="inline-flex items-center px-8 py-3 bg-brand-accent text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+              style={{ color: buttonTextColor }}
             >
               {PRODUCTS_CONFIG.specialOffersSection.viewAllText}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -514,7 +523,7 @@ const Products = ({ products = [], categories = [] }) => {
       </div>
 
       {/* Size Selection Popup */}
-      <SizeSelectionPopup
+      <VariantSelectionPopup
         product={sizePopup.product}
         isOpen={sizePopup.isOpen}
         onClose={closeSizePopup}

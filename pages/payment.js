@@ -4,16 +4,17 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
+import storefrontApi from '@/lib/storefrontApi';
 import { useCart } from '@/lib/CartContext';
 import { useNotification } from '@/lib/NotificationContext';
+import { useStore } from '@/lib/StoreContext';
 import SITE_CONFIG, { getPageMeta, getApiConfig } from '@/config/siteConfig';
 
 // Configuration Variables
 const PAYMENT_CONFIG = {
   // API Configuration
-  siteId: SITE_CONFIG.siteId,
-  apiBaseUrl: SITE_CONFIG.payment.apiBaseUrl,
+  siteId: SITE_CONFIG?.siteId || 'default-site',
+  apiBaseUrl: SITE_CONFIG?.payment?.apiBaseUrl || '/api/orders',
   apiTimeout: getApiConfig().timeout,
 
   // UI Text
@@ -71,6 +72,7 @@ export default function PaymentPage() {
   const [orderData, setOrderData] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('COD');
+  const { currencySymbol, storeSlug } = useStore();
 
   useEffect(() => {
     // Load order data from localStorage
@@ -89,7 +91,8 @@ export default function PaymentPage() {
   }, [router]);
 
   const formatPrice = (price) => {
-    return `${SITE_CONFIG.currencySymbol} ${price.toLocaleString(SITE_CONFIG.locale)}`;
+    const symbol = currencySymbol || SITE_CONFIG.currencySymbol;
+    return `${symbol} ${price.toLocaleString(SITE_CONFIG.locale)}`;
   };
 
   const generateOrderId = () => {
@@ -104,100 +107,70 @@ export default function PaymentPage() {
       return;
     }
 
+    if (!storeSlug) {
+      showErrorNotification('Store not found. Please try again.');
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
-      // Format customer data according to backend expectations
-      const customerData = {
-        name: `${orderData.customer.firstName} ${orderData.customer.lastName}`.trim(),
-        email: orderData.customer.email,
-        phone: orderData.customer.phone,
-        address: orderData.customer.address,
-        city: orderData.customer.city,
-        state: orderData.customer.state,
-        zipCode: orderData.customer.zipCode,
-        country: orderData.customer.country,
-        notes: orderData.customer.notes
-      };
+      // Build formatted address string
+      const fullAddress = [
+        orderData.customer.address,
+        orderData.customer.area,
+        orderData.customer.city,
+        orderData.customer.zipCode,
+        orderData.customer.country
+      ].filter(Boolean).join(', ');
 
-      // Format products data according to backend expectations
-      const products = orderData.items.map(item => ({
-        id: item.id.toString(),
+      // Format items for backend
+      const formattedItems = orderData.items.map(item => ({
+        product_id: item.id,
         name: item.name,
-        description: item.description || item.name,
         price: item.price,
-        quantity: item.quantity,
-        category: item.category || '',
+        qty: item.quantity,
         image: item.image || '',
-        brand: item.brand || SITE_CONFIG.businessName,
-        inStock: item.inStock || true,
         selectedConfiguration: item.selectedConfiguration || null
       }));
 
-      // Calculate totals according to backend expectations
-      const subtotal = orderData.summary.subtotal;
-      const shipping = orderData.summary.shippingFee || 0;
-      const tax = 0; // No tax for bags store
-      const discount = 0; // No discounts
-      const total = subtotal + shipping;
-
-      const totals = {
-        subtotal: parseFloat(subtotal.toFixed(2)),
-        tax: parseFloat(tax.toFixed(2)),
-        shipping: parseFloat(shipping.toFixed(2)),
-        discount: parseFloat(discount.toFixed(2)),
-        total: parseFloat(total.toFixed(2))
-      };
-
-      // Payment info - map frontend values to backend enum values
-      // Backend enum: ['cash', 'card', 'bank_transfer', 'paypal', 'stripe', 'other']
-      const paymentMethodMap = {
-        'COD': 'cash',           // Cash on Delivery -> cash
-        'card': 'card',          // Credit/Debit Card -> card
-        'paypal': 'paypal'       // PayPal -> paypal
-      };
-
-      const paymentInfo = {
-        method: paymentMethodMap[paymentMethod] || 'cash',
-        status: 'pending'
-      };
-
-      // Submit order to backend
+      // Create order payload for storefront API
       const orderPayload = {
-        customerData,
-        products, // Now includes selectedConfiguration and configurationDetails
-        totals,
-        paymentInfo
+        customer_name: `${orderData.customer.firstName} ${orderData.customer.lastName}`.trim(),
+        customer_email: orderData.customer.email,
+        customer_phone: orderData.customer.phone,
+        shipping_address: fullAddress,
+        items: formattedItems,
+        notes: orderData.customer.notes || ''
       };
 
-      const response = await axios.post(
-        `${PAYMENT_CONFIG.apiBaseUrl}/${PAYMENT_CONFIG.siteId}`,
-        orderPayload,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          timeout: PAYMENT_CONFIG.apiTimeout
-        }
-      );
+      // Submit order to backend via storefront API
+      const response = await storefrontApi.createOrder(storeSlug, orderPayload);
+
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to place order');
+      }
 
       console.log('Order submitted successfully:', response.data);
 
-      // Generate order ID from backend response or fallback
-      const orderId = response.data?.orderNumber || generateOrderId();
+      // Use order number from backend response
+      const orderId = response.data.order_number;
 
       // Prepare final order data for local storage
       const finalOrder = {
         ...orderData,
         orderId,
-        backendOrderId: response.data?.id,
-        backendOrderNumber: response.data?.orderNumber,
+        backendOrderNumber: response.data.order_number,
         status: 'confirmed',
         paymentMethod,
         paymentStatus: 'pending',
         processedAt: new Date().toISOString(),
         backendResponse: response.data,
-        totals: totals // Store calculated totals
+        totals: {
+          subtotal: orderData.summary.subtotal,
+          shipping: orderData.summary.shippingFee || 0,
+          total: response.data.total
+        }
       };
 
       // Save order to localStorage for order tracking
@@ -219,37 +192,27 @@ export default function PaymentPage() {
 
     } catch (error) {
       console.error('Order submission failed:', error);
-      console.error('Error response:', error.response);
-      console.error('Error response data:', error.response?.data);
-      console.error('Error response status:', error.response?.status);
 
       let errorMessage = 'Failed to place order. Please try again.';
 
-      if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (error.message) {
+      if (error.message) {
         errorMessage = error.message;
       }
 
       showErrorNotification(`Order submission failed: ${errorMessage}`);
 
-      // For debugging, save failed order attempt
+      // Save failed order attempt for debugging
       const failedOrder = {
         ...orderData,
-        error: error.response?.data || { message: errorMessage },
+        error: { message: errorMessage },
         failedAt: new Date().toISOString(),
         paymentMethod
       };
 
       localStorage.setItem('lastFailedOrder', JSON.stringify(failedOrder));
 
-      // Redirect to failure page with error reason
-      const errorReason = error.response?.status === 400 ? 'address_invalid' :
-        error.response?.status === 409 ? 'inventory_unavailable' :
-          error.response?.status >= 500 ? 'system_error' :
-            'payment_failed';
-
-      router.push(`${PAYMENT_CONFIG.failureRoute}?reason=${errorReason}`);
+      // Redirect to failure page
+      router.push(`${PAYMENT_CONFIG.failureRoute}?reason=order_failed`);
 
     } finally {
       setIsProcessing(false);
@@ -269,7 +232,7 @@ export default function PaymentPage() {
 
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-accent mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
             <p className="text-gray-600">{PAYMENT_CONFIG.loadingText}</p>
           </div>
         </div>
@@ -298,8 +261,8 @@ export default function PaymentPage() {
               <span className="text-brand-primary font-medium">Payment</span>
             </nav>
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                <span className="bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">{getPageMeta('payment').title}</span>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                {getPageMeta('payment').title}
               </h1>
               <p className="text-gray-600">{getPageMeta('payment').description}</p>
             </div>
@@ -309,14 +272,14 @@ export default function PaymentPage() {
             {/* Payment Method */}
             <div className="space-y-6">
               <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-                <h3 className="text-xl font-bold text-brand-primary mb-6 flex items-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
                   <span className="text-2xl mr-2">{PAYMENT_CONFIG.paymentIcon}</span>
                   Payment Method
                 </h3>
 
                 <div className="space-y-4">
                   {/* Cash on Delivery */}
-                  <div className="border border-brand-accent rounded-lg p-4 bg-gradient-to-r from-brand-primary to-brand-accent">
+                  <div className="border border-gray-300 rounded-lg p-4 bg-gray-900">
                     <label className="flex items-start space-x-3 cursor-pointer">
                       <input
                         type="radio"
@@ -324,7 +287,7 @@ export default function PaymentPage() {
                         value="COD"
                         checked={paymentMethod === 'COD'}
                         onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-1 w-4 h-4 text-brand-primary border-white focus:ring-brand-accent"
+                        className="mt-1 w-4 h-4 text-gray-900 border-white focus:ring-gray-700"
                       />
                       <div className="flex-1">
                         <div className="flex items-center space-x-3">
@@ -367,7 +330,7 @@ export default function PaymentPage() {
 
               {/* Return Policy Section */}
               <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-                <h3 className="text-xl font-bold text-brand-primary mb-6 flex items-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
                   <span className="text-2xl mr-2">{PAYMENT_CONFIG.returnIcon}</span>
                   Quality Guarantee & Return Policy
                 </h3>
@@ -392,8 +355,8 @@ export default function PaymentPage() {
                   <div className="text-center">
                     <p className="text-sm text-gray-600">
                       Questions about returns?
-                      <a href={`tel:${SITE_CONFIG.businessContact}`} className="text-brand-accent hover:text-brand-primary font-medium ml-1">
-                        Call us at {SITE_CONFIG.businessContact}
+                      <a href={`tel:${SITE_CONFIG?.businessContact || ''}`} className="text-brand-accent hover:text-brand-primary font-medium ml-1">
+                        Call us at {SITE_CONFIG?.businessContact || 'support'}
                       </a>
                     </p>
                   </div>
@@ -402,7 +365,7 @@ export default function PaymentPage() {
 
               {/* Delivery Information */}
               <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-                <h3 className="text-xl font-bold text-brand-primary mb-6 flex items-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
                   <span className="text-2xl mr-2">{PAYMENT_CONFIG.deliveryIcon}</span>
                   Delivery Information
                 </h3>
@@ -422,7 +385,7 @@ export default function PaymentPage() {
                     <p className="text-sm text-gray-800">{orderData.customer.phone}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-brand-primary">Delivery Address</p>
+                    <p className="text-sm font-medium text-gray-900">Delivery Address</p>
                     <p className="text-sm text-gray-800">
                       {orderData.customer.address}<br />
                       {orderData.customer.city}, {orderData.customer.area} {orderData.customer.zipCode}<br />
@@ -431,7 +394,7 @@ export default function PaymentPage() {
                   </div>
                   {orderData.customer.notes && (
                     <div>
-                      <p className="text-sm font-medium text-brand-primary">Order Notes</p>
+                      <p className="text-sm font-medium text-gray-900">Order Notes</p>
                       <p className="text-sm text-gray-800">{orderData.customer.notes}</p>
                     </div>
                   )}
@@ -439,9 +402,8 @@ export default function PaymentPage() {
               </div>
             </div>
 
-            {/* Order Summary */}
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 h-fit">
-              <h3 className="text-xl font-bold text-brand-primary mb-6 flex items-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
                 <span className="text-2xl mr-2">{PAYMENT_CONFIG.summaryIcon}</span>
                 Order Summary
               </h3>
@@ -488,7 +450,7 @@ export default function PaymentPage() {
                       {/* Price - separate row on mobile */}
                       <div className="flex justify-between sm:justify-end items-center">
                         <span className="text-sm text-gray-600 sm:hidden">Total:</span>
-                        <p className="text-sm font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                        <p className="text-sm font-semibold text-gray-900">
                           {formatPrice(item.price * item.quantity)}
                         </p>
                       </div>
@@ -512,7 +474,7 @@ export default function PaymentPage() {
                 <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between">
                     <span className="text-base font-semibold text-gray-800">Total</span>
-                    <span className="text-base font-semibold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">{formatPrice(orderData.summary.total)}</span>
+                    <span className="text-base font-semibold text-gray-900">{formatPrice(orderData.summary.total)}</span>
                   </div>
                 </div>
               </div>
@@ -537,7 +499,7 @@ export default function PaymentPage() {
                   disabled={isProcessing}
                   className={`w-full py-4 px-6 rounded-lg font-bold text-lg transition-all duration-200 ${isProcessing
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-brand-primary to-brand-accent hover:from-brand-accent hover:to-brand-primary transform hover:scale-105'
+                    : 'bg-gray-900 hover:bg-gray-800 transform hover:scale-105'
                     } text-white`}
                 >
                   {isProcessing ? (
@@ -564,4 +526,28 @@ export default function PaymentPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req, query }) {
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
+
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+
+  if (!storeSlug) {
+    return { props: { store: null, storeSlug: null } };
+  }
+
+  try {
+    const storeRes = await storefrontApi.getStore(storeSlug).catch(() => ({ success: false }));
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+      },
+    };
+  } catch (error) {
+    return { props: { store: null, storeSlug } };
+  }
 } 

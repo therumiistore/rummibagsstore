@@ -2,492 +2,42 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Reviews = () => {
+const Reviews = ({ reviews: apiReviews = [] }) => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortBy, setSortBy] = useState('most-recent');
   const [reviewsToShow, setReviewsToShow] = useState(4);
+  const [reviews, setReviews] = useState([]);
 
-  // Product reviews data for Rumiistore bag products (27 reviews for 4.8 rating)
-  const reviews = [
-    {
-      id: 1,
-      customerName: "Fatima A.",
-      customerImage: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Absolutely stunning leather handbag!",
-      review: "This classic leather handbag exceeded my expectations. The leather quality is exceptional and the craftsmanship is absolutely beautiful. Perfect for daily use and professional settings. The compartments are well-organized and exactly as shown in pictures. Highly recommend Rumiistore!",
-      date: "December 15, 2024",
-      productName: "Classic Leather Handbag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Black",
-      helpfulVotes: 12,
-      totalVotes: 14,
-      images: [
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 2,
-      customerName: "Ahmad H.",
-      customerImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Perfect work handbag for office!",
-      review: "This luxury work handbag is absolutely outstanding! The leather quality is excellent and the laptop compartment is perfect. Great for office use and business meetings. The design stays professional all day and the material is very durable. Excellent value for money!",
-      date: "December 14, 2024",
-      productName: "Luxury Work Handbag",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Black",
-      helpfulVotes: 18,
-      totalVotes: 20,
-      images: []
-    },
-    {
-      id: 3,
-      customerName: "Ayesha M.",
-      customerImage: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Beautiful shoulder bag design!",
-      review: "This elegant ladies shoulder bag is exactly what I was looking for. The design quality is incredible and the colors are so vibrant as promised. Perfect for casual outings and shopping. The material is soft and durable. Fast delivery too!",
-      date: "December 12, 2024",
-      productName: "Elegant Ladies Shoulder Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Red",
-      helpfulVotes: 15,
-      totalVotes: 16,
-      images: [
-        "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 4,
-      customerName: "Maria K.",
-      customerImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Excellent crossbody bag!",
-      review: "This stylish crossbody bag is perfect for travel and daily use. Keeps my essentials secure and looks stylish at the same time. The material is high quality and the stitching is excellent. Great for both casual and semi-formal occasions. Excellent quality from Rumiistore.",
-      date: "December 10, 2024",
-      productName: "Stylish Crossbody Bag",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Black",
-      helpfulVotes: 22,
-      totalVotes: 24,
-      images: []
-    },
-    {
-      id: 5,
-      customerName: "Zara L.",
-      customerImage: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Elegant clutch bag is excellent!",
-      review: "This elegant clutch bag is so sophisticated yet practical! The material feels luxurious and the design is stunning. The size is perfect and not too bulky. Great for special occasions and evening functions. Will definitely order more from Rumiistore.",
-      date: "December 8, 2024",
-      productName: "Elegant Clutch Bag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Black",
-      helpfulVotes: 19,
-      totalVotes: 21,
-      images: []
-    },
-    {
-      id: 6,
-      customerName: "Hina R.",
-      customerImage: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 4,
-      title: "Good quality tote bag, fast delivery",
-      review: "The large tote bag quality is very good for the price. Delivery was faster than expected and the packaging was excellent. The material is comfortable and perfect for daily use. The colors are nice and vibrant. Satisfied with my purchase.",
-      date: "December 6, 2024",
-      productName: "Large Tote Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Red",
-      helpfulVotes: 14,
-      totalVotes: 16,
-      images: []
-    },
-    {
-      id: 7,
-      customerName: "Sadia S.",
-      customerImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Beautiful embroidered clutch collection!",
-      review: "This embroidered ethnic clutch collection is absolutely stunning! The embroidery work and material quality are remarkable. Perfect for all types of cultural events. The design is elegant and carries perfectly while maintaining traditional appeal. Highly recommend for festive occasions!",
-      date: "December 4, 2024",
-      productName: "Embroidered Ethnic Clutch",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Red",
-      helpfulVotes: 25,
-      totalVotes: 27,
-      images: [
-        "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 8,
-      customerName: "Rabia K.",
-      customerImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Exceeded expectations!",
-      review: "This designer ladies handbag is even better than I expected. The material feels soft and luxurious all day. Perfect for both casual and formal occasions. The size is excellent and the design is very elegant. Great customer service from Rumiistore too!",
-      date: "December 2, 2024",
-      productName: "Designer Ladies Handbag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Red",
-      helpfulVotes: 16,
-      totalVotes: 18,
-      images: []
-    },
-    {
-      id: 9,
-      customerName: "Amina T.",
-      customerImage: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Premium quality mini crossbody",
-      review: "The trendy mini crossbody quality is outstanding! This compact bag is perfect for carrying essentials. The material is gentle and durable, keeping my items secure all day. Received many compliments on how stylish the design looks.",
-      date: "November 30, 2024",
-      productName: "Trendy Mini Crossbody",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Small",
-      color: "Pink",
-      helpfulVotes: 21,
-      totalVotes: 23,
-      images: []
-    },
-    {
-      id: 10,
-      customerName: "Khadija M.",
-      customerImage: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 4,
-      title: "Good quality and stylish",
-      review: "This vintage style satchel works perfectly for casual wear and is very comfortable. The material quality is good and the design is excellent. Only minor issue is that it needs careful handling to maintain the pristine look, but overall very effective for daily use.",
-      date: "November 28, 2024",
-      productName: "Vintage Style Satchel",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Brown",
-      helpfulVotes: 11,
-      totalVotes: 13,
-      images: []
-    },
-    {
-      id: 11,
-      customerName: "Saira A.",
-      customerImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Excellent evening party clutch",
-      review: "This Evening Party Clutch is so beautiful and glamorous. Perfect for both parties and formal events. Adds elegance to any outfit effortlessly and the beaded quality is amazing. Great value for money!",
-      date: "November 26, 2024",
-      productName: "Evening Party Clutch",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Gold",
-      helpfulVotes: 17,
-      totalVotes: 19,
-      images: []
-    },
-    {
-      id: 12,
-      customerName: "Farah B.",
-      customerImage: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Professional quality at great price",
-      review: "This quilted chain shoulder bag is absolutely fantastic! The leather quality is professional-grade and works for multiple occasions. Perfect for office and formal use. The packaging was also very secure and elegant.",
-      date: "November 24, 2024",
-      productName: "Quilted Chain Shoulder Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Black",
-      helpfulVotes: 23,
-      totalVotes: 25,
-      images: [
-        "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 13,
-      customerName: "Uzma H.",
-      customerImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Modern and stylish handbag",
-      review: "This minimalist leather handbag is perfect for modern fashion. The comfort and style are amazing and the quality lasts for years. Great for daily wear and special occasions. Highly satisfied with Rumiistore quality!",
-      date: "November 22, 2024",
-      productName: "Minimalist Leather Handbag",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Black",
-      helpfulVotes: 13,
-      totalVotes: 15,
-      images: []
-    },
-    {
-      id: 14,
-      customerName: "Mehreen K.",
-      customerImage: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Complete structured handbag perfection",
-      review: "This structured top handle bag is absolutely perfect! The design and quality are amazing for complete professional styling. Perfect for business occasions and formal meetings. Worth every penny!",
-      date: "November 20, 2024",
-      productName: "Structured Top Handle Bag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Navy",
-      helpfulVotes: 28,
-      totalVotes: 30,
-      images: []
-    },
-    {
-      id: 15,
-      customerName: "Rubina S.",
-      customerImage: "https://images.unsplash.com/photo-1506863530036-1efeddceb993?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 4,
-      title: "Effective and convenient",
-      review: "This sport crossbody bag is perfect for regular activities and exercise routines. Works effectively for different outdoor activities and occasions. The packaging is good and easy to use. Good quality for the price.",
-      date: "November 18, 2024",
-      productName: "Sport Crossbody Bag",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Black",
-      helpfulVotes: 9,
-      totalVotes: 11,
-      images: []
-    },
-    {
-      id: 16,
-      customerName: "Shazia R.",
-      customerImage: "https://images.unsplash.com/photo-1541101767792-f9b2b1c4f127?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Excellent luxury handbag quality",
-      review: "This luxury designer handbag is perfect for elegant and sophisticated lifestyle. The premium materials work like magic for formal events and special occasions. Great for everyday luxury. Fast delivery from Rumiistore too!",
-      date: "November 16, 2024",
-      productName: "Luxury Designer Handbag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Black",
-      helpfulVotes: 12,
-      totalVotes: 14,
-      images: []
-    },
-    {
-      id: 17,
-      customerName: "Tahira M.",
-      customerImage: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Perfect for formal occasions!",
-      review: "This eco-friendly tote bag is absolutely outstanding! Perfect for shopping and environmental consciousness. Works excellently for daily use and grocery shopping. Received excellent compliments every time!",
-      date: "November 14, 2024",
-      productName: "Eco-Friendly Tote Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Natural",
-      helpfulVotes: 20,
-      totalVotes: 22,
-      images: [
-        "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 18,
-      customerName: "Yasmin A.",
-      customerImage: "https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Ultra stylish canvas tote",
-      review: "This casual canvas tote is incredibly effective and long-lasting! Perfect for shopping and maintaining eco-friendly lifestyle all day. The material is pleasant and not heavy. Great for daily wear and special events.",
-      date: "November 12, 2024",
-      productName: "Casual Canvas Tote",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Natural",
-      helpfulVotes: 8,
-      totalVotes: 10,
-      images: []
-    },
-    {
-      id: 19,
-      customerName: "Samina K.",
-      customerImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 4,
-      title: "Good for daily wear",
-      review: "This premium leather clutch is suitable for daily styling and formal events. The material is effective and the price is reasonable. The versatile design is good for regular accessory collection.",
-      date: "November 10, 2024",
-      productName: "Premium Leather Clutch",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Black",
-      helpfulVotes: 7,
-      totalVotes: 9,
-      images: []
-    },
-    {
-      id: 20,
-      customerName: "Naila H.",
-      customerImage: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Boho shoulder bag is excellent",
-      review: "This boho style shoulder bag is absolutely reliable! The bohemian style is unique and the quality is outstanding. Great authentic fashion and fast shipping from Rumiistore. Love it!",
-      date: "November 8, 2024",
-      productName: "Boho Style Shoulder Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Brown",
-      helpfulVotes: 15,
-      totalVotes: 17,
-      images: []
-    },
-    {
-      id: 21,
-      customerName: "Bushra S.",
-      customerImage: "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Simple and elegant",
-      review: "This classic leather handbag is perfect for those who love gentle yet elegant accessories. The design is clean and efficient. Great quality materials and comfortable to carry. Exactly what I was looking for!",
-      date: "November 6, 2024",
-      productName: "Classic Leather Handbag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "Brown",
-      helpfulVotes: 10,
-      totalVotes: 12,
-      images: []
-    },
-    {
-      id: 22,
-      customerName: "Fouzia R.",
-      customerImage: "https://images.unsplash.com/photo-1465485512101-4c502f3b9e67?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Premium handbag collection stunning!",
-      review: "This elegant ladies shoulder bag collection is absolutely exquisite! The variety of designs and perfect craftsmanship are amazing for comprehensive accessory collection and professional use. The quality is outstanding. Worth the investment!",
-      date: "November 4, 2024",
-      productName: "Elegant Ladies Shoulder Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Small",
-      color: "White",
-      helpfulVotes: 32,
-      totalVotes: 34,
-      images: [
-        "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1566479179817-40660b69aa45?w=400&h=400&fit=crop&crop=center"
-      ]
-    },
-    {
-      id: 23,
-      customerName: "Riffat M.",
-      customerImage: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Perfect for office wear",
-      review: "This luxury work handbag is efficient yet stylish, perfect for workplace fashion and professional look. The design is practical and the style is excellent. Great for corporate environments. Highly recommend Rumiistore!",
-      date: "November 2, 2024",
-      productName: "Luxury Work Handbag",
-      productImage: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Navy",
-      helpfulVotes: 14,
-      totalVotes: 16,
-      images: []
-    },
-    {
-      id: 24,
-      customerName: "Shaista K.",
-      customerImage: "https://images.unsplash.com/photo-1484588168347-9d835bb09939?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Traditional and elegant",
-      review: "This embroidered ethnic clutch with authentic designs is beautiful and timeless. The quality is excellent and the craftsmanship is outstanding. Perfect for maintaining traditional style and cultural heritage.",
-      date: "October 31, 2024",
-      productName: "Embroidered Ethnic Clutch",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "One Size",
-      color: "Green",
-      helpfulVotes: 18,
-      totalVotes: 20,
-      images: []
-    },
-    {
-      id: 25,
-      customerName: "Nayab A.",
-      customerImage: "https://images.unsplash.com/photo-1521252659862-eec69941b071?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Commercial business bag perfect",
-      review: "This structured top handle bag is perfect for corporate facilities and professional settings. The design is professional and the quality is high. Great functionality and excellent customer service from Rumiistore. Very satisfied!",
-      date: "October 29, 2024",
-      productName: "Structured Top Handle Bag",
-      productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Black",
-      helpfulVotes: 16,
-      totalVotes: 18,
-      images: []
-    },
-    {
-      id: 26,
-      customerName: "Ghazala S.",
-      customerImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 4,
-      title: "Good quality, minor color preference",
-      review: "The quality is good and the style is effective. However, the color was slightly different than my preference. Overall satisfied with the purchase. The design results are perfect and the size is good.",
-      date: "October 27, 2024",
-      productName: "Designer Ladies Handbag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Medium",
-      color: "White",
-      helpfulVotes: 6,
-      totalVotes: 8,
-      images: []
-    },
-    {
-      id: 27,
-      customerName: "Lubna R.",
-      customerImage: "https://images.unsplash.com/photo-1548372290-8d01b6c8e78c?w=150&h=150&fit=crop&crop=face",
-      isVerifiedPurchase: true,
-      rating: 5,
-      title: "Amazing quality and style",
-      review: "The quality of this eco-friendly tote bag is absolutely amazing! The attention to sustainable materials is incredible. Perfect for conscious shoppers and daily use. The style effectiveness is exceptional. Highly recommend Rumiistore!",
-      date: "October 25, 2024",
-      productName: "Eco-Friendly Tote Bag",
-      productImage: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=150&h=150&fit=crop&crop=center",
-      size: "Large",
-      color: "Green",
-      helpfulVotes: 24,
-      totalVotes: 26,
-      images: []
+  useEffect(() => {
+    if (apiReviews && apiReviews.length > 0) {
+      const formatted = apiReviews.map(r => ({
+        id: r.id,
+        customerName: r.customer_name,
+        customerImage: r.customer_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(r.customer_name)}&background=random`,
+        isVerifiedPurchase: r.is_verified,
+        rating: r.rating,
+        title: r.title,
+        review: r.review_text,
+        date: new Date(r.review_date || r.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        productName: r.product_name || 'Generic Product',
+        productImage: r.product_image || '/placeholder.jpg',
+        size: "One Size",
+        color: "Default",
+        helpfulVotes: r.helpful_votes || 0,
+        totalVotes: r.total_votes || 0,
+        images: typeof r.images === 'string' ? JSON.parse(r.images) : (r.images || [])
+      }));
+      setReviews(formatted);
+    } else {
+      setReviews([]);
     }
-  ];
+  }, [apiReviews]);
 
   // Calculate rating statistics
   const totalReviews = reviews.length;
-  const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
+  const averageRating = totalReviews > 0
+    ? (reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews)
+    : 0;
 
   const ratingBreakdown = {
     5: reviews.filter(r => r.rating === 5).length,
@@ -602,7 +152,7 @@ const Reviews = () => {
                         ></div>
                       </div>
                       <span className="text-sm text-gray-600 w-8">
-                        {Math.round((ratingBreakdown[star] / totalReviews) * 100)}%
+                        {totalReviews > 0 ? Math.round((ratingBreakdown[star] / totalReviews) * 100) : 0}%
                       </span>
                     </div>
                   ))}
@@ -771,7 +321,7 @@ const Reviews = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
             <div>
               <div className="text-2xl font-bold text-brand-primary mb-1">
-                {Math.round((ratingBreakdown[5] / totalReviews) * 100)}%
+                {totalReviews > 0 ? Math.round((ratingBreakdown[5] / totalReviews) * 100) : 0}%
               </div>
               <p className="text-gray-600 text-sm">5-star reviews</p>
             </div>

@@ -10,13 +10,13 @@ import SITE_CONFIG, { getPageMeta } from '@/config/siteConfig';
 // Configuration Variables
 const ORDER_FAILED_CONFIG = {
   // Currency & Formatting
-  locale: SITE_CONFIG.locale,
-  currency: SITE_CONFIG.currency,
+  locale: SITE_CONFIG?.locale || 'en-US',
+  currency: SITE_CONFIG?.currency || 'PKR',
 
   // Contact Information
-  supportEmail: SITE_CONFIG.businessEmail,
-  supportPhone: SITE_CONFIG.businessContact,
-  supportHours: SITE_CONFIG.payment.supportHours,
+  supportEmail: SITE_CONFIG?.businessEmail || 'support@example.com',
+  supportPhone: SITE_CONFIG?.businessContact || '+92 300 1234567',
+  supportHours: SITE_CONFIG?.payment?.supportHours || 'Mon-Fri: 9am - 6pm',
 
   // UI Text
   loadingText: 'Loading...',
@@ -340,4 +340,28 @@ export default function OrderFailedPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req, query }) {
+  const { resolveStoreSlug } = await import('@/lib/storefrontApi');
+  const storefrontApi = (await import('@/lib/storefrontApi')).default;
+
+  const host = req.headers.host || '';
+  const storeSlug = resolveStoreSlug(host, query);
+
+  if (!storeSlug) {
+    return { props: { store: null, storeSlug: null } };
+  }
+
+  try {
+    const storeRes = await storefrontApi.getStore(storeSlug).catch(() => ({ success: false }));
+    return {
+      props: {
+        store: storeRes.data || null,
+        storeSlug,
+      },
+    };
+  } catch (error) {
+    return { props: { store: null, storeSlug } };
+  }
 } 

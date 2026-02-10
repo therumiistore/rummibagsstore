@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useStoreOptional } from '@/lib/StoreContext';
 
 const Hero = ({ banners = [] }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -7,6 +8,12 @@ const Hero = ({ banners = [] }) => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const storeContext = useStoreOptional();
+
+  // Color Scheme Application
+  const activeColorScheme = storeContext?.store?.appearance?.colorScheme;
+  const primaryColor = activeColorScheme?.colors?.primary || '#b91c1c'; // Default red-700
+  const buttonTextColor = activeColorScheme?.colors?.buttonText || '#ffffff';
 
   const services = [
     {
@@ -16,7 +23,7 @@ const Hero = ({ banners = [] }) => {
         </svg>
       ),
       title: 'Quality Assured',
-      subtitle: 'Premium Bag Quality'
+      subtitle: 'Premium Quality'
     },
     {
       icon: (
@@ -34,7 +41,7 @@ const Hero = ({ banners = [] }) => {
         </svg>
       ),
       title: 'Latest Trends',
-      subtitle: 'Trendy Bag Styles'
+      subtitle: 'Trendy Styles'
     },
     {
       icon: (
@@ -60,22 +67,30 @@ const Hero = ({ banners = [] }) => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % banners.length);
-    }, 7000); // Change slide every 7 seconds
+    // Only start auto-slide if there are banners
+    let interval;
+    if (banners.length > 0) {
+      interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % banners.length);
+      }, 7000); // Change slide every 7 seconds
+    }
 
     return () => {
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
       window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+  }, [banners.length]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % banners.length);
+    if (banners.length > 0) {
+      setCurrentSlide((prev) => (prev + 1) % banners.length);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
+    if (banners.length > 0) {
+      setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
+    }
   };
 
   const goToSlide = (index) => {
@@ -109,7 +124,7 @@ const Hero = ({ banners = [] }) => {
   return (
     <>
       {/* Services Banner Row */}
-      <div className="border-b border-gray-200 bg-brand-light">
+      <div className="border-b border-gray-200" style={{ backgroundColor: activeColorScheme?.colors?.onSaleElement || '#FEF9C3' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Desktop Layout */}
           <div className="hidden md:grid md:grid-cols-4 gap-4 py-3">
@@ -287,6 +302,7 @@ const Hero = ({ banners = [] }) => {
             <Link
               href="/shop"
               className="group bg-brand-accent text-white px-3 py-1.5 sm:px-4 sm:py-2 md:px-8 md:py-3 lg:px-10 lg:py-4 xl:px-12 xl:py-5 rounded-full font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-1 sm:space-x-2 animate-pulse"
+              style={{ color: buttonTextColor }}
             >
               <span>Shop Now</span>
               <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:w-6 xl:w-7 xl:h-7 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
